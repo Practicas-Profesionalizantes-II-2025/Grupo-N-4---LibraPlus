@@ -8,6 +8,18 @@ namespace LibraPlus
 {
     public class Prestamos
     {
+        public Prestamos(int prestamoID, int usuarioID, int libroID, DateTime fechaInicio, DateTime fechaFin, bool devuelto, Usuarios usuario, Libros libro)
+        {
+            PrestamoID = prestamoID;
+            UsuarioID = usuarioID;
+            LibroID = libroID;
+            FechaInicio = fechaInicio;
+            FechaFin = fechaFin;
+            Devuelto = devuelto;
+            Usuario = usuario;
+            Libro = libro;
+        }
+
         public int PrestamoID { get; set; }
         public int UsuarioID { get; set; }
         public int LibroID { get; set; }
