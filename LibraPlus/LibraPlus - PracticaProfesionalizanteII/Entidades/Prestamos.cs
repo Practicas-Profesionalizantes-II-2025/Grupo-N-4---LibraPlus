@@ -22,8 +22,6 @@ namespace Shared.Entidades
         public DateTime FechaFin { get; set; }
         public bool Devuelto { get; set; }
 
-        public UsuariosDTO Usuario { get; set; }
-        public LibrosDTO Libro { get; set; }
     }
 
 }

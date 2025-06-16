@@ -22,8 +22,7 @@ namespace Shared.Entidades
         public string Comentario { get; set; }
         public int Puntuación { get; set; } // 1–5
 
-        public UsuariosDTO Usuario { get; set; }
-        public LibrosDTO Libro { get; set; }
+
     }
 
 }

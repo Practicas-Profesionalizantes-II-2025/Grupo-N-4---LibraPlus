@@ -1,4 +1,4 @@
-﻿namespace Shared.Entidades
+﻿namespace Shared.DTO
 {
     public class ComprasDTO
     {

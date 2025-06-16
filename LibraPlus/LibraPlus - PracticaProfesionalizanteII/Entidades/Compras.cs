@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace Shared.Entidades
 {
     public class Compras
@@ -16,9 +17,6 @@ namespace Shared.Entidades
         public DateTime Fecha { get; set; }
         public decimal Precio { get; set; }
         public string DescargaURL { get; set; }
-
-        public UsuariosDTO Usuario { get; set; }
-        public LibrosDTO Libro { get; set; }
     }
 
 }
