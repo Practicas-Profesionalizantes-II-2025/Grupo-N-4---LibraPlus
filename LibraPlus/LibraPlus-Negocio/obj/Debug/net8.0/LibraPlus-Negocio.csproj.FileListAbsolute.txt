@@ -9,3 +9,14 @@ C:\Users\mateo\source\repos\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio
 C:\Users\mateo\source\repos\LibraPlus-Negocio\obj\Debug\net8.0\refint\LibraPlus-Negocio.dll
 C:\Users\mateo\source\repos\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.pdb
 C:\Users\mateo\source\repos\LibraPlus-Negocio\obj\Debug\net8.0\ref\LibraPlus-Negocio.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\bin\Debug\net8.0\LibraPlus-Negocio.deps.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\bin\Debug\net8.0\LibraPlus-Negocio.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\bin\Debug\net8.0\LibraPlus-Negocio.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\refint\LibraPlus-Negocio.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\LibraPlus-Negocio.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-Negocio\obj\Debug\net8.0\ref\LibraPlus-Negocio.dll

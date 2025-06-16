@@ -1,7 +1,9 @@
 ﻿using LibraPlus_API.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Shared.DTO;
 using Shared.Entidades;
+
 
 namespace LibraPlus_API.Controllers
 {
@@ -16,74 +18,154 @@ namespace LibraPlus_API.Controllers
             _context = context;
         }
 
-        // GET: api/Libros
         [HttpGet]
-        public async Task<ActionResult<List<LibrosDTO>>> GetAll()
+        public async Task<ActionResult<List<LibrosDTO>>> Get()
         {
             var libros = await _context.Libros.ToListAsync();
-            return Ok(libros);
+
+            var librosDTO = libros.Select(libro => new LibrosDTO
+            {
+                LibroID = libro.LibroID,
+                Titulo = libro.Título,
+                Autor = libro.Autor,
+                Genero = libro.Género,
+                Tipo = libro.Tipo,
+                Precio = libro.Precio,
+                Stock = libro.Stock
+            }).ToList();
+
+            return Ok(librosDTO);
         }
 
-        // GET: api/Libros/{id}
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<LibrosDTO>> GetById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<LibrosDTO>> Get(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
-                return NotFound(); // 404 si no existe
+                return NotFound();
 
-            return Ok(libro);
+            var libroDTO = new LibrosDTO
+            {
+                LibroID = libro.LibroID,
+                Titulo = libro.Título,
+                Autor = libro.Autor,
+                Genero = libro.Género,
+                Tipo = libro.Tipo,
+                Precio = libro.Precio,
+                Stock = libro.Stock
+            };
+
+            return Ok(libroDTO);
         }
 
-        // POST: api/Libros
         [HttpPost]
-        public async Task<ActionResult<LibrosDTO>> Create([FromBody] LibrosDTO nuevoLibro)
+        public async Task<ActionResult<LibrosDTO>> Post([FromBody] LibrosDTO nuevoLibro)
         {
-            // Asumimos que nuevoLibro.LibroID == 0
-            _context.Libros.Add(nuevoLibro);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            // Devuelve 201 Created con la URL del recurso recién creado
-            return CreatedAtAction(nameof(GetById), new { id = nuevoLibro.LibroID }, nuevoLibro);
-        }
+            // Validaciones manuales adicionales
 
-        // PUT: api/Libros/{id}
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] LibrosDTO libroModificado)
-        {
-            if (id != libroModificado.LibroID)
-                return BadRequest("El ID en la ruta debe coincidir con el LibroID del cuerpo.");
+            if (string.IsNullOrWhiteSpace(nuevoLibro.Titulo))
+                return BadRequest("El título es obligatorio.");
 
-            var existente = await _context.Libros.AsNoTracking().FirstOrDefaultAsync(l => l.LibroID == id);
-            if (existente == null)
-                return NotFound(); // 404 si no existe
+            if (string.IsNullOrWhiteSpace(nuevoLibro.Autor))
+                return BadRequest("El autor es obligatorio.");
 
-            // Marcamos el DTO como modificado directamente
-            _context.Entry(libroModificado).State = EntityState.Modified;
+            if (string.IsNullOrWhiteSpace(nuevoLibro.Genero))
+                return BadRequest("El género es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(nuevoLibro.Tipo))
+                return BadRequest("El tipo es obligatorio.");
+
+            if (nuevoLibro.Precio < 0)
+                return BadRequest("El precio debe ser positivo.");
+
+            if (nuevoLibro.Stock < 0)
+                return BadRequest("El stock no puede ser negativo.");
+
+            var libro = new Libros
+            {
+                Título = nuevoLibro.Titulo,
+                Autor = nuevoLibro.Autor,
+                Género = nuevoLibro.Genero,
+                Tipo = nuevoLibro.Tipo,
+                Precio = nuevoLibro.Precio,
+                Stock = nuevoLibro.Stock
+            };
+
+            _context.Libros.Add(libro);
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                // Si hubo un conflicto de concurrencia, verificamos que aún exista
-                if (!await _context.Libros.AnyAsync(l => l.LibroID == id))
-                    return NotFound();
-                else
-                    throw;
+                return StatusCode(500, "Error al guardar el libro en la base de datos.");
             }
 
-            return NoContent(); // 204 si se actualizó correctamente
+            nuevoLibro.LibroID = libro.LibroID;
+
+            return CreatedAtAction(nameof(Get), new { id = libro.LibroID }, nuevoLibro);
         }
 
-        // DELETE: api/Libros/{id}
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] LibrosDTO libroModificado)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (id != libroModificado.LibroID)
+                return BadRequest("El ID de la ruta debe coincidir con el ID del libro.");
+
+            var libro = await _context.Libros.FindAsync(id);
+            if (libro == null)
+                return NotFound();
+
+            if (string.IsNullOrWhiteSpace(libroModificado.Titulo))
+                return BadRequest("El título es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(libroModificado.Autor))
+                return BadRequest("El autor es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(libroModificado.Genero))
+                return BadRequest("El género es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(libroModificado.Tipo))
+                return BadRequest("El tipo es obligatorio.");
+
+            if (libroModificado.Precio < 0)
+                return BadRequest("El precio debe ser positivo.");
+
+            if (libroModificado.Stock < 0)
+                return BadRequest("El stock no puede ser negativo.");
+
+            libro.Título = libroModificado.Titulo;
+            libro.Autor = libroModificado.Autor;
+            libro.Género = libroModificado.Genero;
+            libro.Tipo = libroModificado.Tipo;
+            libro.Precio = libroModificado.Precio;
+            libro.Stock = libroModificado.Stock;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error al actualizar el libro en la base de datos.");
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var libro = await _context.Libros.FindAsync(id);
             if (libro == null)
-                return NotFound(); // 404 si no existe
+                return NotFound();
 
             _context.Libros.Remove(libro);
 
@@ -91,13 +173,13 @@ namespace LibraPlus_API.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
-                // Si hay restricciones de clave foránea (DeleteBehavior.Restrict)
-                return BadRequest("No se pudo eliminar el libro. Puede tener registros relacionados.");
+                return StatusCode(500, "Error al eliminar el libro en la base de datos.");
             }
 
-            return NoContent(); // 204 si se eliminó correctamente
+            return NoContent();
         }
     }
+
 }

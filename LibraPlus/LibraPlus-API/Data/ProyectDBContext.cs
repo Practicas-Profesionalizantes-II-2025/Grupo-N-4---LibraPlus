@@ -6,12 +6,12 @@ namespace LibraPlus_API.Data
 {
     public class ProyectDBContext : DbContext
     {
-        public DbSet<ComprasDTO> Compras { get; set; }
-        public DbSet<LibrosDTO> Libros { get; set; }
-        public DbSet<PrestamosDTO> Prestamos { get; set; }
-        public DbSet<RecomendacionDTO> Recomendaciones { get; set; }
-        public DbSet<ReseñasDTO> Reseñas { get; set; }
-        public DbSet<UsuariosDTO> Usuarios { get; set; }
+        public DbSet<Compras> Compras { get; set; }
+        public DbSet<Libros> Libros { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
+        public DbSet<Recomendacion> Recomendaciones { get; set; }
+        public DbSet<Reseñas> Reseñas { get; set; }
+        public DbSet<Usuarios> Usuarios { get; set; }
 
         public ProyectDBContext(DbContextOptions<ProyectDBContext> options)
             : base(options) { }

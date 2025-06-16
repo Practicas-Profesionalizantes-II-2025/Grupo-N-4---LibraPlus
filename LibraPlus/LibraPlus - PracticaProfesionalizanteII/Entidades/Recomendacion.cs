@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.Entidades
 {
@@ -21,8 +20,6 @@ namespace Shared.Entidades
         public int LibroID { get; set; }
         public string Fuente { get; set; } // e.g. "por género", "por popularidad", etc.
 
-        public UsuariosDTO Usuario { get; set; }
-        public LibrosDTO Libro { get; set; }
     }
 
 }

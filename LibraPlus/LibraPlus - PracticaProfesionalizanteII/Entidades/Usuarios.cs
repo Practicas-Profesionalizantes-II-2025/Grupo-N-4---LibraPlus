@@ -15,6 +15,8 @@ namespace Shared.Entidades
         public string Nombre { get; set; }
         public string Email { get; set; }
         public int Reputación { get; set; }
+
+        public virtual ICollection<Compras> Compras { get; set; }
     }
 
 }

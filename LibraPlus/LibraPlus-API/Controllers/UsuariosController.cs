@@ -1,6 +1,7 @@
-﻿using LibraPlus_API.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LibraPlus_API.Data;
+using Shared.DTO;
 using Shared.Entidades;
 
 namespace LibraPlus_API.Controllers
@@ -16,73 +17,124 @@ namespace LibraPlus_API.Controllers
             _context = context;
         }
 
-        // GET: api/Usuarios
+        // GET: api/usuarios
         [HttpGet]
-        public async Task<ActionResult<List<UsuariosDTO>>> GetAll()
+        public async Task<ActionResult<List<UsuariosDTO>>> Get()
         {
             var usuarios = await _context.Usuarios.ToListAsync();
-            return Ok(usuarios);
+            var usuariosDto = usuarios.Select(u => new UsuariosDTO
+            {
+                UsuarioID = u.UsuarioID,
+                Nombre = u.Nombre,
+                Email = u.Email,
+                Reputacion = u.Reputación
+            }).ToList();
+
+            return Ok(usuariosDto);
         }
 
-        // GET: api/Usuarios/{id}
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<UsuariosDTO>> GetById(int id)
+        // GET: api/usuarios/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UsuariosDTO>> Get(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
-                return NotFound(); // 404 si no existe
+                return NotFound();
 
-            return Ok(usuario);
+            var usuarioDto = new UsuariosDTO
+            {
+                UsuarioID = usuario.UsuarioID,
+                Nombre = usuario.Nombre,
+                Email = usuario.Email,
+                Reputacion = usuario.Reputación
+            };
+
+            return Ok(usuarioDto);
         }
 
-        // POST: api/Usuarios
+        // POST: api/usuarios
         [HttpPost]
-        public async Task<ActionResult<UsuariosDTO>> Create([FromBody] UsuariosDTO nuevoUsuario)
+        public async Task<ActionResult<UsuariosDTO>> Post([FromBody] UsuariosDTO nuevoUsuarioDto)
         {
-            // Asumimos que nuevoUsuario.UsuarioID == 0
+            if (string.IsNullOrWhiteSpace(nuevoUsuarioDto.Nombre))
+                return BadRequest("El nombre es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(nuevoUsuarioDto.Email) || !IsValidEmail(nuevoUsuarioDto.Email))
+                return BadRequest("El email es obligatorio y debe tener un formato válido.");
+
+            var usuarioExistente = await _context.Usuarios
+                .AnyAsync(u => u.Email == nuevoUsuarioDto.Email);
+            if (usuarioExistente)
+                return Conflict("Ya existe un usuario con ese email.");
+
+            var nuevoUsuario = new Usuarios
+            {
+                Nombre = nuevoUsuarioDto.Nombre.Trim(),
+                Email = nuevoUsuarioDto.Email.Trim(),
+                Reputación = nuevoUsuarioDto.Reputacion
+            };
+
             _context.Usuarios.Add(nuevoUsuario);
-            await _context.SaveChangesAsync();
-
-            // Devuelve 201 Created con la URL del recurso recién creado
-            return CreatedAtAction(nameof(GetById), new { id = nuevoUsuario.UsuarioID }, nuevoUsuario);
-        }
-
-        // PUT: api/Usuarios/{id}
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UsuariosDTO usuarioModificado)
-        {
-            if (id != usuarioModificado.UsuarioID)
-                return BadRequest("El ID en la ruta debe coincidir con el UsuarioID del cuerpo.");
-
-            var existente = await _context.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.UsuarioID == id);
-            if (existente == null)
-                return NotFound(); // 404 si no existe
-
-            // Marcamos el DTO como modificado directamente
-            _context.Entry(usuarioModificado).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!await _context.Usuarios.AnyAsync(u => u.UsuarioID == id))
-                    return NotFound();
-                else
-                    throw;
+                return StatusCode(500, "Error al guardar el usuario.");
             }
 
-            return NoContent(); // 204 si se actualizó correctamente
+            nuevoUsuarioDto.UsuarioID = nuevoUsuario.UsuarioID;
+
+            return CreatedAtAction(nameof(Get), new { id = nuevoUsuario.UsuarioID }, nuevoUsuarioDto);
         }
 
-        // DELETE: api/Usuarios/{id}
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        // PUT: api/usuarios/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] UsuariosDTO usuarioModificadoDto)
+        {
+            if (id != usuarioModificadoDto.UsuarioID)
+                return BadRequest("El ID de la URL no coincide con el del cuerpo de la solicitud.");
+
+            if (string.IsNullOrWhiteSpace(usuarioModificadoDto.Nombre))
+                return BadRequest("El nombre es obligatorio.");
+
+            if (string.IsNullOrWhiteSpace(usuarioModificadoDto.Email) || !IsValidEmail(usuarioModificadoDto.Email))
+                return BadRequest("El email es obligatorio y debe ser válido.");
+
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
+                return NotFound();
+
+            var emailExistente = await _context.Usuarios
+                .AnyAsync(u => u.Email == usuarioModificadoDto.Email && u.UsuarioID != id);
+            if (emailExistente)
+                return Conflict("Otro usuario ya tiene este email.");
+
+            usuario.Nombre = usuarioModificadoDto.Nombre.Trim();
+            usuario.Email = usuarioModificadoDto.Email.Trim();
+            usuario.Reputación = usuarioModificadoDto.Reputacion;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error al actualizar el usuario.");
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/usuarios/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
             if (usuario == null)
-                return NotFound(); // 404 si no existe
+                return NotFound();
 
             _context.Usuarios.Remove(usuario);
 
@@ -90,13 +142,26 @@ namespace LibraPlus_API.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (Exception)
             {
-                // Si hay restricciones de clave foránea (DeleteBehavior.Restrict)
-                return BadRequest("No se pudo eliminar el usuario. Puede tener registros relacionados.");
+                return StatusCode(500, "Error al eliminar el usuario.");
             }
 
-            return NoContent(); // 204 si se eliminó correctamente
+            return NoContent();
+        }
+
+        // Validar formato de email
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
