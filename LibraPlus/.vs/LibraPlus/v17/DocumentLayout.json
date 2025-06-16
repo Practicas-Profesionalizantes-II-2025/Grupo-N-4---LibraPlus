@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\Micaela\\Documents\\GitHub\\Nueva carpeta\\Grupo-N-4---LibraPlus\\LibraPlus\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|C:\\Users\\Micaela\\Documents\\GitHub\\Nueva carpeta\\Grupo-N-4---LibraPlus\\LibraPlus\\entidades\\compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|c:\\users\\micaela\\documents\\github\\nueva carpeta\\grupo-n-4---libraplus\\libraplus\\entidades\\compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|solutionrelative:entidades\\compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -23,7 +23,7 @@
       "RelativeMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|solutionrelative:entidades\\rese\u00F1as.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|c:\\users\\micaela\\documents\\github\\nueva carpeta\\grupo-n-4---libraplus\\libraplus\\entidades\\recomendacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|C:\\Users\\Micaela\\Documents\\GitHub\\Nueva carpeta\\Grupo-N-4---LibraPlus\\LibraPlus\\entidades\\recomendacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B0532F5-1B71-48E8-98B3-72B3214D1CDF}|Shred.csproj|solutionrelative:entidades\\recomendacion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -46,8 +46,7 @@
               "RelativeToolTip": "Entidades\\Recomendacion.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T19:46:19.563Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T19:46:19.563Z"
             },
             {
               "$type": "Document",
@@ -59,8 +58,7 @@
               "RelativeToolTip": "Entidades\\Rese\u00F1as.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAACCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T19:45:36.142Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T19:45:36.142Z"
             },
             {
               "$type": "Document",
@@ -72,8 +70,7 @@
               "RelativeToolTip": "Entidades\\Prestamos.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAACbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T19:44:55.813Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T19:44:55.813Z"
             },
             {
               "$type": "Document",
@@ -98,8 +95,7 @@
               "RelativeToolTip": "Entidades\\Usuarios.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T19:42:49.383Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T19:42:49.383Z"
             },
             {
               "$type": "Document",
@@ -111,8 +107,7 @@
               "RelativeToolTip": "Entidades\\Libros.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAB1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T19:39:23.613Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-22T19:39:23.613Z"
             }
           ]
         }
