@@ -1,7 +1,26 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus - practicaprofesionalizanteii\\dto\\comprasdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|solutionrelative:dto\\comprasdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus - practicaprofesionalizanteii\\entidades\\compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|solutionrelative:entidades\\compras.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D53B396-AA35-4C5E-9215-16E1E339D944}|..\\LibraPlus-API\\LibraPlus-API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus-api\\controllers\\comprascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D53B396-AA35-4C5E-9215-16E1E339D944}|..\\LibraPlus-API\\LibraPlus-API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus-api\\data\\proyectdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus - practicaprofesionalizanteii\\entidades\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EFD3456A-30EA-4857-9DE6-6B2C4F2A4685}|Shared.csproj|solutionrelative:entidades\\usuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +41,69 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ComprasController.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus-API\\Controllers\\ComprasController.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus-API\\Controllers\\ComprasController.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus-API\\Controllers\\ComprasController.cs",
+              "RelativeToolTip": "..\\LibraPlus-API\\Controllers\\ComprasController.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAACEAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T21:08:11.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ComprasDTO.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\DTO\\ComprasDTO.cs",
+              "RelativeDocumentMoniker": "DTO\\ComprasDTO.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\DTO\\ComprasDTO.cs",
+              "RelativeToolTip": "DTO\\ComprasDTO.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAxwAcAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T21:07:59.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Compras.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\Entidades\\Compras.cs",
+              "RelativeDocumentMoniker": "Entidades\\Compras.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\Entidades\\Compras.cs",
+              "RelativeToolTip": "Entidades\\Compras.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T21:05:00.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProyectDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus-API\\Data\\ProyectDBContext.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus-API\\Data\\ProyectDBContext.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus-API\\Data\\ProyectDBContext.cs",
+              "RelativeToolTip": "..\\LibraPlus-API\\Data\\ProyectDBContext.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T21:00:00.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Usuarios.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\Entidades\\Usuarios.cs",
+              "RelativeDocumentMoniker": "Entidades\\Usuarios.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - PracticaProfesionalizanteII\\Entidades\\Usuarios.cs",
+              "RelativeToolTip": "Entidades\\Usuarios.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-18T20:57:48.289Z"
             }
           ]
         }

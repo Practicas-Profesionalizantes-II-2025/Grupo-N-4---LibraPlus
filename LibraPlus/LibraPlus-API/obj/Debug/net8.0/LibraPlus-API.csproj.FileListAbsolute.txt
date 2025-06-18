@@ -177,4 +177,3 @@ C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-API\obj\Debug\net8.0\rpsw
 C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-API\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-API\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-API\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus-API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

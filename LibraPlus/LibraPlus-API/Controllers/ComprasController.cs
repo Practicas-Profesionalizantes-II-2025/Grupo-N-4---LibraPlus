@@ -20,15 +20,21 @@ namespace LibraPlus_API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ComprasDTO>>> Get()
         {
-            var compras = await _context.Compras.ToListAsync();
+            var compras = await _context.Compras
+                .Include(c => c.Usuario)
+                .Include(c => c.Libro)
+                .ToListAsync();
 
             var comprasDTO = compras.Select(compra => new ComprasDTO
             {
                 CompraID = compra.CompraID,
                 UsuarioID = compra.UsuarioID,
+                NombreUsuario = compra.Usuario.Nombre,
                 LibroID = compra.LibroID,
+                TituloLibro = compra.Libro.Título,
                 Fecha = compra.Fecha,
                 Precio = compra.Precio,
+                EsDigital = compra.EsDigital,
                 DescargaURL = compra.DescargaURL
             }).ToList();
 
@@ -38,7 +44,11 @@ namespace LibraPlus_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ComprasDTO>> Get(int id)
         {
-            var compra = await _context.Compras.FindAsync(id);
+            var compra = await _context.Compras
+                .Include(c => c.Usuario)
+                .Include(c => c.Libro)
+                .FirstOrDefaultAsync(c => c.CompraID == id);
+
             if (compra == null)
                 return NotFound();
 
@@ -46,9 +56,12 @@ namespace LibraPlus_API.Controllers
             {
                 CompraID = compra.CompraID,
                 UsuarioID = compra.UsuarioID,
+                NombreUsuario = compra.Usuario.Nombre,
                 LibroID = compra.LibroID,
+                TituloLibro = compra.Libro.Título,
                 Fecha = compra.Fecha,
                 Precio = compra.Precio,
+                EsDigital = compra.EsDigital,
                 DescargaURL = compra.DescargaURL
             };
 
@@ -58,34 +71,29 @@ namespace LibraPlus_API.Controllers
         [HttpPost]
         public async Task<ActionResult<ComprasDTO>> Post([FromBody] ComprasDTO nuevaCompra)
         {
-            // Validar modelo
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // Validar Precio positivo
             if (nuevaCompra.Precio < 0)
                 return BadRequest("El precio debe ser un valor positivo.");
 
-            // Validar Fecha no nula ni futura
             if (nuevaCompra.Fecha == default || nuevaCompra.Fecha > DateTime.UtcNow)
                 return BadRequest("La fecha debe ser válida y no futura.");
 
-            // Validar que Usuario exista
+            if (nuevaCompra.EsDigital && string.IsNullOrWhiteSpace(nuevaCompra.DescargaURL))
+                return BadRequest("La URL de descarga es obligatoria para compras digitales.");
+
+            if (!string.IsNullOrWhiteSpace(nuevaCompra.DescargaURL) &&
+                !Uri.IsWellFormedUriString(nuevaCompra.DescargaURL, UriKind.Absolute))
+                return BadRequest("La URL de descarga no tiene un formato válido.");
+
             var usuarioExiste = await _context.Usuarios.AnyAsync(u => u.UsuarioID == nuevaCompra.UsuarioID);
             if (!usuarioExiste)
                 return BadRequest($"No existe un usuario con ID {nuevaCompra.UsuarioID}.");
 
-            // Validar que Libro exista
             var libroExiste = await _context.Libros.AnyAsync(l => l.LibroID == nuevaCompra.LibroID);
             if (!libroExiste)
                 return BadRequest($"No existe un libro con ID {nuevaCompra.LibroID}.");
-
-            // Validar DescargaURL (opcional, si viene)
-            if (!string.IsNullOrWhiteSpace(nuevaCompra.DescargaURL))
-            {
-                if (!Uri.IsWellFormedUriString(nuevaCompra.DescargaURL, UriKind.Absolute))
-                    return BadRequest("La URL de descarga no tiene un formato válido.");
-            }
 
             var compra = new Compras
             {
@@ -93,6 +101,7 @@ namespace LibraPlus_API.Controllers
                 LibroID = nuevaCompra.LibroID,
                 Fecha = nuevaCompra.Fecha,
                 Precio = nuevaCompra.Precio,
+                EsDigital = nuevaCompra.EsDigital,
                 DescargaURL = nuevaCompra.DescargaURL
             };
 
@@ -104,11 +113,12 @@ namespace LibraPlus_API.Controllers
             }
             catch (Exception)
             {
-                // Loggear ex.Message si tenés logging
                 return StatusCode(500, "Error al guardar la compra en la base de datos.");
             }
 
             nuevaCompra.CompraID = compra.CompraID;
+
+            // Opcional: podrías completar también NombreUsuario y TituloLibro haciendo otra consulta
 
             return CreatedAtAction(nameof(Get), new { id = compra.CompraID }, nuevaCompra);
         }
@@ -126,12 +136,18 @@ namespace LibraPlus_API.Controllers
             if (compra == null)
                 return NotFound();
 
-            // Validaciones similares a POST
             if (compraModificada.Precio < 0)
                 return BadRequest("El precio debe ser un valor positivo.");
 
             if (compraModificada.Fecha == default || compraModificada.Fecha > DateTime.UtcNow)
                 return BadRequest("La fecha debe ser válida y no futura.");
+
+            if (compraModificada.EsDigital && string.IsNullOrWhiteSpace(compraModificada.DescargaURL))
+                return BadRequest("La URL de descarga es obligatoria para compras digitales.");
+
+            if (!string.IsNullOrWhiteSpace(compraModificada.DescargaURL) &&
+                !Uri.IsWellFormedUriString(compraModificada.DescargaURL, UriKind.Absolute))
+                return BadRequest("La URL de descarga no tiene un formato válido.");
 
             var usuarioExiste = await _context.Usuarios.AnyAsync(u => u.UsuarioID == compraModificada.UsuarioID);
             if (!usuarioExiste)
@@ -141,16 +157,11 @@ namespace LibraPlus_API.Controllers
             if (!libroExiste)
                 return BadRequest($"No existe un libro con ID {compraModificada.LibroID}.");
 
-            if (!string.IsNullOrWhiteSpace(compraModificada.DescargaURL))
-            {
-                if (!Uri.IsWellFormedUriString(compraModificada.DescargaURL, UriKind.Absolute))
-                    return BadRequest("La URL de descarga no tiene un formato válido.");
-            }
-
             compra.UsuarioID = compraModificada.UsuarioID;
             compra.LibroID = compraModificada.LibroID;
             compra.Fecha = compraModificada.Fecha;
             compra.Precio = compraModificada.Precio;
+            compra.EsDigital = compraModificada.EsDigital;
             compra.DescargaURL = compraModificada.DescargaURL;
 
             try
