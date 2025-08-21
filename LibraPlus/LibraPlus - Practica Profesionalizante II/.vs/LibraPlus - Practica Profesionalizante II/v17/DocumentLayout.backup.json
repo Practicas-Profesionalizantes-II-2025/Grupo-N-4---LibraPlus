@@ -1,0 +1,257 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\usuariosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\reseniasrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\recomendacionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\prestamosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\librosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.infraestructura\\repositorys\\comprasrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.aplicacion\\servicios\\prestamoservicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.aplicacion\\dtos\\rese\u00F1asdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.api\\controllers\\rese\u00F1ascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.api\\controllers\\prestamoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A92374BB-1C2D-40F3-87DC-A203809170D4}|LibraPlus.Shared.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus - practica profesionalizante ii\\rese\u00F1as.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A92374BB-1C2D-40F3-87DC-A203809170D4}|LibraPlus.Shared.csproj|solutionrelative:rese\u00F1as.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.aplicacion\\servicios\\rese\u00F1asservicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.aplicacion\\interfaces\\irese\u00F1as.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsuariosRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\UsuariosRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\UsuariosRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\UsuariosRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\UsuariosRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:34:37.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReseniasRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\ReseniasRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\ReseniasRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\ReseniasRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\ReseniasRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:34:30.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RecomendacionesRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\RecomendacionesRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\RecomendacionesRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\RecomendacionesRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\RecomendacionesRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:34:12.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PrestamosRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\PrestamosRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\PrestamosRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\PrestamosRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\PrestamosRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:33:36.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LibrosRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABAAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:32:52.897Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Program.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.API\\Program.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Program.cs",
+              "RelativeToolTip": "..\\LibraPlus.API\\Program.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAQwBsAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:22:32.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ComprasRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\ComprasRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\ComprasRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\ComprasRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\ComprasRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:32:17.535Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PrestamoServicio.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\PrestamoServicio.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Servicios\\PrestamoServicio.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\PrestamoServicio.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Servicios\\PrestamoServicio.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:25:23.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PrestamosController.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\PrestamosController.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\PrestamosController.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\PrestamosController.cs",
+              "RelativeToolTip": "..\\LibraPlus.API\\Controllers\\PrestamosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:09:13.439Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Rese\u00F1asController.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeToolTip": "..\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAwwDkAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:08:17.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Rese\u00F1as.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\Rese\u00F1as.cs",
+              "RelativeDocumentMoniker": "Rese\u00F1as.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\Rese\u00F1as.cs",
+              "RelativeToolTip": "Rese\u00F1as.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:07:18.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Rese\u00F1asDTO.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:06:41.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Rese\u00F1asServicio.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\Rese\u00F1asServicio.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Servicios\\Rese\u00F1asServicio.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\Rese\u00F1asServicio.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Servicios\\Rese\u00F1asServicio.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowA8AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:05:41.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IRese\u00F1as.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Interfaces\\IRese\u00F1as.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Interfaces\\IRese\u00F1as.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\Interfaces\\IRese\u00F1as.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Interfaces\\IRese\u00F1as.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-21T20:05:02.446Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
