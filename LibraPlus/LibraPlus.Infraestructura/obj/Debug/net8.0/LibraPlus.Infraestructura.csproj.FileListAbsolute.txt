@@ -1,0 +1,17 @@
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Infraestructura.deps.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Infraestructura.runtimeconfig.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Infraestructura.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\bin\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlu.50207190.Up2Date
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\refint\LibraPlus.Infraestructura.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\LibraPlus.Infraestructura.genruntimeconfig.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Infraestructura\obj\Debug\net8.0\ref\LibraPlus.Infraestructura.dll

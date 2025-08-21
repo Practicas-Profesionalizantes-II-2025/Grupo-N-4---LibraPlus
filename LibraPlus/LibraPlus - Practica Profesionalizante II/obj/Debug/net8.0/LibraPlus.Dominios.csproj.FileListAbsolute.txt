@@ -1,0 +1,4 @@
+C:\Users\mateo\source\repos\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Dominios.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\source\repos\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Dominios.AssemblyInfoInputs.cache
+C:\Users\mateo\source\repos\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Dominios.AssemblyInfo.cs
+C:\Users\mateo\source\repos\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Dominios.csproj.CoreCompileInputs.cache

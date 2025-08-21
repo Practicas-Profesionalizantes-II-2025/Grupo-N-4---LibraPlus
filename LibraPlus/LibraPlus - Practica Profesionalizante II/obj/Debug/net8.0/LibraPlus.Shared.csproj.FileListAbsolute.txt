@@ -1,0 +1,14 @@
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\bin\Debug\net8.0\LibraPlus.Shared.deps.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\bin\Debug\net8.0\LibraPlus.Shared.runtimeconfig.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\bin\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\bin\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\refint\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\LibraPlus.Shared.genruntimeconfig.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus - Practica Profesionalizante II\obj\Debug\net8.0\ref\LibraPlus.Shared.dll
