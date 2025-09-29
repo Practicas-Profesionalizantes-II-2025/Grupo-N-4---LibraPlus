@@ -355,6 +355,32 @@
   },
   {
     "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
+    "Method": "Delete",
+    "RelativePath": "api/Rese\u00F1ias/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
+    "Method": "GetAll",
+    "RelativePath": "api/Rese\u00F1ias/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
     "Method": "GetPorLibro",
     "RelativePath": "api/Rese\u00F1ias/libro/{libroId}",
     "HttpMethod": "GET",

@@ -14,9 +14,20 @@ namespace LibraPlus.MVC.Controllers
             _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
-        // GET: Prestamos/Usuario/5
-        public async Task<IActionResult> Index(int usuarioId)
+        // GET: Prestamos
+        public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Prestamos";
+
+            // ✅ Obtenemos el ID del usuario logueado desde los claims
+            var usuarioIdClaim = User?.FindFirst("Id")?.Value;
+
+            if (string.IsNullOrEmpty(usuarioIdClaim) || !int.TryParse(usuarioIdClaim, out int usuarioId))
+            {
+                // Si no está logueado o no hay ID → devolvemos vacío o redirigimos
+                return View(new List<PrestamosDTO>());
+            }
+
             var response = await _httpClient.GetAsync($"api/prestamos/usuario/{usuarioId}");
             if (!response.IsSuccessStatusCode)
             {
@@ -50,12 +61,6 @@ namespace LibraPlus.MVC.Controllers
             return View(prestamo);
         }
 
-        // GET: Prestamos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Prestamos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -69,14 +74,14 @@ namespace LibraPlus.MVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(Index), new { usuarioId = dto.UsuarioID });
+                return RedirectToAction(nameof(Index));
             }
 
             ModelState.AddModelError("", "Error al crear el préstamo.");
             return View(dto);
         }
 
-        // PUT: Prestamos/Devolver/5
+        // POST: Prestamos/Devolver/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Devolver(int id)

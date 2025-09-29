@@ -15,6 +15,23 @@ namespace LibraPlus.API.Controllers
             _reseniasService = reseniasService;
         }
 
+        // GET api/resenias/all
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var resenias = await _reseniasService.GetAllAsync();
+            var result = resenias.Select(r => new ReseñasDTO
+            {
+                ReseñaID = r.ReseñaID,
+                UsuarioID = r.UsuarioID,
+                LibroID = r.LibroID,
+                Comentario = r.Comentario,
+                Puntuacion = r.Puntuación
+            });
+
+            return Ok(result);
+        }
+
         // GET api/resenias/libro/5
         [HttpGet("libro/{libroId}")]
         public async Task<IActionResult> GetPorLibro(int libroId)
@@ -80,6 +97,15 @@ namespace LibraPlus.API.Controllers
             return Ok(dto);
         }
 
-    }
+        // DELETE api/resenias/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var eliminado = await _reseniasService.DeleteAsync(id);
+            if (!eliminado)
+                return NotFound(new { message = "Reseña no encontrada." });
 
+            return NoContent();
+        }
+    }
 }

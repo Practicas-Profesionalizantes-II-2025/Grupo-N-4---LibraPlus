@@ -1,4 +1,5 @@
-﻿using LibraPlus.MVC.Models;
+﻿using LibraPlus.Aplicacion.DTOs;
+using LibraPlus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
@@ -14,84 +15,66 @@ namespace LibraPlus.MVC.Controllers
             _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
-        // GET: Reseñas por libro
-        public async Task<IActionResult> PorLibro(int libroId)
-        {
-            var response = await _httpClient.GetAsync($"api/resenias/libro/{libroId}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return View(new List<ReseñasDTO>());
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var reseñas = JsonSerializer.Deserialize<List<ReseñasDTO>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return View(reseñas);
-        }
-
-        // GET: Reseñas por usuario
-        public async Task<IActionResult> PorUsuario(int usuarioId)
-        {
-            var response = await _httpClient.GetAsync($"api/resenias/usuario/{usuarioId}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return View(new List<ReseñasDTO>());
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var reseñas = JsonSerializer.Deserialize<List<ReseñasDTO>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return View(reseñas);
-        }
-
-        // GET: Detalle de reseña
-        public async Task<IActionResult> Details(int id)
-        {
-            var response = await _httpClient.GetAsync($"api/resenias/{id}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return NotFound();
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var reseña = JsonSerializer.Deserialize<ReseñasDTO>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return View(reseña);
-        }
-
-        // GET: Crear reseña
-        public IActionResult Create()
+        // GET: Reseñas/Index
+        public IActionResult Index()
         {
             return View();
         }
 
-        // POST: Crear reseña
+        // 🔹 API interna para cargar tabla AJAX
+        [HttpGet]
+        public async Task<IActionResult> Lista()
+        {
+            ViewData["ActivePage"] = "Reseñas";
+            var response = await _httpClient.GetAsync("api/resenias");
+            if (!response.IsSuccessStatusCode) return Json(new List<ReseñasDTO>());
+
+            var json = await response.Content.ReadAsStringAsync();
+            var reseñas = JsonSerializer.Deserialize<List<ReseñasDTO>>(json, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
+
+            return Json(reseñas);
+        }
+
+        // 🔹 Crear reseña
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReseñasDTO dto)
+        public async Task<IActionResult> Create([FromBody] ReseñasDTO dto)
         {
             if (!ModelState.IsValid)
-                return View(dto);
+                return BadRequest(ModelState);
 
             var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/resenias", content);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction(nameof(PorUsuario), new { usuarioId = dto.UsuarioID });
+                var json = await response.Content.ReadAsStringAsync();
+                var nuevaReseña = JsonSerializer.Deserialize<ReseñasDTO>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                return Ok(nuevaReseña);
             }
 
-            ModelState.AddModelError("", "Error al crear la reseña.");
-            return View(dto);
+            var errorText = await response.Content.ReadAsStringAsync();
+            return BadRequest(errorText ?? "Error al crear la reseña.");
+        }
+
+        // 🔹 Eliminar reseña
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"api/resenias/{id}");
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            var errorText = await response.Content.ReadAsStringAsync();
+            return BadRequest(errorText ?? "Error al eliminar la reseña.");
         }
     }
 }

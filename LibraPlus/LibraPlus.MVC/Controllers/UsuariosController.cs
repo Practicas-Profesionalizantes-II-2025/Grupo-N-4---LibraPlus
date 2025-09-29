@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
+Ôªøusing Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using LibraPlus.MVC.Models; // AquÌ ir· tu modelo DTO
+using LibraPlus.MVC.Models; // Aqu√≠ ir√° tu modelo DTO
 
 namespace LibraPlus.MVC.Controllers
 {
@@ -18,7 +18,7 @@ namespace LibraPlus.MVC.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-            // Esta acciÛn sigue igual: obtiene la lista de usuarios y la pasa a la vista
+            // Esta acci√≥n sigue igual: obtiene la lista de usuarios y la pasa a la vista
             var response = await _httpClient.GetAsync("api/usuarios");
             if (!response.IsSuccessStatusCode)
             {
@@ -57,9 +57,7 @@ namespace LibraPlus.MVC.Controllers
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var jsonContent = JsonSerializer.Serialize(usuario, options);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -70,37 +68,40 @@ namespace LibraPlus.MVC.Controllers
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var nuevoUsuario = JsonSerializer.Deserialize<UsuariosDTO>(json, options);
-                return Ok(nuevoUsuario);
+                return Ok(nuevoUsuario); 
             }
 
             var errorText = await response.Content.ReadAsStringAsync();
             return BadRequest(errorText);
         }
 
+
         // POST: Usuarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit([FromBody] UsuariosDTO usuario)
+        public async Task<IActionResult> Edit(int id)
         {
-            // El id ahora viene del objeto usuario
-            var id = usuario.UsuarioId;
-
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            // No es necesario leer el cuerpo manualmente
-            // var requestBody = await new StreamReader(Request.Body, Encoding.UTF8).ReadToEndAsync();
-            // var usuario = JsonSerializer.Deserialize<UsuariosDTO>(requestBody, options);
+            // Leer el cuerpo de la solicitud manualmente
+            using var reader = new StreamReader(Request.Body, Encoding.UTF8);
+            var requestBody = await reader.ReadToEndAsync();
+            var usuario = JsonSerializer.Deserialize<UsuariosDTO>(requestBody, options);
 
-            if (!ModelState.IsValid || id == 0)
-            {
+            if (usuario == null || id != usuario.UsuarioId)
+                return BadRequest("ID del usuario no coincide o datos inv√°lidos.");
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            }
 
             var jsonContent = JsonSerializer.Serialize(usuario, options);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
+            // Llama a la API usando el m√©todo PUT. Aqu√≠ es donde se hace la magia.
+            // Aunque el frontend envi√≥ un POST a este controlador, este controlador env√≠a un PUT a la API.
             var response = await _httpClient.PutAsync($"api/usuarios/{id}", content);
 
+            // ... (El resto del c√≥digo de la acci√≥n Edit es correcto) ...
             if (response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
@@ -111,27 +112,25 @@ namespace LibraPlus.MVC.Controllers
                 }
                 return Ok(usuario);
             }
-
             var errorText = await response.Content.ReadAsStringAsync();
             return BadRequest(errorText);
         }
 
 
         // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            // Llama a la API usando el mÈtodo DELETE. AquÌ tambiÈn se hace la magia.
             var response = await _httpClient.DeleteAsync($"api/usuarios/{id}");
 
             if (response.IsSuccessStatusCode)
-            {
                 return Ok();
-            }
+
             var errorText = await response.Content.ReadAsStringAsync();
             return BadRequest(errorText ?? "Error al eliminar el usuario.");
         }
+
     }
 }
 

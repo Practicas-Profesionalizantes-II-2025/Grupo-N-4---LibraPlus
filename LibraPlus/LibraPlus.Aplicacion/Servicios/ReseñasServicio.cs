@@ -1,26 +1,55 @@
 ﻿using LibraPlus.Aplicacion.Interfaces;
-using LibraPlus.Infraestructura.Interfaces.Infra;
-using LibraPlus___Practica_Profesionalizante_II;
+using LibraPlus.Dominio.Entidades;
+using LibraPlus.Infraestructura.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LibraPlus.Aplicacion.Servicios
+namespace LibraPlus.Aplicacion.Services
 {
-    public class ReseñasServicio : IReseñas
+    public class ReseñasService : IReseñas
     {
-        private readonly IReseniasRepository _reseniasRepository;
+        private readonly ProyectDBContext _context;
 
-        public ReseñasServicio(IReseniasRepository reseniasRepository)
+        public ReseñasService(ProyectDBContext context)
         {
-            _reseniasRepository = reseniasRepository;
+            _context = context;
         }
 
-        public async Task<Reseñas> CrearReseniaAsync(int usuarioId, int libroId, string comentario, int puntuacion)
+        public async Task<IEnumerable<Reseñas>> GetAllAsync()
         {
-            var resenia = new Reseñas
+            return await _context.Reseñas
+                .Include(r => r.Usuario)
+                .Include(r => r.Libro)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reseñas>> GetReseniasPorLibroAsync(int libroId)
+        {
+            return await _context.Reseñas
+                .Where(r => r.LibroID == libroId)
+                .Include(r => r.Usuario)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reseñas>> GetReseniasPorUsuarioAsync(int usuarioId)
+        {
+            return await _context.Reseñas
+                .Where(r => r.UsuarioID == usuarioId)
+                .Include(r => r.Libro)
+                .ToListAsync();
+        }
+
+        public async Task<Reseñas?> GetByIdAsync(int id)
+        {
+            return await _context.Reseñas 
+                .Include(r => r.Usuario)
+                .Include(r => r.Libro)
+                .FirstOrDefaultAsync(r => r.ReseñaID == id);
+        }
+
+        public async Task<Reseñas> CrearReseniaAsync(int usuarioId, int libroId, string? comentario, int puntuacion)
+        {
+            var nueva = new Reseñas
             {
                 UsuarioID = usuarioId,
                 LibroID = libroId,
@@ -28,23 +57,19 @@ namespace LibraPlus.Aplicacion.Servicios
                 Puntuación = puntuacion
             };
 
-            await _reseniasRepository.AddAsync(resenia);
-            return resenia;
+            _context.Reseñas.Add(nueva);
+            await _context.SaveChangesAsync();
+            return nueva;
         }
 
-        public async Task<IEnumerable<Reseñas>> GetReseniasPorLibroAsync(int libroId)
+        public async Task<bool> DeleteAsync(int id)
         {
-            return await _reseniasRepository.GetByLibroIdAsync(libroId);
-        }
+            var reseña = await _context.Reseñas.FindAsync(id);
+            if (reseña == null) return false;
 
-        public async Task<IEnumerable<Reseñas>> GetReseniasPorUsuarioAsync(int usuarioId)
-        {
-            return await _reseniasRepository.GetByUsuarioIdAsync(usuarioId);
-        }
-
-        public async Task<Reseñas> GetByIdAsync(int id)
-        {
-            return await _reseniasRepository.GetByIdAsync(id);
+            _context.Reseñas.Remove(reseña);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

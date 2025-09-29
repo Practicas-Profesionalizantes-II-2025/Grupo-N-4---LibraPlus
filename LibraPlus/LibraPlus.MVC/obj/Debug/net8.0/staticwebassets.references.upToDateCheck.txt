@@ -1,6 +1,0 @@
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.API\obj\Debug\net8.0\staticwebassets.build.json

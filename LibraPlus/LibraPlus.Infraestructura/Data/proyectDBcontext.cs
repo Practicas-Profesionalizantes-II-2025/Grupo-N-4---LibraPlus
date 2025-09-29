@@ -1,4 +1,5 @@
-﻿using LibraPlus___Practica_Profesionalizante_II;
+﻿using LibraPlus.Dominio.Entidades;
+using LibraPlus___Practica_Profesionalizante_II;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace LibraPlus.Infraestructura.Data
         public DbSet<Libros> Libros { get; set; }
         public DbSet<Prestamos> Prestamos { get; set; }
         public DbSet<Recomendaciones> Recomendaciones { get; set; }
-        public DbSet<Reseñas> Resenias { get; set; }  
+        public DbSet<Reseñas> Reseñas { get; set; }  
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Administradores> Admins { get; set; }
         public ProyectDBContext(DbContextOptions<ProyectDBContext> options)
@@ -40,7 +41,7 @@ namespace LibraPlus.Infraestructura.Data
             modelBuilder.Entity<Libros>().ToTable("Libros");
             modelBuilder.Entity<Prestamos>().ToTable("Prestamos");
             modelBuilder.Entity<Recomendaciones>().ToTable("Recomendaciones");
-            modelBuilder.Entity<Reseñas>().ToTable("Resenias");
+            modelBuilder.Entity<Reseñas>().ToTable("Reseñas");
             modelBuilder.Entity<Administradores>().ToTable("Administradores");
 
         }
