@@ -508,6 +508,18 @@
         }
       }
     },
+    "/api/Reseñias/all": {
+      "get": {
+        "tags": [
+          "Reseñias"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Reseñias/libro/{libroId}": {
       "get": {
         "tags": [
@@ -587,6 +599,27 @@
     },
     "/api/Reseñias/{id}": {
       "get": {
+        "tags": [
+          "Reseñias"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
         "tags": [
           "Reseñias"
         ],
@@ -770,6 +803,12 @@
         "additionalProperties": false
       },
       "LibroDto": {
+        "required": [
+          "autor",
+          "genero",
+          "tipo",
+          "titulo"
+        ],
         "type": "object",
         "properties": {
           "libroID": {
@@ -777,26 +816,34 @@
             "format": "int32"
           },
           "titulo": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 150,
+            "minLength": 0,
+            "type": "string"
           },
           "autor": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
           "genero": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
           },
           "tipo": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "pattern": "^(Digital|Físico)$",
+            "type": "string"
           },
           "precio": {
+            "maximum": 9999,99,
+            "minimum": 0,01,
             "type": "number",
             "format": "double"
           },
           "stock": {
+            "maximum": 2147483647,
+            "minimum": 0,
             "type": "integer",
             "format": "int32"
           }

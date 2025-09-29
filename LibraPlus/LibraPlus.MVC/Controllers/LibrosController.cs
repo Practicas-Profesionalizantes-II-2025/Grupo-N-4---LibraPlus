@@ -14,131 +14,76 @@ namespace LibraPlus.MVC.Controllers
             _httpClient = httpClientFactory.CreateClient("ApiClient");
         }
 
-        // GET: Libros
+        // 📚 Listado de Libros
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Libros";
+
             var response = await _httpClient.GetAsync("api/libros");
             if (!response.IsSuccessStatusCode)
-            {
                 return View(new List<LibrosDTO>());
-            }
 
             var json = await response.Content.ReadAsStringAsync();
-            var libros = JsonSerializer.Deserialize<List<LibrosDTO>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var libros = JsonSerializer.Deserialize<List<LibrosDTO>>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return View(libros);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetLibros()
-        {
-            var response = await _httpClient.GetAsync("api/libros");
-            if (!response.IsSuccessStatusCode) return Json(new List<LibrosDTO>());
-
-            var json = await response.Content.ReadAsStringAsync();
-            var libros = JsonSerializer.Deserialize<List<LibrosDTO>>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return Json(libros);
-        }
-
-
-        // GET: Libros/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
-            var response = await _httpClient.GetAsync($"api/libros/{id}");
-            if (!response.IsSuccessStatusCode)
-            {
-                return NotFound();
-            }
-
-            var json = await response.Content.ReadAsStringAsync();
-            var libro = JsonSerializer.Deserialize<LibrosDTO>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-
-            return View(libro);
-        }
-
-        // GET: Libros/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Libros/Create
+        // ➕ Crear Libro
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromBody] LibrosDTO dto)
+        public async Task<IActionResult> Create([FromBody] LibrosDTO libro)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(libro), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/libros", content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok();
-            }
-
-            return BadRequest("Error al crear el libro.");
-        }
-
-        // GET: Libros/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
-            var response = await _httpClient.GetAsync($"api/libros/{id}");
             if (!response.IsSuccessStatusCode)
             {
-                return NotFound();
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                return BadRequest($"Error al crear libro: {errorMsg}");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            var libro = JsonSerializer.Deserialize<LibrosDTO>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            // 👇 Leer el contenido devuelto (DTO con ID generado)
+            var result = await response.Content.ReadAsStringAsync();
+            var created = JsonSerializer.Deserialize<LibrosDTO>(result,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return View(libro);
+            return Json(created);
         }
 
-        // POST: Libros/Edit/5
+
+        // ✏️ Editar Libro
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [FromBody] LibrosDTO dto)
+        public async Task<IActionResult> Edit(int id, [FromBody] LibrosDTO libro)
         {
-            if (id != dto.LibroID) return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest("Datos inválidos");
 
-            var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(libro), Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"api/libros/{id}", content);
 
-            if (response.IsSuccessStatusCode)
-                return Json(dto); // devuelve JSON para actualizar la tabla vía JS
+            if (!response.IsSuccessStatusCode)
+                return BadRequest("Error al editar libro");
 
-            return StatusCode((int)response.StatusCode, "Error al actualizar el libro");
+            var result = await response.Content.ReadAsStringAsync();
+            var updated = JsonSerializer.Deserialize<LibrosDTO>(result,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return Json(updated);
         }
 
-      
-        // POST: Libros/Delete/5
+        // 🗑️ Eliminar Libro
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/libros/{id}");
+            if (!response.IsSuccessStatusCode)
+                return BadRequest("Error al eliminar libro");
 
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok();
-            }
-
-            return BadRequest("Error al eliminar el libro.");
+            return Ok();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
 
@@ -40,14 +42,25 @@ namespace LibraPlus.MVC.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Logout()
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
         {
+            // Si usás cookies de autenticación, esto cierra la sesión
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Por si usás Session o querés limpiar todo
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+
+            // (Opcional) borrar cookies de la app
+            foreach (var key in Request.Cookies.Keys)
+                Response.Cookies.Delete(key);
+
+            // Volver al login
+            return RedirectToAction("Index", "LogIn");
         }
 
-        
     }
 }
 

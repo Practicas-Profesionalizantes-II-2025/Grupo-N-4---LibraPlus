@@ -18,8 +18,8 @@ namespace LibraPlus.MVC.Models
         public string Email { get; set; }
 
         [Range(0, 5, ErrorMessage = "La reputación debe estar entre 0 y 5")]
-        [JsonPropertyName("Reputación")]
-        public int Reputación { get; set; }
+        [JsonPropertyName("Reputacion")]
+        public int Reputacion { get; set; }
     }
 }
 

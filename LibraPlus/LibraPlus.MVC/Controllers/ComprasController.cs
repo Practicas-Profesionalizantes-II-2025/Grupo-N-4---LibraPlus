@@ -19,32 +19,39 @@ public class ComprasController : Controller
     // GET: Compras
     public async Task<IActionResult> Index()
     {
-        // Start all three API calls simultaneously
+        // Llamadas en paralelo
         var comprasTask = _httpClient.GetAsync("api/compras");
         var usuariosTask = _httpClient.GetAsync("api/usuarios");
         var librosTask = _httpClient.GetAsync("api/libros");
 
-        // Wait for all tasks to complete
         await Task.WhenAll(comprasTask, usuariosTask, librosTask);
 
-        // Now, retrieve and process the results
         var comprasResponse = await comprasTask;
         var usuariosResponse = await usuariosTask;
         var librosResponse = await librosTask;
 
         var compras = comprasResponse.IsSuccessStatusCode
-            ? JsonSerializer.Deserialize<List<ComprasDTO>>(await comprasResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+            ? JsonSerializer.Deserialize<List<ComprasDTO>>(
+                await comprasResponse.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
             : new List<ComprasDTO>();
 
         var usuarios = usuariosResponse.IsSuccessStatusCode
-            ? JsonSerializer.Deserialize<List<UsuariosDTO>>(await usuariosResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+            ? JsonSerializer.Deserialize<List<UsuariosDTO>>(
+                await usuariosResponse.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
             : new List<UsuariosDTO>();
         ViewBag.Usuarios = usuarios;
 
         var libros = librosResponse.IsSuccessStatusCode
-            ? JsonSerializer.Deserialize<List<LibrosDTO>>(await librosResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+            ? JsonSerializer.Deserialize<List<LibrosDTO>>(
+                await librosResponse.Content.ReadAsStringAsync(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
             : new List<LibrosDTO>();
         ViewBag.Libros = libros;
+
+        // Marca activa en la navbar
+        ViewData["ActivePage"] = "Compras";
 
         return View(compras);
     }
@@ -59,10 +66,8 @@ public class ComprasController : Controller
         }
 
         var json = await response.Content.ReadAsStringAsync();
-        var compras = JsonSerializer.Deserialize<List<ComprasDTO>>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        var compras = JsonSerializer.Deserialize<List<ComprasDTO>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         return View(compras);
     }
@@ -77,10 +82,8 @@ public class ComprasController : Controller
         }
 
         var json = await response.Content.ReadAsStringAsync();
-        var compra = JsonSerializer.Deserialize<ComprasDTO>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        });
+        var compra = JsonSerializer.Deserialize<ComprasDTO>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         return View(compra);
     }
@@ -91,38 +94,38 @@ public class ComprasController : Controller
         return View();
     }
 
-    // Dentro de tu ComprasController.cs
+    // POST: Compras/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([FromBody] ComprasDTO compraDto)
+    public async Task<IActionResult> Create(ComprasDTO compraDto)
     {
         if (compraDto == null)
             return BadRequest("Datos de la compra inválidos.");
 
-        // Solo enviamos UsuarioID y LibroID, la API se encarga de Precio, Tipo y DescargaURL
         var envio = new
         {
             UsuarioID = compraDto.UsuarioID,
             LibroID = compraDto.LibroID
         };
 
-        var content = new StringContent(JsonSerializer.Serialize(envio), Encoding.UTF8, "application/json");
+        var content = new StringContent(
+            JsonSerializer.Serialize(envio),
+            Encoding.UTF8,
+            "application/json"
+        );
 
         var response = await _httpClient.PostAsync("api/compras", content);
 
         if (response.IsSuccessStatusCode)
         {
-            var newCompra = JsonSerializer.Deserialize<ComprasDTO>(
-                await response.Content.ReadAsStringAsync(),
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            );
-            return Ok(newCompra);
+            return RedirectToAction(nameof(Index));
         }
 
-        var errorText = await response.Content.ReadAsStringAsync();
-        return BadRequest(errorText ?? "Error al crear la compra.");
+        ModelState.AddModelError("", "Error al crear la compra.");
+        return View(compraDto);
     }
 
+    // API para traer compras en formato JSON (si lo necesitás en AJAX)
     public async Task<IActionResult> GetCompras()
     {
         var response = await _httpClient.GetAsync("api/compras");
@@ -130,7 +133,9 @@ public class ComprasController : Controller
             return Json(new List<ComprasDTO>());
 
         var json = await response.Content.ReadAsStringAsync();
-        var compras = JsonSerializer.Deserialize<List<ComprasDTO>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        var compras = JsonSerializer.Deserialize<List<ComprasDTO>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
         return Json(compras);
     }
 }

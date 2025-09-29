@@ -17,6 +17,7 @@ namespace LibraPlus.MVC.Controllers
         // GET: Recomendaciones
         public async Task<IActionResult> Index()
         {
+            ViewData["ActivePage"] = "Libros";
             var response = await _httpClient.GetAsync("api/recomendaciones");
             if (!response.IsSuccessStatusCode)
             {

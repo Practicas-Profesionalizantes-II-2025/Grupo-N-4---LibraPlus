@@ -1,0 +1,22 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "LibraPlus";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@title</title>
+
+    <!-- Estilos generales -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Estilos específicos de login -->
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+<body class="login-body">
+    <main>
+        @RenderBody()
+    </main>
+</body>
+</html>

@@ -1,30 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
+  "WorkspaceRootPath": "C:\\Users\\mateo\\Downloads\\LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\views\\prestamos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\views\\usuarios\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.api\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\models\\usuariosdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\downloads\\libraplus\\libraplus\\libraplus.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 1,
+      "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 200,
+          "DockedWidth": 200,
           "SelectedChildIndex": 3,
           "Children": [
             {
@@ -42,63 +30,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
-              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
-              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAQAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-29T22:26:26.817Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\mateo\\Downloads\\LibraPlus\\LibraPlus\\LibraPlus.API\\appsettings.json",
+              "RelativeDocumentMoniker": "..\\LibraPlus.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\mateo\\Downloads\\LibraPlus\\LibraPlus\\LibraPlus.API\\appsettings.json",
+              "RelativeToolTip": "..\\LibraPlus.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAACjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-29T22:32:06.533Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "..\\LibraPlus.API\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAADUAAAAAAAAAAAAIwD8AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T21:27:04.906Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UsuariosDTO.cs",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
-              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
-              "RelativeToolTip": "..\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAowBQAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T21:07:31.47Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
-              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
-              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
-              "ViewState": "AgIAAKYAAAAAAAAAAAAAALMAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-23T21:09:41.032Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UsuariosController.cs",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Controllers\\UsuariosController.cs",
-              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Controllers\\UsuariosController.cs",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Controllers\\UsuariosController.cs",
-              "RelativeToolTip": "..\\LibraPlus.MVC\\Controllers\\UsuariosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T21:02:53.315Z"
             }
           ]
         }

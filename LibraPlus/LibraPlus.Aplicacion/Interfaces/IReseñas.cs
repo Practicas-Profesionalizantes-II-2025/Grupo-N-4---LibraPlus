@@ -1,4 +1,5 @@
-﻿using LibraPlus___Practica_Profesionalizante_II;
+﻿using LibraPlus.Dominio.Entidades;
+using LibraPlus___Practica_Profesionalizante_II;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,8 @@ namespace LibraPlus.Aplicacion.Interfaces
         Task<IEnumerable<Reseñas>> GetReseniasPorLibroAsync(int libroId);
         Task<IEnumerable<Reseñas>> GetReseniasPorUsuarioAsync(int usuarioId);
         Task<Reseñas> GetByIdAsync(int id);
+        Task<IEnumerable<Reseñas>> GetAllAsync();
+        Task<bool> DeleteAsync(int id);
+
     }
 }

@@ -2,9 +2,9 @@
 
 namespace LibraPlus.MVC.Models
 {
-    public class ReseñasDTO
+    public class ReseniasDTO
     {
-        public int ReseñaID { get; set; }
+        public int ReseniaID { get; set; }
 
         [Required(ErrorMessage = "El Usuario es obligatorio")]
         public int UsuarioID { get; set; }

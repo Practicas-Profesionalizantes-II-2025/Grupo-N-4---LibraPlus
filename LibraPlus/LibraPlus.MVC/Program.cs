@@ -1,29 +1,45 @@
 ﻿using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar controladores y vistas
 builder.Services.AddControllersWithViews();
 
-// Configuración de HttpClient para llamar a la API
 // Habilitar sesiones
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiración de la sesión
-    options.Cookie.HttpOnly = true;                 // Más seguro: solo accesible por el servidor
-    options.Cookie.IsEssential = true;              // Necesario para GDPR
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// Configuración de HttpClient para llamar a la API
+// Autenticación con cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/LogIn/Index";   // Si no está logueado → redirige al login
+        options.LogoutPath = "/LogIn/Logout"; // Logout
+        options.AccessDeniedPath = "/Home/AccesoDenegado"; // opcional
+    });
+
+// Leer la URL de la API desde configuración (appsettings.json o appsettings.Development.json)
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+if (string.IsNullOrEmpty(apiBaseUrl))
+{
+    throw new InvalidOperationException("La clave ApiSettings:BaseUrl no está configurada en appsettings.json o appsettings.Development.json");
+}
+
+// Configurar HttpClient con la URL de la API
 builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7290/"); // Puerto correcto de tu API
+    client.BaseAddress = new Uri(apiBaseUrl);
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuración del pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -35,14 +51,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // <-- IMPORTANTE: habilitar el uso de sesiones
+// 👇 IMPORTANTE: primero autenticación, después autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Configurar la ruta por defecto
-// Cambiamos el controlador inicial a LogIn
+app.UseSession();
+
+// Ruta por defecto → LogIn
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=LogIn}/{action=Index}/{id?}");
 
 app.Run();
-
