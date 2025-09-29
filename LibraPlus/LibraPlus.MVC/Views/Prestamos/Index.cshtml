@@ -1,0 +1,161 @@
+﻿@using LibraPlus.MVC.Models
+@model List<PrestamosDTO>
+
+@{
+    ViewData["Title"] = "Gestión de Préstamos";
+}
+
+<div class="container-beige">
+    <h2 class="titulo">📚 Préstamos</h2>
+    <button class="btn-agregar" onclick="openModal()">+ Registrar Préstamo</button>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Devuelto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="prestamosTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- -------- MODAL -------- -->
+<div class="modal" id="prestamoModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <h3 id="modalTitle">Registrar Préstamo</h3>
+        <form id="prestamoForm">
+            @Html.AntiForgeryToken()
+
+            <select id="libro" name="libro" required>
+                <option value="">Seleccione un Libro</option>
+            </select>
+
+            <input type="date" id="fechaFin" name="fechaFin" required />
+
+            <div class="modal-actions">
+                <button type="submit" class="save">Guardar</button>
+                <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modal = document.getElementById('prestamoModal');
+        const prestamoForm = document.getElementById('prestamoForm');
+        const tableBody = document.getElementById('prestamosTableBody');
+        const selectLibro = document.getElementById('libro');
+
+        let allPrestamos = [];
+        let allLibros = [];
+
+        function openModal() {
+            modal.classList.add("show");
+            prestamoForm.reset();
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+        }
+
+        window.onclick = e => { if (e.target === modal) closeModal(); }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            allPrestamos.forEach(p => {
+                const libro = allLibros.find(l => l.libroID === p.libroID)?.titulo ?? 'Desconocido';
+                const fechaInicio = new Date(p.fechaInicio).toLocaleDateString();
+                const fechaFin = new Date(p.fechaFin).toLocaleDateString();
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${libro}</td>
+                    <td>${fechaInicio}</td>
+                    <td>${fechaFin}</td>
+                    <td>${p.devuelto ? "✔️" : "❌"}</td>
+                    <td>
+                        ${!p.devuelto ? `<button class="btn-return" onclick="devolverPrestamo(${p.prestamoID})">Devolver</button>` : ""}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        async function loadAllData() {
+            try {
+                // Libros desde MVC
+                allLibros = await (await fetch('/Libros/GetLibros')).json();
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros.forEach(l => {
+                    const option = document.createElement('option');
+                    option.value = l.libroID;
+                    option.textContent = l.titulo;
+                    selectLibro.appendChild(option);
+                });
+
+                // Préstamos del usuario logueado
+                allPrestamos = await (await fetch('/Prestamos/Index')).json();
+                renderTable();
+            } catch (err) {
+                console.error('Error cargando datos:', err);
+                alert('Error al cargar datos.');
+            }
+        }
+
+        prestamoForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const prestamoData = {
+                LibroID: parseInt(selectLibro.value),
+                FechaFin: document.getElementById('fechaFin').value
+            };
+
+            try {
+                const response = await fetch('/Prestamos/Create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value
+                    },
+                    body: JSON.stringify(prestamoData)
+                });
+
+                if (!response.ok) throw new Error(await response.text());
+
+                await loadAllData();
+                closeModal();
+            } catch (err) {
+                console.error('Error al crear préstamo:', err);
+                alert('Error al crear préstamo: ' + err.message);
+            }
+        });
+
+        async function devolverPrestamo(id) {
+            try {
+                const response = await fetch(`/Prestamos/Devolver/${id}`, {
+                    method: 'POST',
+                    headers: { 'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value }
+                });
+                if (response.ok) {
+                    allPrestamos = allPrestamos.map(p => p.prestamoID === id ? { ...p, devuelto: true } : p);
+                    renderTable();
+                } else {
+                    throw new Error('No se pudo marcar como devuelto.');
+                }
+            } catch (err) {
+                console.error('Error al devolver:', err);
+                alert('Error al devolver préstamo: ' + err.message);
+            }
+        }
+
+        loadAllData();
+    </script>
+}
+

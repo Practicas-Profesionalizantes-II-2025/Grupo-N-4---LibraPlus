@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "..\\LibraPlus.API\\LibraPlus.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\LibraPlus.MVC\\LibraPlus.MVC.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
