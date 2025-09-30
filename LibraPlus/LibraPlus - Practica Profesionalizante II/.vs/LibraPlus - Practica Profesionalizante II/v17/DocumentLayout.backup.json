@@ -1,0 +1,64 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\views\\rese\u00F1as\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\escritorio\\libraplus\\libraplus.mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAALkAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-30T20:17:47.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
+              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAAAAEAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-30T19:57:44.624Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
