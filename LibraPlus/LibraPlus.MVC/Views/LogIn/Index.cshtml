@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión - LibraPlus";
+    Layout = "_LayoutLogin";
+}
+
+<div class="login-bg-img" id="bgRotator">
+    <div class="login-overlay"></div>
+
+    <div class="login-card animate-fade">
+        <h1>📚 <span>LibraPlus</span></h1>
+        <p class="subtitle">Tu biblioteca digital y física en un solo lugar</p>
+
+        <!-- Mensajes -->
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="msg success">@TempData["MensajeExito"]</div>
+        }
+        @if (TempData["MensajeError"] != null)
+        {
+            <div class="msg error">@TempData["MensajeError"]</div>
+        }
+        @if (ViewBag.Error != null)
+        {
+            <div class="msg error">@ViewBag.Error</div>
+        }
+
+        <!-- Formulario -->
+        <form asp-action="Index" asp-controller="LogIn" method="post" class="login-form">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="email" placeholder="Usuario o correo" required />
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Contraseña" required />
+            </div>
+
+            <button type="submit" class="btn-login">Ingresar</button>
+        </form>
+
+        <div class="extra-links">
+            <a href="/LogIn/Registro" class="link">Crear cuenta nueva</a>
+            <a href="#" class="link secondary">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Redirección después del mensaje de éxito
+        window.addEventListener("DOMContentLoaded", () => {
+            const success = document.querySelector(".msg.success");
+            if (success) setTimeout(() => window.location.href = "/LogIn/Index", 3000);
+        });
+
+        // 🖼️ Rotador de fondos
+        const bgRotator = document.getElementById("bgRotator");
+        const images = [
+            "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+            "https://images.unsplash.com/photo-1529156069898-49953e39b3ac",
+            "https://images.unsplash.com/photo-1496104679561-38d3af47d1d2"
+        ];
+
+        let index = 0;
+        setInterval(() => {
+            index = (index + 1) % images.length;
+            bgRotator.style.backgroundImage = `url('${images[index]}')`;
+            bgRotator.classList.add("fade-bg");
+            setTimeout(() => bgRotator.classList.remove("fade-bg"), 1500);
+        }, 10000);
+    </script>
+}

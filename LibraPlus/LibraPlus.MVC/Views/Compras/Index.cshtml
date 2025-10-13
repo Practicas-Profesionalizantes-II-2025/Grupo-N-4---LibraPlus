@@ -1,0 +1,311 @@
+﻿@{
+    ViewData["Title"] = "Administración de Compras - LibraPlus";
+    Layout = "_Layout";
+    @model List<ComprasDTO>
+}
+
+<!-- 🔐 Token antifalsificación -->
+<form id="tokenForm">
+    @Html.AntiForgeryToken()
+</form>
+
+<style>
+    /* ----------- MODAL DE RESUMEN ----------- */
+    #summaryModal .modal-content {
+        width: auto;
+        max-width: 90%;
+        min-width: 400px;
+        padding: 20px;
+        background: #fff8dc;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        position: relative;
+    }
+
+    #summaryModal table th {
+        background: #d4a017;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+
+    #summaryModal table td {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #e6d8a2;
+    }
+</style>
+
+<div class="container-beige">
+    <h2 class="titulo">🛒 Historial de Compras</h2>
+
+    <!-- FILTROS -->
+    <div class="filters-bar">
+        <div class="filter-left">
+            <button class="btn-return" onclick="mostrarResumen()">📊 Ver Resumen</button>
+        </div>
+        <div class="filter-right">
+            <input type="text" id="filterName" placeholder="🔍 Filtrar por libro...">
+            <select id="filterType">
+                <option value="">Todos los tipos</option>
+                <option value="Digital">Digital</option>
+                <option value="Físico">Físico</option>
+            </select>
+            <button class="btn-agregar" onclick="openModal()">➕ Registrar Compra</button>
+        </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+        <table class="lp-table">
+            <thead>
+                <tr>
+                    <th>👤 Usuario</th>
+                    <th>📘 Libro</th>
+                    <th>📅 Fecha</th>
+                    <th>💰 Precio</th>
+                    <th>📱 Tipo</th>
+                    <th>🔗 URL Descarga</th>
+                </tr>
+            </thead>
+            <tbody id="purchaseTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL COMPRA -->
+<div class="modal" id="purchaseModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <h3>Registrar Compra</h3>
+        <form id="purchaseForm">
+            <select id="usuario" required>
+                <option value="">Seleccione un Usuario</option>
+            </select>
+            <select id="libro" required>
+                <option value="">Seleccione un Libro</option>
+            </select>
+            <div class="modal-actions">
+                <button type="submit" class="save">💾 Guardar</button>
+                <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="summaryModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeSummaryModal()">×</button>
+        <h3>Resumen de Compras por Usuario</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Cantidad de Libros Comprados</th>
+                </tr>
+            </thead>
+            <tbody id="summaryTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // ✅ Elementos del DOM
+        const modal = document.getElementById('purchaseModal');
+        const purchaseForm = document.getElementById('purchaseForm');
+        const tableBody = document.getElementById('purchaseTableBody');
+        const selectUsuario = document.getElementById('usuario');
+        const selectLibro = document.getElementById('libro');
+        const filterNameInput = document.getElementById('filterName');
+        const filterTypeSelect = document.getElementById('filterType');
+
+        let allCompras = [];
+        let allUsuarios = [];
+        let allLibros = [];
+
+        // 🔹 Abrir y cerrar modal
+        function openModal() {
+            modal.style.display = 'flex';
+            purchaseForm.reset();
+        }
+        function closeModal() { modal.style.display = 'none'; }
+        window.onclick = e => { if (e.target === modal) closeModal(); }
+
+        // 🔹 Cargar usuarios y libros desde la API
+        async function loadUsuariosYLibros() {
+            try {
+                // Usuarios
+                allUsuarios = await (await fetch('/Compras/GetUsuarios')).json();
+                selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
+                allUsuarios.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.usuarioId;
+                    opt.textContent = u.nombre;
+                    selectUsuario.appendChild(opt);
+                });
+
+                // Libros
+                allLibros = await (await fetch('/Compras/GetLibros')).json();
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros.forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.libroID;
+                    opt.textContent = `${l.titulo} - ${l.autor}`;
+                    selectLibro.appendChild(opt);
+                });
+            } catch (err) {
+                console.error('Error cargando usuarios o libros:', err);
+                alert('Error al cargar usuarios o libros.');
+            }
+        }
+
+        // 🔹 Cargar compras
+        async function loadCompras() {
+            try {
+                allCompras = await (await fetch('/Compras/Lista')).json();
+                renderTable();
+            } catch (err) {
+                console.error('Error cargando compras:', err);
+            }
+        }
+
+        // 🔹 Renderizar tabla
+        function renderTable() {
+            tableBody.innerHTML = '';
+            allCompras.forEach(c => {
+                const usuario = allUsuarios.find(u => u.usuarioId === c.usuarioID)?.nombre ?? 'Desconocido';
+                const libro = allLibros.find(l => l.libroID === c.libroID);
+                const libroTitulo = libro?.titulo ?? 'Desconocido';
+                const tipo = libro?.tipo ?? 'Desconocido';
+                const fecha = new Date(c.fecha).toLocaleDateString();
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${usuario}</td>
+                    <td>${libroTitulo}</td>
+                    <td>${fecha}</td>
+                    <td>$${c.precio.toFixed(2)}</td>
+                    <td>${tipo}</td>
+                    <td>
+                        ${
+                            c.descargaURL
+                            ? `<button class="show-url" onclick="toggleUrl(this, '${c.descargaURL}')">Ver URL</button>
+                               <span class="hidden-url" style="display:none;">${c.descargaURL}</span>`
+                            : 'N/A'
+                        }
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            applyFilters();
+        }
+
+
+        // 🔹 Registrar compra (con URL aleatoria)
+        purchaseForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const UsuarioID = parseInt(selectUsuario.value);
+            const LibroID = parseInt(selectLibro.value);
+
+            if (isNaN(UsuarioID) || isNaN(LibroID)) {
+                alert('Seleccioná un usuario y un libro.');
+                return;
+            }
+
+            // ✅ Generar URL aleatoria al crear la compra
+            const random = Math.random().toString(36).substring(2, 10);
+            const descargaURL = `https://descargas.libraplus.com/${random}`;
+
+            try {
+                const token = document.getElementsByName('__RequestVerificationToken')[0]?.value;
+                const response = await fetch('/Compras/Create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
+                    body: JSON.stringify({ UsuarioID, LibroID, descargaURL })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    allCompras.push(result.compra);
+                    renderTable();
+                    closeModal();
+                } else {
+                    alert('Error al registrar la compra: ' + (result.mensaje || 'desconocido'));
+                }
+            } catch (err) {
+                console.error('Error al registrar compra:', err);
+                alert('Error al registrar la compra: ' + err.message);
+            }
+        });
+
+        // 🔹 Mostrar u ocultar URL de descarga
+        function toggleUrl(button, url) {
+            const span = button.nextElementSibling;
+            if (span.style.display === "none") {
+                span.style.display = "inline";
+                button.textContent = "Ocultar URL";
+            } else {
+                span.style.display = "none";
+                button.textContent = "Ver URL";
+            }
+        }
+
+        // 🔹 Mostrar modal de resumen
+        function mostrarResumen() {
+            const summaryModal = document.getElementById('summaryModal');
+            const summaryTableBody = document.getElementById('summaryTableBody');
+            summaryTableBody.innerHTML = '';
+
+            if (allCompras.length === 0) {
+                summaryTableBody.innerHTML = `<tr><td colspan="2" style="text-align:center;">No hay compras registradas</td></tr>`;
+                summaryModal.style.display = 'flex';
+                return;
+            }
+
+            const resumen = {};
+            allCompras.forEach(c => {
+                resumen[c.usuarioID] = (resumen[c.usuarioID] || 0) + 1;
+            });
+
+            Object.entries(resumen).forEach(([usuarioID, cantidad]) => {
+                const usuario = allUsuarios.find(u => u.usuarioId === parseInt(usuarioID))?.nombre ?? 'Desconocido';
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${usuario}</td><td style="text-align:center;">${cantidad}</td>`;
+                summaryTableBody.appendChild(row);
+            });
+
+            summaryModal.style.display = 'flex';
+        }
+
+
+        // 🔹 Cerrar modal de resumen
+        function closeSummaryModal() {
+            const summaryModal = document.getElementById('summaryModal');
+            summaryModal.style.display = 'none';
+        }
+
+        // 🔹 Filtros
+        function applyFilters() {
+            const nameFilter = filterNameInput.value.toLowerCase();
+            const typeFilter = filterTypeSelect.value;
+            document.querySelectorAll('#purchaseTableBody tr').forEach(row => {
+                const bookName = row.children[1].textContent.toLowerCase();
+                const bookType = row.children[4].textContent;
+                row.style.display = (bookName.includes(nameFilter) && (typeFilter === "" || bookType === typeFilter)) ? "" : "none";
+            });
+        }
+        filterNameInput.addEventListener('input', applyFilters);
+        filterTypeSelect.addEventListener('change', applyFilters);
+
+        // 🔹 Inicializar todo
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadUsuariosYLibros();
+            await loadCompras();
+        });
+    </script>
+}

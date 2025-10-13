@@ -1,0 +1,113 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "LibraPlus";
+    var bodyClass = ViewData["BodyClass"] as string ?? "";
+
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@title</title>
+
+    <!-- CSS principal -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="@bodyClass">
+    <!-- NAVBAR -->
+    <header class="lp-navbar">
+        <div class="lp-logo">
+            <img src="~/img/logo-libraplus.png" alt="LibraPlus Logo" />
+            <span>LibraPlus</span>
+        </div>
+
+        <nav class="lp-menu">
+            @if (!(currentController == "Home" && currentAction == "Index"))
+            {
+                <a asp-controller="Home" asp-action="Index"
+                   class="@(ViewData["ActivePage"] as string == "Home" ? "active" : "")">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            }
+
+            <a asp-controller="Libros" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Libros" ? "active" : "")">
+                <i class="fas fa-book"></i> Biblioteca
+            </a>
+
+            <a asp-controller="Prestamos" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Prestamos" ? "active" : "")">
+                <i class="fas fa-handshake"></i> Préstamos
+            </a>
+
+            <a asp-controller="Reseñas" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Reseñas" ? "active" : "")">
+                <i class="fas fa-pen"></i> Reseñas
+            </a>
+
+            <a asp-controller="Recomendaciones" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Recomendaciones" ? "active" : "")">
+                <i class="fas fa-star"></i> Recomendaciones
+            </a>
+
+            <a asp-controller="Compras" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Compras" ? "active" : "")">
+                <i class="fas fa-shopping-cart"></i> Compras
+            </a>
+        </nav>
+
+        <div class="lp-actions">
+            <button type="button" id="darkModeToggle" class="lp-darkmode-btn">
+                🌙 Modo Oscuro
+            </button>
+
+            <form asp-controller="LogIn" asp-action="Logout" method="post" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="lp-logout">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="lp-main">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="lp-footer">
+        © 2025 LibraPlus. Todos los derechos reservados.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const toggle = document.getElementById("darkModeToggle");
+            const body = document.body;
+
+            // Cargar preferencia guardada
+            if (localStorage.getItem("darkMode") === "true") {
+                body.classList.add("dark");
+                toggle.textContent = "☀️ Modo Claro";
+            }
+
+            toggle?.addEventListener("click", () => {
+                body.classList.toggle("dark");
+                const isDark = body.classList.contains("dark");
+                toggle.textContent = isDark ? "☀️ Modo Claro" : "🌙 Modo Oscuro";
+                localStorage.setItem("darkMode", isDark);
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

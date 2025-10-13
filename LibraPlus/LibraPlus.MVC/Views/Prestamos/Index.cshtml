@@ -1,0 +1,198 @@
+﻿@using LibraPlus.MVC.Models
+@model List<PrestamosDTO>
+
+@{
+    ViewData["Title"] = "Gestión de Préstamos";
+    Layout = "_Layout";
+}
+
+<div class="container-beige">
+    <h2 class="titulo">📚 Préstamos</h2>
+    <button class="btn-agregar" onclick="openModal()">+ Registrar Préstamo</button>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Devuelto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="prestamosTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- -------- MODAL -------- -->
+<div class="modal" id="prestamoModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <h3 id="modalTitle">Registrar Préstamo</h3>
+        <form id="prestamoForm">
+            @Html.AntiForgeryToken()
+
+            <select id="libro" name="libro" required>
+                <option value="">Seleccione un Libro</option>
+            </select>
+
+            <input type="date" id="fechaFin" name="fechaFin" required />
+
+            <div class="modal-actions">
+                <button type="submit" class="save">Guardar</button>
+                <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // === Variables globales ===
+        const API_BASE = "https://localhost:7290/api"; // ✅ Tu API real
+        const modal = document.getElementById('prestamoModal');
+        const prestamoForm = document.getElementById('prestamoForm');
+        const tableBody = document.getElementById('prestamosTableBody');
+        const selectLibro = document.getElementById('libro');
+
+        let allPrestamos = [];
+        let allLibros = [];
+
+        // === Abrir / cerrar modal ===
+        function openModal() {
+            modal.classList.add("show");
+            prestamoForm.reset();
+        }
+
+        function closeModal() {
+            modal.classList.remove("show");
+        }
+
+        window.onclick = e => { if (e.target === modal) closeModal(); }
+
+        // === Renderizar tabla ===
+        function renderTable() {
+            tableBody.innerHTML = '';
+            allPrestamos.forEach(p => {
+                const libro = allLibros.find(l => l.LibroID === p.LibroID)?.Titulo ?? 'Desconocido';
+                const fechaInicio = new Date(p.FechaInicio).toLocaleDateString();
+                const fechaFin = new Date(p.FechaFin).toLocaleDateString();
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${libro}</td>
+                    <td>${fechaInicio}</td>
+                    <td>${fechaFin}</td>
+                    <td>${p.Devuelto ? "✔️" : "❌"}</td>
+                    <td>
+                        ${!p.Devuelto
+                            ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>`
+                            : ""}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+
+        // === Cargar Libros y Préstamos ===
+        async function loadAllData() {
+            try {
+                // 🔹 Obtener libros desde la API
+                const librosResp = await fetch('https://localhost:7290/api/Libros');
+                if (!librosResp.ok) throw new Error(`Error ${librosResp.status} al cargar libros`);
+                allLibros = await librosResp.json();
+                console.log("📚 Libros cargados:", allLibros);
+
+                // Rellenar combo de libros
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros.forEach(l => {
+                    const option = document.createElement('option');
+                    option.value = l.LibroID;      // coincide con la propiedad real
+                    option.textContent = l.Titulo; // coincide con la propiedad real
+                    selectLibro.appendChild(option);
+                });
+
+                // 🔹 Obtener préstamos del usuario (por ahora hardcodeado como 1)
+                const userId = localStorage.getItem("usuarioID") || 1;
+                const prestamosResp = await fetch(`https://localhost:7290/api/Prestamos?usuarioId=${userId}`);
+                if (!prestamosResp.ok) throw new Error(`Error ${prestamosResp.status} al cargar préstamos`);
+                allPrestamos = await prestamosResp.json();
+                console.log("📖 Préstamos cargados:", allPrestamos);
+
+                renderTable();
+            } catch (err) {
+                console.error('❌ Error cargando datos:', err);
+                showToast('Error al cargar datos: ' + err.message, true);
+            }
+        }
+
+        // === Crear nuevo préstamo ===
+        prestamoForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const userId = localStorage.getItem("usuarioID") || 1;
+            const prestamoData = {
+                usuarioID: parseInt(userId),
+                libroID: parseInt(selectLibro.value),
+                fechaFin: document.getElementById('fechaFin').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/Prestamos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(prestamoData)
+                });
+
+                if (!response.ok) throw new Error(await response.text());
+                showToast('📚 Préstamo registrado correctamente');
+                await loadAllData();
+                closeModal();
+            } catch (err) {
+                console.error('❌ Error al crear préstamo:', err);
+                showToast('Error al crear préstamo: ' + err.message, true);
+            }
+        });
+
+        // === Devolver préstamo ===
+        async function devolverPrestamo(id) {
+            try {
+                const response = await fetch(`${API_BASE}/Prestamos/${id}/devolver`, {
+                    method: 'PUT'
+                });
+
+                if (!response.ok) throw new Error('No se pudo marcar como devuelto.');
+
+                allPrestamos = allPrestamos.map(p =>
+                    p.prestamoID === id ? { ...p, devuelto: true } : p
+                );
+
+                showToast('✅ Libro devuelto correctamente');
+                renderTable();
+            } catch (err) {
+                console.error('❌ Error al devolver préstamo:', err);
+                showToast('Error al devolver préstamo: ' + err.message, true);
+            }
+        }
+
+        // === Toast visual ===
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${isError ? 'error' : 'success'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // === Inicialización ===
+        loadAllData();
+    </script>
+}

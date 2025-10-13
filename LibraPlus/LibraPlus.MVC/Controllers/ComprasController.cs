@@ -1,0 +1,135 @@
+﻿using System.Text;
+using System.Text.Json;
+using LibraPlus.MVC.Models;
+using Microsoft.AspNetCore.Mvc;
+
+public class ComprasController : Controller
+{
+    private readonly HttpClient _httpClient;
+
+    public ComprasController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClient = httpClientFactory.CreateClient("ApiClient");
+    }
+
+    // ✅ Página principal
+    public IActionResult Index()
+    {
+        ViewData["ActivePage"] = "Compras";
+        return View();
+    }
+
+    // ✅ Obtener todas las compras
+    [HttpGet]
+    public async Task<IActionResult> Lista()
+    {
+        var response = await _httpClient.GetAsync("api/compras");
+        if (!response.IsSuccessStatusCode)
+            return Json(new List<ComprasDTO>());
+
+        var json = await response.Content.ReadAsStringAsync();
+        var compras = JsonSerializer.Deserialize<List<ComprasDTO>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        return Json(compras);
+    }
+
+    [HttpPost]
+    [IgnoreAntiforgeryToken] // ⚠️ temporalmente para evitar que bloquee el body
+    public async Task<IActionResult> Create([FromBody] ComprasDTO compraDto)
+    {
+        Console.WriteLine("💾 Llegó al MVC → Create()");
+
+        if (compraDto == null)
+        {
+            Console.WriteLine("⚠️ No llegó ningún JSON al MVC");
+            return Json(new { success = false, mensaje = "No se recibieron datos." });
+        }
+
+        Console.WriteLine($"➡️ UsuarioID={compraDto.UsuarioID}, LibroID={compraDto.LibroID}");
+
+        try
+        {
+            var jsonContent = new StringContent(
+                JsonSerializer.Serialize(compraDto),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _httpClient.PostAsync("api/compras", jsonContent);
+            var body = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine("📤 API responde:");
+            Console.WriteLine(body);
+
+            if (!response.IsSuccessStatusCode)
+                return Json(new { success = false, mensaje = "Error al registrar compra.", detalle = body });
+
+            var newCompra = JsonSerializer.Deserialize<ComprasDTO>(
+                body, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            return Json(new { success = true, compra = newCompra });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("❌ Error en MVC Create: " + ex.Message);
+            return Json(new { success = false, mensaje = "Excepción: " + ex.Message });
+        }
+    }
+
+
+
+    // ✅ Eliminar compra
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        if (id <= 0)
+            return Json(new { success = false, mensaje = "ID inválido." });
+
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/compras/{id}");
+
+            if (response.IsSuccessStatusCode)
+                return Json(new { success = true, mensaje = "✅ Compra eliminada correctamente." });
+
+            var detalle = await response.Content.ReadAsStringAsync();
+            return Json(new { success = false, mensaje = "❌ No se pudo eliminar la compra.", detalle });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, mensaje = "⚠️ Error al eliminar: " + ex.Message });
+        }
+    }
+
+    // ✅ Obtener lista de usuarios
+    [HttpGet]
+    public async Task<IActionResult> GetUsuarios()
+    {
+        var response = await _httpClient.GetAsync("api/usuarios");
+        if (!response.IsSuccessStatusCode)
+            return Json(new List<UsuariosDTO>());
+
+        var json = await response.Content.ReadAsStringAsync();
+        var usuarios = JsonSerializer.Deserialize<List<UsuariosDTO>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        return Json(usuarios);
+    }
+
+    // ✅ Obtener lista de libros
+    [HttpGet]
+    public async Task<IActionResult> GetLibros()
+    {
+        var response = await _httpClient.GetAsync("api/libros");
+        if (!response.IsSuccessStatusCode)
+            return Json(new List<LibrosDTO>());
+
+        var json = await response.Content.ReadAsStringAsync();
+        var libros = JsonSerializer.Deserialize<List<LibrosDTO>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        return Json(libros);
+    }
+}

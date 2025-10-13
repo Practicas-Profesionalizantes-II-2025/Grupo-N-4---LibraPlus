@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Registro";
+    Layout = "_LayoutLogin";
+}
+
+<div class="login-container">
+    <h2>Registrarse</h2>
+    <!-- Mensajes -->
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="mensaje-exito">@TempData["MensajeExito"]</div>
+    }
+    @if (TempData["MensajeError"] != null)
+    {
+        <div class="mensaje-error">@TempData["MensajeError"]</div>
+    }
+
+    <form asp-action="Registrar" asp-controller="LogIn" method="post">
+        <input type="text" name="nombre" placeholder="Nombre" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Contraseña" required />
+        <button type="submit">Crear cuenta</button>
+    </form>
+
+    <div class="extra-links">
+        <p><a href="/LogIn/Index">Volver al Login</a></p>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        window.addEventListener("DOMContentLoaded", function () {
+            const mensajeExito = document.querySelector(".mensaje-exito");
+            if (mensajeExito) {
+                setTimeout(() => {
+                    window.location.href = "/LogIn/Index";
+                }, 2800);
+            }
+        });
+    </script>
+}

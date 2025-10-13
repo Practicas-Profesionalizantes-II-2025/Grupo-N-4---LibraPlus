@@ -1,0 +1,219 @@
+﻿@{
+    ViewData["Title"] = "Administración de Recomendaciones - LibraPlus";
+    Layout = "_Layout";
+}
+
+<div class="container-beige">
+    <h2 class="titulo">Recomendaciones</h2>
+    <button class="btn-agregar" onclick="openModal()">+ Agregar Recomendación</button>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Libro</th>
+                    <th>Fuente</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="recomendacionesTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- -------- MODAL -------- -->
+<div class="modal" id="recomendacionModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <h3 id="modalTitle">Agregar Recomendación</h3>
+        <form id="recomendacionForm">
+            @Html.AntiForgeryToken()
+
+            <select id="usuario" required>
+                <option value="">Seleccione un Usuario</option>
+            </select>
+
+            <select id="libro" required>
+                <option value="">Seleccione un Libro</option>
+            </select>
+
+            <input type="text" id="fuente" placeholder="Fuente de la recomendación (ej: Sistema)" required />
+
+            <div class="modal-actions">
+                <button type="submit" class="save">Guardar</button>
+                <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const modal = document.getElementById('recomendacionModal');
+        const form = document.getElementById('recomendacionForm');
+        const tableBody = document.getElementById('recomendacionesTableBody');
+        const selectUsuario = document.getElementById('usuario');
+        const selectLibro = document.getElementById('libro');
+        let allUsuarios = [], allLibros = [], allRecomendaciones = [];
+
+        // --- Modal principal ---
+        function openModal() { modal.style.display = 'flex'; form.reset(); }
+        function closeModal() { modal.style.display = 'none'; }
+        window.onclick = e => { if (e.target === modal) closeModal(); }
+
+        // --- Confirmación con animación ---
+        function showConfirm(message, onConfirm) {
+          const overlay = document.createElement('div');
+          overlay.className = 'confirm-overlay';
+
+          const box = document.createElement('div');
+          box.className = 'confirm-box';
+          box.innerHTML = `
+            <div class="confirm-icon">❓</div>
+            <h3>¿Estás seguro?</h3>
+            <p>${message}</p>
+            <div class="confirm-buttons">
+              <button class="btn-cancelar">Cancelar</button>
+              <button class="btn-confirmar">Eliminar</button>
+            </div>
+          `;
+          overlay.appendChild(box);
+          document.body.appendChild(overlay);
+
+          const btnCancel = box.querySelector('.btn-cancelar');
+          const btnConfirm = box.querySelector('.btn-confirmar');
+          const icon = box.querySelector('.confirm-icon');
+
+          btnCancel.onclick = () => {
+            icon.textContent = '❌';
+            box.classList.add('shake');
+            setTimeout(() => overlay.remove(), 800);
+          };
+
+          btnConfirm.onclick = () => {
+            icon.textContent = '✅';
+            icon.classList.add('pulse');
+            setTimeout(() => {
+              overlay.remove();
+              onConfirm();
+            }, 700);
+          };
+        }
+
+        // --- Render tabla ---
+        function renderTable() {
+          tableBody.innerHTML = '';
+          allRecomendaciones.forEach(r => {
+            const usuario = allUsuarios.find(u => u.usuarioId === r.usuarioID)?.nombre ?? 'Desconocido';
+            const libro = allLibros.find(l => l.libroID === r.libroID)?.titulo ?? 'Desconocido';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${usuario}</td>
+              <td>${libro}</td>
+              <td>${r.fuente}</td>
+              <td><button class="btn-return" onclick="confirmDelete(${r.recomendacionID})">Eliminar</button></td>`;
+            tableBody.appendChild(row);
+          });
+        }
+
+        // --- Cargar datos ---
+        async function loadAllData() {
+          try {
+            const [usuariosRes, librosRes, recomendacionesRes] = await Promise.all([
+              fetch('/Usuarios/GetUsuarios'),
+              fetch('/Libros/GetLibros'),
+              fetch('/Recomendaciones/Lista')
+            ]);
+            allUsuarios = await usuariosRes.json();
+            allLibros = await librosRes.json();
+            allRecomendaciones = await recomendacionesRes.json();
+            renderSelects();
+            renderTable();
+          } catch (err) {
+            console.error(err);
+            showToast("❌ Error al cargar datos", "error");
+          }
+        }
+
+        function renderSelects() {
+          selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
+          allUsuarios.forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.usuarioId;
+            opt.textContent = u.nombre;
+            selectUsuario.appendChild(opt);
+          });
+          selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+          allLibros.forEach(l => {
+            const opt = document.createElement('option');
+            opt.value = l.libroID;
+            opt.textContent = l.titulo;
+            selectLibro.appendChild(opt);
+          });
+        }
+
+        // --- Crear recomendación ---
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const recomendacion = {
+            UsuarioID: parseInt(selectUsuario.value),
+            LibroID: parseInt(selectLibro.value),
+            Fuente: document.getElementById('fuente').value
+          };
+          const token = document.getElementsByName('__RequestVerificationToken')[0].value;
+
+          try {
+            const response = await fetch('/Recomendaciones/Create', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
+              body: JSON.stringify(recomendacion)
+            });
+            if (!response.ok) throw new Error(await response.text());
+            showToast("✅ Recomendación agregada correctamente", "success");
+            await loadAllData();
+            closeModal();
+          } catch (err) {
+            showToast("❌ Error al crear recomendación: " + err.message, "error");
+          }
+        });
+
+        // --- Confirmar y eliminar ---
+        function confirmDelete(id) {
+          showConfirm("¿Desea eliminar esta recomendación?", () => deleteRecomendacion(id));
+        }
+
+        async function deleteRecomendacion(id) {
+          const token = document.getElementsByName('__RequestVerificationToken')[0].value;
+          try {
+            const formData = new FormData();
+            formData.append("id", id);
+            const response = await fetch(`/Recomendaciones/Delete`, {
+              method: 'POST',
+              headers: { 'RequestVerificationToken': token },
+              body: formData
+            });
+            if (response.ok) {
+              const data = await response.json();
+              showToast(data.mensaje || "✅ Recomendación eliminada correctamente", "success");
+              allRecomendaciones = allRecomendaciones.filter(r => r.recomendacionID !== id);
+              renderTable();
+            } else throw new Error("No se pudo eliminar la recomendación");
+          } catch (err) {
+            showToast("❌ Error al eliminar recomendación: " + err.message, "error");
+          }
+        }
+
+        // --- Toasts animados ---
+        function showToast(message, type = "success") {
+          const toast = document.createElement("div");
+          toast.className = "toast " + (type === "error" ? "error" : "");
+          toast.innerHTML = `<span class="icon">${type === "error" ? "❌" : "✅"}</span><span>${message}</span>`;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.classList.add("show"), 100);
+          setTimeout(() => { toast.classList.remove("show"); setTimeout(() => toast.remove(), 400); }, 3000);
+        }
+
+        loadAllData();
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "LibraPlus - Inicio";
+    ViewData["BodyClass"] = "home-fixed"; // 🔹 evita scroll
+    Layout = "_Layout";
+}
+
+<!-- HERO PRINCIPAL -->
+<section class="hero">
+    <div class="hero-content animate-fade">
+        <h1>📚 Bienvenido a <span>LibraPlus</span></h1>
+        <p>Tu biblioteca digital y física, ahora más cerca que nunca.</p>
+        <a asp-controller="Libros" asp-action="Index" class="btn-cta">Explorar Biblioteca</a>
+    </div>
+</section>
+
+<!-- SECCIÓN DESTACADOS -->
+<section class="featured animate-slide">
+    <h2>✨ Libros Destacados</h2>
+    <div class="card-grid">
+        <article class="book-card">
+            <img src="https://www.planetadelibros.com.ar/usuaris/libros/fotos/137/original/portada_el-hobbit-bolsillo_j-r-r-tolkien_201906251756.jpg" alt="El Hobbit">
+            <div class="card-info">
+                <h3>El Hobbit</h3>
+                <p>J.R.R. Tolkien</p>
+            </div>
+        </article>
+
+        <article class="book-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTATBv5W-GlLIHDs9-5tFC0SQ4ev3mPUIa_dp78fFzpQRJBS6Zrc2bHe19cHaDMCIT6XRI&usqp=CAU" alt="Cien años de soledad">
+            <div class="card-info">
+                <h3>Cien años de soledad</h3>
+                <p>Gabriel García Márquez</p>
+            </div>
+        </article>
+
+        <article class="book-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjMGsgcMIzSRSoUriH4qZQ0_QEWDWjhntR0w&s" alt="The Dark Knight Returns">
+            <div class="card-info">
+                <h3>The Dark Knight Returns</h3>
+                <p>Frank Miller</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- SECCIÓN BENEFICIOS -->
+<section class="benefits animate-fade">
+    <h2>💡 ¿Por qué elegir LibraPlus?</h2>
+    <div class="benefit-grid">
+        <div class="benefit">
+            <i class="fas fa-laptop"></i>
+            <h4>Biblioteca Digital</h4>
+            <p>Accedé a tus libros desde cualquier dispositivo, en cualquier momento.</p>
+        </div>
+        <div class="benefit">
+            <i class="fas fa-book"></i>
+            <h4>Libros Físicos</h4>
+            <p>Reservá, alquilá o comprá ejemplares en formato físico fácilmente.</p>
+        </div>
+        <div class="benefit">
+            <i class="fas fa-star"></i>
+            <h4>Recomendaciones</h4>
+            <p>Descubrí lecturas personalizadas según tus gustos y reseñas.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN FINAL -->
+<section class="join animate-slide">
+    <h2>Unite a nuestra comunidad lectora</h2>
+    <p>Registrate y comenzá a disfrutar de miles de libros, reseñas y más.</p>
+    <a asp-controller="LogIn" asp-action="Index" class="btn-cta">Iniciar Sesión</a>
+</section>
