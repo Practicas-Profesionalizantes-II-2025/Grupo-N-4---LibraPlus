@@ -1,7 +1,6 @@
 ﻿using LibraPlus.Aplicacion.DTOs;
-using LibraPlus___Practica_Profesionalizante_II;
-using Microsoft.AspNetCore.Mvc;
 using LibraPlus.Aplicacion.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraPlus.API.Controllers
 {
@@ -16,96 +15,84 @@ namespace LibraPlus.API.Controllers
             _librosService = librosService;
         }
 
-        // GET api/libros
+        // ✅ GET: api/libros
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var libros = await _librosService.GetAllAsync();
-            var result = libros.Select(l => new LibroDto
-            {
-                LibroID = l.LibroID,
-                Titulo = l.Titulo,
-                Autor = l.Autor,
-                Genero = l.Genero,
-                Tipo = l.Tipo,
-                Precio = l.Precio,
-                Stock = l.Stock
-            });
-
-            return Ok(result);
+            return Ok(libros);
         }
 
-        // GET api/libros/5
+        // ✅ GET: api/libros/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var libro = await _librosService.GetByIdAsync(id);
-            if (libro == null) return NotFound();
-
-            var dto = new LibroDto
-            {
-                LibroID = libro.LibroID,
-                Titulo = libro.Titulo,
-                Autor = libro.Autor,
-                Genero = libro.Genero,
-                Tipo = libro.Tipo,
-                Precio = libro.Precio,
-                Stock = libro.Stock
-            };
-
-            return Ok(dto);
+            if (libro == null)
+                return NotFound($"No se encontró el libro con ID {id}");
+            return Ok(libro);
         }
 
-        // POST api/libros
+        // ✅ POST: api/libros
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] LibroDto dto)
+        public async Task<IActionResult> Create([FromBody] LibrosDTO libroDto)
         {
-            var libro = new Libros
-            {
-                Titulo = dto.Titulo,
-                Autor = dto.Autor,
-                Genero = dto.Genero,
-                Tipo = dto.Tipo,
-                Precio = dto.Precio,
-                Stock = dto.Stock
-            };
+            if (libroDto == null)
+                return BadRequest("Datos inválidos.");
 
-            await _librosService.AddAsync(libro);
+            var creado = await _librosService.AddAsync(libroDto);
+            if (creado == null)
+                return BadRequest("Error al crear el libro.");
 
-            // Devolvemos DTO actualizado con el ID generado
-            dto.LibroID = libro.LibroID;
-            return CreatedAtAction(nameof(GetById), new { id = dto.LibroID }, dto);
+            return CreatedAtAction(nameof(GetById), new { id = creado.LibroID }, creado);
         }
 
-        // PUT api/libros/5
+        // ✅ PUT: api/libros/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] LibroDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] LibrosDTO libroDto)
         {
-            if (id != dto.LibroID) return BadRequest("El ID no coincide.");
+            if (libroDto == null || id != libroDto.LibroID)
+                return BadRequest("Los datos son incorrectos.");
 
-            var libro = await _librosService.GetByIdAsync(id);
-            if (libro == null) return NotFound();
+            var actualizado = await _librosService.UpdateAsync(libroDto);
+            if (!actualizado)
+                return NotFound($"No se encontró el libro con ID {id} para actualizar.");
 
-            libro.Titulo = dto.Titulo;
-            libro.Autor = dto.Autor;
-            libro.Genero = dto.Genero;
-            libro.Tipo = dto.Tipo;
-            libro.Precio = dto.Precio;
-            libro.Stock = dto.Stock;
-
-            await _librosService.UpdateAsync(libro);
-
-            return NoContent();
+            return Ok();
         }
 
-        // DELETE api/libros/5
+        // 🧨 DELETE normal (detecta dependencias)
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _librosService.DeleteAsync(id);
-            if (!deleted) return NotFound();
+            try
+            {
+                var eliminado = await _librosService.DeleteAsync(id);
+                if (!eliminado)
+                    return NotFound($"No se encontró el libro con ID {id}.");
 
-            return NoContent();
+                return Ok("✅ Libro eliminado correctamente");
+            }
+            catch (InvalidOperationException ex)
+            {
+                // ⚠️ Dependencias encontradas → pedimos confirmación
+                return Conflict(new { mensaje = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"❌ Error: {ex.Message}");
+            }
+        }
+
+        // 🔥 DELETE forzado
+        [HttpDelete("force/{id}")]
+        public async Task<IActionResult> ForceDelete(int id)
+        {
+            var eliminado = await _librosService.ForceDeleteAsync(id);
+            if (!eliminado)
+                return NotFound($"No se encontró el libro con ID {id} para eliminar forzadamente.");
+
+            return Ok("✅ Libro y dependencias eliminados correctamente.");
         }
     }
 }

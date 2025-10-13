@@ -15,15 +15,37 @@ namespace LibraPlus.API.Controllers
             _prestamosService = prestamosService;
         }
 
-        // POST api/prestamos
+        // ✅ GET api/prestamos
+        // Devuelve todos los préstamos o los del usuario actual si viene ?usuarioId=#
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] int? usuarioId)
+        {
+            var prestamos = usuarioId.HasValue
+                ? await _prestamosService.GetPrestamosPorUsuarioAsync(usuarioId.Value)
+                : await _prestamosService.GetAllAsync();
+
+            var result = prestamos.Select(p => new PrestamosDTO
+            {
+                PrestamoID = p.PrestamoID,
+                UsuarioID = p.UsuarioID,
+                LibroID = p.LibroID,
+                FechaInicio = p.FechaInicio,
+                FechaFin = p.FechaFin,
+                Devuelto = p.Devuelto
+            });
+
+            return Ok(result);
+        }
+
+        // ✅ POST api/prestamos
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PrestamosDTO dto)
         {
             if (dto == null) return BadRequest("Datos inválidos.");
 
             var prestamo = await _prestamosService.PrestarLibroAsync(dto.UsuarioID, dto.LibroID, dto.FechaFin);
+            if (prestamo == null) return BadRequest("No se pudo crear el préstamo.");
 
-            // Devolvemos DTO completo
             dto.PrestamoID = prestamo.PrestamoID;
             dto.FechaInicio = prestamo.FechaInicio;
             dto.Devuelto = prestamo.Devuelto;
@@ -31,45 +53,7 @@ namespace LibraPlus.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = dto.PrestamoID }, dto);
         }
 
-        // GET api/prestamos/usuario/5
-        [HttpGet("usuario/{usuarioId}")]
-        public async Task<IActionResult> GetPrestamosPorUsuario(int usuarioId)
-        {
-            var prestamos = await _prestamosService.GetPrestamosPorUsuarioAsync(usuarioId);
-
-            var result = prestamos.Select(p => new PrestamosDTO
-            {
-                PrestamoID = p.PrestamoID,
-                UsuarioID = p.UsuarioID,
-                LibroID = p.LibroID,
-                FechaInicio = p.FechaInicio,
-                FechaFin = p.FechaFin,
-                Devuelto = p.Devuelto
-            });
-
-            return Ok(result);
-        }
-
-        // GET api/prestamos/pendientes
-        [HttpGet("pendientes")]
-        public async Task<IActionResult> GetPrestamosPendientes()
-        {
-            var prestamos = await _prestamosService.GetPrestamosPendientesAsync();
-
-            var result = prestamos.Select(p => new PrestamosDTO
-            {
-                PrestamoID = p.PrestamoID,
-                UsuarioID = p.UsuarioID,
-                LibroID = p.LibroID,
-                FechaInicio = p.FechaInicio,
-                FechaFin = p.FechaFin,
-                Devuelto = p.Devuelto
-            });
-
-            return Ok(result);
-        }
-
-        // GET api/prestamos/5
+        // ✅ GET api/prestamos/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -89,15 +73,31 @@ namespace LibraPlus.API.Controllers
             return Ok(dto);
         }
 
-        // PUT api/prestamos/5/devolver
+        // ✅ PUT api/prestamos/{id}/devolver
         [HttpPut("{id}/devolver")]
         public async Task<IActionResult> MarcarComoDevuelto(int id)
         {
             var result = await _prestamosService.MarcarComoDevueltoAsync(id);
-            if (!result) return NotFound();
+            if (!result) return NotFound(new { mensaje = "No se encontró el préstamo o ya fue devuelto." });
 
-            return NoContent();
+            return Ok(new { mensaje = "✅ Préstamo marcado como devuelto correctamente." });
+        }
+
+        // 🔎 GET api/prestamos/pendientes
+        [HttpGet("pendientes")]
+        public async Task<IActionResult> GetPendientes()
+        {
+            var prestamos = await _prestamosService.GetPrestamosPendientesAsync();
+            var result = prestamos.Select(p => new PrestamosDTO
+            {
+                PrestamoID = p.PrestamoID,
+                UsuarioID = p.UsuarioID,
+                LibroID = p.LibroID,
+                FechaInicio = p.FechaInicio,
+                FechaFin = p.FechaFin,
+                Devuelto = p.Devuelto
+            });
+            return Ok(result);
         }
     }
-
 }

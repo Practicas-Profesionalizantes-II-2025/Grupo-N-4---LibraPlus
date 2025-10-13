@@ -1,18 +1,15 @@
-﻿using LibraPlus___Practica_Profesionalizante_II;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibraPlus.Aplicacion.DTOs;
 
 namespace LibraPlus.Aplicacion.Interfaces
 {
     public interface ILibros
     {
-        Task<Libros> GetByIdAsync(int id);
-        Task<IEnumerable<Libros>> GetAllAsync();
-        Task<Libros> AddAsync(Libros libro);
-        Task<Libros> UpdateAsync(Libros libro);
+        Task<IEnumerable<LibrosDTO>> GetAllAsync();
+        Task<LibrosDTO?> GetByIdAsync(int id);
+        Task<LibrosDTO?> AddAsync(LibrosDTO dto);
+        Task<bool> UpdateAsync(LibrosDTO dto);
         Task<bool> DeleteAsync(int id);
+        Task<bool> ForceDeleteAsync(int id);
+        Task<bool> ActualizarStockAsync(int libroId, int nuevoStock);
     }
 }

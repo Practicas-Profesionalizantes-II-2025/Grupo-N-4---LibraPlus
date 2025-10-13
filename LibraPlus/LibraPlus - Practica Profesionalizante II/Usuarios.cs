@@ -1,9 +1,7 @@
-﻿using System;
+﻿using LibraPlus.Dominio.Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibraPlus___Practica_Profesionalizante_II
 {
@@ -14,9 +12,14 @@ namespace LibraPlus___Practica_Profesionalizante_II
 
         public string Nombre { get; set; }
         public string Email { get; set; }
-        public int Reputación { get; set; }
+
+        [Required]
+        public string Password { get; set; } 
+
+
+        public int Reputacion { get; set; }
 
         public virtual ICollection<Compras> Compras { get; set; }
+        public virtual ICollection<Reseñas> Reseñas { get; set; } // Agregado para solucionar el error
     }
 }
-

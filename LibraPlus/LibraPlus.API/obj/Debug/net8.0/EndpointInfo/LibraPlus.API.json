@@ -36,52 +36,6 @@
         }
       }
     },
-    "/api/Compras/usuario/{usuarioId}": {
-      "get": {
-        "tags": [
-          "Compras"
-        ],
-        "parameters": [
-          {
-            "name": "usuarioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Compras/{id}": {
-      "get": {
-        "tags": [
-          "Compras"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Compras": {
       "get": {
         "tags": [
@@ -123,6 +77,73 @@
         }
       }
     },
+    "/api/Compras/{id}": {
+      "get": {
+        "tags": [
+          "Compras"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Compras"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Compras/usuario/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Compras"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Libros": {
       "get": {
         "tags": [
@@ -142,17 +163,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             }
           }
@@ -205,17 +226,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LibroDto"
+                "$ref": "#/components/schemas/LibrosDTO"
               }
             }
           }
@@ -248,7 +269,50 @@
         }
       }
     },
+    "/api/Libros/force/{id}": {
+      "delete": {
+        "tags": [
+          "Libros"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Prestamos": {
+      "get": {
+        "tags": [
+          "Prestamos"
+        ],
+        "parameters": [
+          {
+            "name": "usuarioId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Prestamos"
@@ -272,41 +336,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Prestamos/usuario/{usuarioId}": {
-      "get": {
-        "tags": [
-          "Prestamos"
-        ],
-        "parameters": [
-          {
-            "name": "usuarioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Prestamos/pendientes": {
-      "get": {
-        "tags": [
-          "Prestamos"
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -352,6 +381,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Prestamos/pendientes": {
+      "get": {
+        "tags": [
+          "Prestamos"
         ],
         "responses": {
           "200": {
@@ -508,14 +549,47 @@
         }
       }
     },
-    "/api/Reseñias/libro/{libroId}": {
+    "/api/reseñas/all": {
       "get": {
         "tags": [
-          "Reseñias"
+          "Reseñas"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/reseñas/{id}": {
+      "get": {
+        "tags": [
+          "Reseñas"
         ],
         "parameters": [
           {
-            "name": "libroId",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reseñas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -531,33 +605,10 @@
         }
       }
     },
-    "/api/Reseñias/usuario/{usuarioId}": {
-      "get": {
-        "tags": [
-          "Reseñias"
-        ],
-        "parameters": [
-          {
-            "name": "usuarioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Reseñias": {
+    "/api/reseñas": {
       "post": {
         "tags": [
-          "Reseñias"
+          "Reseñas"
         ],
         "requestBody": {
           "content": {
@@ -578,29 +629,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Reseñias/{id}": {
-      "get": {
-        "tags": [
-          "Reseñias"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -732,6 +760,80 @@
           }
         }
       }
+    },
+    "/api/Usuarios/crear-temporal": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/login": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/registrar": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -739,64 +841,86 @@
       "ComprasDTO": {
         "type": "object",
         "properties": {
-          "compraID": {
+          "CompraID": {
             "type": "integer",
             "format": "int32"
           },
-          "usuarioID": {
+          "UsuarioID": {
             "type": "integer",
             "format": "int32"
           },
-          "libroID": {
+          "LibroID": {
             "type": "integer",
             "format": "int32"
           },
-          "precio": {
+          "Precio": {
             "type": "number",
             "format": "double"
           },
-          "fecha": {
+          "Fecha": {
             "type": "string",
             "format": "date-time"
           },
-          "esDigital": {
+          "EsDigital": {
             "type": "boolean"
           },
-          "descargaURL": {
+          "DescargaURL": {
             "type": "string",
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "LibroDto": {
+      "LibrosDTO": {
+        "required": [
+          "Autor",
+          "Genero",
+          "Tipo",
+          "Titulo"
+        ],
         "type": "object",
         "properties": {
-          "libroID": {
+          "LibroID": {
             "type": "integer",
             "format": "int32"
           },
-          "titulo": {
-            "type": "string",
-            "nullable": true
+          "Titulo": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
           },
-          "autor": {
-            "type": "string",
-            "nullable": true
+          "Autor": {
+            "maxLength": 150,
+            "minLength": 0,
+            "type": "string"
           },
-          "genero": {
-            "type": "string",
-            "nullable": true
+          "Genero": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
-          "tipo": {
-            "type": "string",
-            "nullable": true
+          "Tipo": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
           },
-          "precio": {
+          "Precio": {
+            "maximum": 99999,
+            "minimum": 0,01,
             "type": "number",
             "format": "double"
           },
-          "stock": {
+          "Stock": {
+            "maximum": 2147483647,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "CantidadCompras": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CantidadReseñas": {
             "type": "integer",
             "format": "int32"
           }
@@ -806,11 +930,11 @@
       "LoginDTO": {
         "type": "object",
         "properties": {
-          "email": {
+          "Email": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "Password": {
             "type": "string",
             "nullable": true
           }
@@ -820,27 +944,27 @@
       "PrestamosDTO": {
         "type": "object",
         "properties": {
-          "prestamoID": {
+          "PrestamoID": {
             "type": "integer",
             "format": "int32"
           },
-          "usuarioID": {
+          "UsuarioID": {
             "type": "integer",
             "format": "int32"
           },
-          "libroID": {
+          "LibroID": {
             "type": "integer",
             "format": "int32"
           },
-          "fechaInicio": {
+          "FechaInicio": {
             "type": "string",
             "format": "date-time"
           },
-          "fechaFin": {
+          "FechaFin": {
             "type": "string",
             "format": "date-time"
           },
-          "devuelto": {
+          "Devuelto": {
             "type": "boolean"
           }
         },
@@ -849,19 +973,19 @@
       "RecomendacionesDTO": {
         "type": "object",
         "properties": {
-          "recomendacionID": {
+          "RecomendacionID": {
             "type": "integer",
             "format": "int32"
           },
-          "usuarioID": {
+          "UsuarioID": {
             "type": "integer",
             "format": "int32"
           },
-          "libroID": {
+          "LibroID": {
             "type": "integer",
             "format": "int32"
           },
-          "fuente": {
+          "Fuente": {
             "type": "string",
             "nullable": true
           }
@@ -871,23 +995,23 @@
       "ReseñasDTO": {
         "type": "object",
         "properties": {
-          "reseñaID": {
+          "ReseñaID": {
             "type": "integer",
             "format": "int32"
           },
-          "usuarioID": {
+          "UsuarioID": {
             "type": "integer",
             "format": "int32"
           },
-          "libroID": {
+          "LibroID": {
             "type": "integer",
             "format": "int32"
           },
-          "comentario": {
+          "Comentario": {
             "type": "string",
             "nullable": true
           },
-          "puntuacion": {
+          "Puntuacion": {
             "type": "integer",
             "format": "int32"
           }
@@ -895,21 +1019,35 @@
         "additionalProperties": false
       },
       "UsuariosDTO": {
+        "required": [
+          "Email",
+          "Nombre",
+          "Password"
+        ],
         "type": "object",
         "properties": {
-          "usuarioID": {
+          "UsuarioID": {
             "type": "integer",
             "format": "int32"
           },
-          "nombre": {
-            "type": "string",
-            "nullable": true
+          "Nombre": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
           },
-          "email": {
+          "Email": {
+            "minLength": 1,
             "type": "string",
-            "nullable": true
+            "format": "email"
           },
-          "reputación": {
+          "Password": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "Reputación": {
+            "maximum": 5,
+            "minimum": 0,
             "type": "integer",
             "format": "int32"
           }

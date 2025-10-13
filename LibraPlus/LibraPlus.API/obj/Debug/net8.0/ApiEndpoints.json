@@ -59,6 +59,22 @@
   },
   {
     "ContainingType": "LibraPlus.API.Controllers.ComprasController",
+    "Method": "Delete",
+    "RelativePath": "api/Compras/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.ComprasController",
     "Method": "GetComprasPorUsuario",
     "RelativePath": "api/Compras/usuario/{usuarioId}",
     "HttpMethod": "GET",
@@ -92,8 +108,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "LibraPlus.Aplicacion.DTOs.LibroDto",
+        "Name": "libroDto",
+        "Type": "LibraPlus.Aplicacion.DTOs.LibrosDTO",
         "IsRequired": true
       }
     ],
@@ -129,8 +145,8 @@
         "IsRequired": true
       },
       {
-        "Name": "dto",
-        "Type": "LibraPlus.Aplicacion.DTOs.LibroDto",
+        "Name": "libroDto",
+        "Type": "LibraPlus.Aplicacion.DTOs.LibrosDTO",
         "IsRequired": true
       }
     ],
@@ -148,6 +164,38 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.LibrosController",
+    "Method": "ForceDelete",
+    "RelativePath": "api/Libros/force/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.PrestamosController",
+    "Method": "GetAll",
+    "RelativePath": "api/Prestamos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioId",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -202,28 +250,12 @@
   },
   {
     "ContainingType": "LibraPlus.API.Controllers.PrestamosController",
-    "Method": "GetPrestamosPendientes",
+    "Method": "GetPendientes",
     "RelativePath": "api/Prestamos/pendientes",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "LibraPlus.API.Controllers.PrestamosController",
-    "Method": "GetPrestamosPorUsuario",
-    "RelativePath": "api/Prestamos/usuario/{usuarioId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usuarioId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": []
   },
   {
@@ -322,9 +354,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1asController",
     "Method": "Create",
-    "RelativePath": "api/Rese\u00F1ias",
+    "RelativePath": "api/rese\u00F1as",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -338,9 +370,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1asController",
     "Method": "GetById",
-    "RelativePath": "api/Rese\u00F1ias/{id}",
+    "RelativePath": "api/rese\u00F1as/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -354,15 +386,15 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
-    "Method": "GetPorLibro",
-    "RelativePath": "api/Rese\u00F1ias/libro/{libroId}",
-    "HttpMethod": "GET",
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1asController",
+    "Method": "Delete",
+    "RelativePath": "api/rese\u00F1as/{id}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "libroId",
+        "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -370,19 +402,13 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1iasController",
-    "Method": "GetPorUsuario",
-    "RelativePath": "api/Rese\u00F1ias/usuario/{usuarioId}",
+    "ContainingType": "LibraPlus.API.Controllers.Rese\u00F1asController",
+    "Method": "GetAll",
+    "RelativePath": "api/rese\u00F1as/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usuarioId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -459,6 +485,48 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.UsuariosController",
+    "Method": "CrearTemporal",
+    "RelativePath": "api/Usuarios/crear-temporal",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.UsuariosController",
+    "Method": "Login",
+    "RelativePath": "api/Usuarios/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "LibraPlus.API.Controllers.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.UsuariosController",
+    "Method": "Registrar",
+    "RelativePath": "api/Usuarios/registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioDto",
+        "Type": "LibraPlus.Aplicacion.DTOs.UsuariosDTO",
         "IsRequired": true
       }
     ],

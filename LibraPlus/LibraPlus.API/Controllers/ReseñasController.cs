@@ -5,81 +5,103 @@ using LibraPlus.Aplicacion.Interfaces;
 namespace LibraPlus.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class ReseñiasController : ControllerBase
+    [Route("api/reseñas")] // ruta fija (permite ñ)
+    public class ReseñasController : ControllerBase
     {
-        private readonly IReseñas _reseniasService;
+        private readonly IReseñas _reseñasService;
 
-        public ReseñiasController(IReseñas reseniasService)
+        public ReseñasController(IReseñas reseñasService)
         {
-            _reseniasService = reseniasService;
+            _reseñasService = reseñasService;
         }
 
-        // GET api/resenias/libro/5
-        [HttpGet("libro/{libroId}")]
-        public async Task<IActionResult> GetPorLibro(int libroId)
+        // ✅ GET: api/reseñas/all
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
         {
-            var resenias = await _reseniasService.GetReseniasPorLibroAsync(libroId);
-            var result = resenias.Select(r => new ReseñasDTO
+            try
             {
-                ReseñaID = r.ReseñaID,
-                UsuarioID = r.UsuarioID,
-                LibroID = r.LibroID,
-                Comentario = r.Comentario,
-                Puntuacion = r.Puntuación
-            });
+                var reseñas = await _reseñasService.GetAllAsync();
 
-            return Ok(result);
-        }
+                if (reseñas == null || !reseñas.Any())
+                    return Ok(new List<object>()); // devolver JSON vacío válido
 
-        // GET api/resenias/usuario/5
-        [HttpGet("usuario/{usuarioId}")]
-        public async Task<IActionResult> GetPorUsuario(int usuarioId)
-        {
-            var resenias = await _reseniasService.GetReseniasPorUsuarioAsync(usuarioId);
-            var result = resenias.Select(r => new ReseñasDTO
+                var result = reseñas.Select(r => new ReseñasDTO
+                {
+                    ReseñaID = r.ReseñaID,
+                    UsuarioID = r.UsuarioID,
+                    LibroID = r.LibroID,
+                    Comentario = r.Comentario,
+                    Puntuacion = r.Puntuacion
+                });
+
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
-                ReseñaID = r.ReseñaID,
-                UsuarioID = r.UsuarioID,
-                LibroID = r.LibroID,
-                Comentario = r.Comentario,
-                Puntuacion = r.Puntuación
-            });
-
-            return Ok(result);
+                return StatusCode(500, new { mensaje = "❌ Error al obtener las reseñas.", detalle = ex.Message });
+            }
         }
 
-        // POST api/resenias
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ReseñasDTO dto)
-        {
-            if (dto == null) return BadRequest("Datos inválidos.");
-
-            var resenia = await _reseniasService.CrearReseniaAsync(dto.UsuarioID, dto.LibroID, dto.Comentario, dto.Puntuacion);
-
-            dto.ReseñaID = resenia.ReseñaID;
-            return CreatedAtAction(nameof(GetById), new { id = dto.ReseñaID }, dto);
-        }
-
-        // GET api/resenias/5
+        // ✅ GET: api/reseñas/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var resenia = await _reseniasService.GetByIdAsync(id);
-            if (resenia == null) return NotFound();
-
-            var dto = new ReseñasDTO
+            try
             {
-                ReseñaID = resenia.ReseñaID,
-                UsuarioID = resenia.UsuarioID,
-                LibroID = resenia.LibroID,
-                Comentario = resenia.Comentario,
-                Puntuacion = resenia.Puntuación
-            };
+                var reseña = await _reseñasService.GetByIdAsync(id);
+                if (reseña == null)
+                    return NotFound(new { mensaje = "❌ Reseña no encontrada." });
 
-            return Ok(dto);
+                return Ok(reseña);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "❌ Error al obtener la reseña.", detalle = ex.Message });
+            }
         }
 
-    }
+        // ✅ POST: api/reseñas
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ReseñasDTO dto)
+        {
+            if (dto == null)
+                return BadRequest(new { mensaje = "❌ Datos inválidos." });
 
+            try
+            {
+                var reseña = await _reseñasService.CrearReseñaAsync(
+                    dto.UsuarioID, dto.LibroID, dto.Comentario, dto.Puntuacion
+                );
+
+                dto.ReseñaID = reseña.ReseñaID;
+
+                return CreatedAtAction(nameof(GetById), new { id = dto.ReseñaID }, dto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "❌ Error al crear la reseña.", detalle = ex.Message });
+            }
+        }
+
+        // ✅ DELETE: api/reseñas/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var eliminado = await _reseñasService.DeleteAsync(id);
+
+                if (!eliminado)
+                    return NotFound(new { mensaje = "❌ Reseña no encontrada." });
+
+                // ✅ devolvemos siempre JSON (evita error "Unexpected end of JSON input")
+                return Ok(new { mensaje = "✅ Reseña eliminada correctamente" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { mensaje = "❌ Error al eliminar la reseña.", detalle = ex.Message });
+            }
+        }
+    }
 }

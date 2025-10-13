@@ -3,8 +3,6 @@ using LibraPlus.Infraestructura.Interfaces.Infra;
 using LibraPlus___Practica_Profesionalizante_II;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LibraPlus.Aplicacion.Servicios
@@ -18,6 +16,31 @@ namespace LibraPlus.Aplicacion.Servicios
             _prestamosRepository = prestamosRepository;
         }
 
+        // ✅ Obtener todos los préstamos
+        public async Task<IEnumerable<Prestamos>> GetAllAsync()
+        {
+            return await _prestamosRepository.GetAllAsync();
+        }
+
+        // ✅ Obtener préstamo por ID
+        public async Task<Prestamos> GetByIdAsync(int id)
+        {
+            return await _prestamosRepository.GetByIdAsync(id);
+        }
+
+        // ✅ Obtener préstamos por usuario
+        public async Task<IEnumerable<Prestamos>> GetPrestamosPorUsuarioAsync(int usuarioId)
+        {
+            return await _prestamosRepository.GetPrestamosByUsuarioIdAsync(usuarioId);
+        }
+
+        // ✅ Obtener préstamos pendientes
+        public async Task<IEnumerable<Prestamos>> GetPrestamosPendientesAsync()
+        {
+            return await _prestamosRepository.GetPrestamosPendientesAsync();
+        }
+
+        // ✅ Registrar nuevo préstamo
         public async Task<Prestamos> PrestarLibroAsync(int usuarioId, int libroId, DateTime fechaFin)
         {
             var prestamo = new Prestamos
@@ -33,21 +56,7 @@ namespace LibraPlus.Aplicacion.Servicios
             return prestamo;
         }
 
-        public async Task<IEnumerable<Prestamos>> GetPrestamosPorUsuarioAsync(int usuarioId)
-        {
-            return await _prestamosRepository.GetPrestamosByUsuarioIdAsync(usuarioId);
-        }
-
-        public async Task<IEnumerable<Prestamos>> GetPrestamosPendientesAsync()
-        {
-            return await _prestamosRepository.GetPrestamosPendientesAsync();
-        }
-
-        public async Task<Prestamos> GetByIdAsync(int id)
-        {
-            return await _prestamosRepository.GetByIdAsync(id);
-        }
-
+        // ✅ Marcar préstamo como devuelto
         public async Task<bool> MarcarComoDevueltoAsync(int id)
         {
             var prestamo = await _prestamosRepository.GetByIdAsync(id);

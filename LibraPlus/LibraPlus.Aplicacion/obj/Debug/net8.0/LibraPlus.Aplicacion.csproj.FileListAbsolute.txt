@@ -1,20 +1,3 @@
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.deps.json
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.dll
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.pdb
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.dll
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.dll
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.pdb
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.pdb
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.AssemblyReference.cache
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfoInputs.cache
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfo.cs
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.CoreCompileInputs.cache
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlu.6F07F7BA.Up2Date
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.dll
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\refint\LibraPlus.Aplicacion.dll
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.pdb
-C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\ref\LibraPlus.Aplicacion.dll
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.deps.json
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.dll
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.pdb
@@ -33,3 +16,54 @@ C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\Lib
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\refint\LibraPlus.Aplicacion.dll
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.pdb
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---SistemaVoley\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\ref\LibraPlus.Aplicacion.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.deps.json
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.pdb
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfo.cs
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlu.6F07F7BA.Up2Date
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\refint\LibraPlus.Aplicacion.dll
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\54349\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\ref\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.deps.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlu.6F07F7BA.Up2Date
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\refint\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus (final)\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\ref\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.deps.json
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Infraestructura.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\bin\Debug\net8.0\LibraPlus.Shared.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.AssemblyReference.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfoInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.AssemblyInfo.cs
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.csproj.CoreCompileInputs.cache
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlu.6F07F7BA.Up2Date
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\refint\LibraPlus.Aplicacion.dll
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\LibraPlus.Aplicacion.pdb
+C:\Users\mateo\OneDrive\Escritorio\LibraPlus\LibraPlus.Aplicacion\obj\Debug\net8.0\ref\LibraPlus.Aplicacion.dll

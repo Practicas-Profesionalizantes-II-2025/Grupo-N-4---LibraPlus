@@ -1,17 +1,14 @@
-﻿using LibraPlus___Practica_Profesionalizante_II;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibraPlus.Dominio.Entidades;
 
 namespace LibraPlus.Aplicacion.Interfaces
 {
     public interface IReseñas
     {
-        Task<Reseñas> CrearReseniaAsync(int usuarioId, int libroId, string comentario, int puntuacion);
-        Task<IEnumerable<Reseñas>> GetReseniasPorLibroAsync(int libroId);
-        Task<IEnumerable<Reseñas>> GetReseniasPorUsuarioAsync(int usuarioId);
+        Task<Reseñas> CrearReseñaAsync(int usuarioId, int libroId, string comentario, int puntuacion);
+        Task<IEnumerable<Reseñas>> GetReseñasPorLibroAsync(int libroId);
+        Task<IEnumerable<Reseñas>> GetReseñasPorUsuarioAsync(int usuarioId);
         Task<Reseñas> GetByIdAsync(int id);
+        Task<IEnumerable<Reseñas>> GetAllAsync();
+        Task<bool> DeleteAsync(int id);
     }
 }

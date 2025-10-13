@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LibraPlus.Aplicacion\LibraPlus.Aplicacion.csproj" />
     <ProjectReference Include="..\LibraPlus.Infraestructura\LibraPlus.Infraestructura.csproj" />
+    <ProjectReference Include="..\LibraPlus.MVC\LibraPlus.MVC.csproj" />
   </ItemGroup>
 
 </Project>
