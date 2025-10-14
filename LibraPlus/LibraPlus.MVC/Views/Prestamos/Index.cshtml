@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Libro</th>
+                    <th>Usuario</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
                     <th>Devuelto</th>
@@ -50,8 +51,7 @@
 
 @section Scripts {
     <script>
-        // === Variables globales ===
-        const API_BASE = "https://localhost:7290/api"; // ✅ Tu API real
+        const API_BASE = "https://localhost:7290/api";
         const modal = document.getElementById('prestamoModal');
         const prestamoForm = document.getElementById('prestamoForm');
         const tableBody = document.getElementById('prestamosTableBody');
@@ -59,6 +59,7 @@
 
         let allPrestamos = [];
         let allLibros = [];
+        let allUsuarios = [];
 
         // === Abrir / cerrar modal ===
         function openModal() {
@@ -77,12 +78,14 @@
             tableBody.innerHTML = '';
             allPrestamos.forEach(p => {
                 const libro = allLibros.find(l => l.LibroID === p.LibroID)?.Titulo ?? 'Desconocido';
+                const usuario = allUsuarios.find(u => u.UsuarioID === p.UsuarioID)?.Nombre ?? `ID ${p.UsuarioID}`;
                 const fechaInicio = new Date(p.FechaInicio).toLocaleDateString();
                 const fechaFin = new Date(p.FechaFin).toLocaleDateString();
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${libro}</td>
+                    <td>${usuario}</td>
                     <td>${fechaInicio}</td>
                     <td>${fechaFin}</td>
                     <td>${p.Devuelto ? "✔️" : "❌"}</td>
@@ -96,33 +99,35 @@
             });
         }
 
-
-        // === Cargar Libros y Préstamos ===
+        // === Cargar datos de API ===
         async function loadAllData() {
             try {
-                // 🔹 Obtener libros desde la API
-                const librosResp = await fetch('https://localhost:7290/api/Libros');
-                if (!librosResp.ok) throw new Error(`Error ${librosResp.status} al cargar libros`);
+                const [librosResp, usuariosResp, prestamosResp] = await Promise.all([
+                    fetch(`${API_BASE}/Libros`),
+                    fetch(`${API_BASE}/Usuarios`),
+                    fetch(`${API_BASE}/Prestamos`)
+                ]);
+
+                if (!librosResp.ok || !usuariosResp.ok || !prestamosResp.ok)
+                    throw new Error('Error al cargar datos de la API');
+
                 allLibros = await librosResp.json();
-                console.log("📚 Libros cargados:", allLibros);
-
-                // Rellenar combo de libros
-                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
-                allLibros.forEach(l => {
-                    const option = document.createElement('option');
-                    option.value = l.LibroID;      // coincide con la propiedad real
-                    option.textContent = l.Titulo; // coincide con la propiedad real
-                    selectLibro.appendChild(option);
-                });
-
-                // 🔹 Obtener préstamos del usuario (por ahora hardcodeado como 1)
-                const userId = localStorage.getItem("usuarioID") || 1;
-                const prestamosResp = await fetch(`https://localhost:7290/api/Prestamos?usuarioId=${userId}`);
-                if (!prestamosResp.ok) throw new Error(`Error ${prestamosResp.status} al cargar préstamos`);
+                allUsuarios = await usuariosResp.json();
                 allPrestamos = await prestamosResp.json();
-                console.log("📖 Préstamos cargados:", allPrestamos);
+
+                        // Llenar combo de libros (solo físicos)
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros
+                    .filter(l => l.Tipo === "Físico" && l.Stock > 0) // solo físicos con stock
+                    .forEach(l => {
+                        const option = document.createElement('option');
+                        option.value = l.LibroID;
+                        option.textContent = l.Titulo;
+                        selectLibro.appendChild(option);
+                    });
 
                 renderTable();
+
             } catch (err) {
                 console.error('❌ Error cargando datos:', err);
                 showToast('Error al cargar datos: ' + err.message, true);
@@ -132,8 +137,8 @@
         // === Crear nuevo préstamo ===
         prestamoForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-
             const userId = localStorage.getItem("usuarioID") || 1;
+
             const prestamoData = {
                 usuarioID: parseInt(userId),
                 libroID: parseInt(selectLibro.value),

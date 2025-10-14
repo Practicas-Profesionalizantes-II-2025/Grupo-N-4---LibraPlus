@@ -8020,11 +8020,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\LibraPlus.API.csproj",
+      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\LibraPlus.API.csproj",
       "projectName": "LibraPlus.API",
-      "projectPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\LibraPlus.API.csproj",
+      "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\LibraPlus.API.csproj",
       "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.API\\obj\\",
+      "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8045,14 +8045,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj": {
-              "projectPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj"
+            "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj": {
+              "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj"
             },
-            "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj": {
-              "projectPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj"
+            "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj": {
+              "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj"
             },
-            "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj": {
-              "projectPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj"
+            "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj": {
+              "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj"
             }
           }
         }

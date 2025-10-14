@@ -4697,11 +4697,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\LibraPlus.Shared.csproj",
+      "projectUniqueName": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\LibraPlus.Shared.csproj",
       "projectName": "LibraPlus.Shared",
-      "projectPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\LibraPlus.Shared.csproj",
+      "projectPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\LibraPlus.Shared.csproj",
       "packagesPath": "C:\\Users\\mateo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\obj\\",
+      "outputPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

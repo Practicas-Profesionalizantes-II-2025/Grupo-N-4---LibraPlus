@@ -531,5 +531,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.MVC.Controllers.Rese\u00F1asController",
+    "Method": "Delete",
+    "RelativePath": "Rese\u00F1as/Delete/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

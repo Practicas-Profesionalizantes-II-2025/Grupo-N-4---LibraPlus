@@ -636,6 +636,29 @@
         }
       }
     },
+    "/Reseñas/Delete/{id}": {
+      "delete": {
+        "tags": [
+          "Reseñas"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Usuarios": {
       "get": {
         "tags": [

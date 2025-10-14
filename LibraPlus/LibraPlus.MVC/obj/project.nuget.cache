@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AB0S5w9Pjvc=",
+  "dgSpecHash": "rTnbppOZF7k=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mateo\\OneDrive\\Escritorio\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj",
+  "projectFilePath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\LibraPlus.MVC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mateo\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\mateo\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

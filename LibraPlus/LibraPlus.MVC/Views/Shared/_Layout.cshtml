@@ -59,6 +59,11 @@
                class="@(ViewData["ActivePage"] as string == "Compras" ? "active" : "")">
                 <i class="fas fa-shopping-cart"></i> Compras
             </a>
+
+            <a asp-controller="Usuarios" asp-action="Index"
+               class="@(ViewData["ActivePage"] as string == "Usuarios" ? "active" : "")">
+                <i class="fas fa-shopping-cart"></i> Usuario
+            </a>
         </nav>
 
         <div class="lp-actions">
