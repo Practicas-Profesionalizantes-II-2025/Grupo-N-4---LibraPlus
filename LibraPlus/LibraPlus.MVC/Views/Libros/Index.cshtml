@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "📚 Biblioteca - LibraPlus";
     Layout = "_Layout";
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <form id="antiForgeryForm">
@@ -13,9 +14,12 @@
 <div class="container-beige">
     <h2 class="titulo">📚 Biblioteca</h2>
 
-    <button type="button" class="btn-agregar" id="addBookBtn">
-        <i class="fas fa-plus"></i> Agregar Libro
-    </button>
+    @if (isAdmin)
+    {
+        <button type="button" class="btn-agregar" id="addBookBtn">
+            <i class="fas fa-plus"></i> Agregar Libro
+        </button>
+    }
 
     <div class="table-container">
         <table>
