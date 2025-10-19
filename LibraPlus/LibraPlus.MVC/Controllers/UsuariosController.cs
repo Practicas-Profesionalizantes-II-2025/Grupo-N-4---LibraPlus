@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibraPlus.MVC.Models; // Aquí irá tu modelo DTO
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using System.Text.Json;
-using LibraPlus.MVC.Models; // Aquí irá tu modelo DTO
 
 namespace LibraPlus.MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsuariosController : Controller
     {
         private readonly HttpClient _httpClient;

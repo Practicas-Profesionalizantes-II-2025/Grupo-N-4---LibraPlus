@@ -1,7 +1,8 @@
-﻿@{
+﻿@model List<ComprasDTO>
+@{
     ViewData["Title"] = "Administración de Compras - LibraPlus";
     Layout = "_Layout";
-    @model List<ComprasDTO>
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <!-- 🔐 Token antifalsificación -->
@@ -79,17 +80,28 @@
         <button class="close-btn" onclick="closeModal()">×</button>
         <h3>Registrar Compra</h3>
         <form id="purchaseForm">
-            <select id="usuario" required>
-                <option value="">Seleccione un Usuario</option>
-            </select>
+            @if (isAdmin)
+            {
+                <select id="usuario" required>
+                    <option value="">Seleccione un Usuario</option>
+                </select>
+            }
+            else
+            {
+                <!-- Campo oculto con el ID del usuario logueado -->
+                <input type="hidden" id="usuario" value="@User.FindFirst("Id")?.Value" />
+            }
+
             <select id="libro" required>
                 <option value="">Seleccione un Libro</option>
             </select>
+
             <div class="modal-actions">
                 <button type="submit" class="save">💾 Guardar</button>
                 <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
             </div>
         </form>
+
     </div>
 </div>
 
@@ -203,14 +215,25 @@
         }
 
 
-        // 🔹 Registrar compra (con URL aleatoria)
+                // 🔹 Registrar compra (con URL aleatoria)
         purchaseForm.addEventListener('submit', async e => {
             e.preventDefault();
-            const UsuarioID = parseInt(selectUsuario.value);
+
+            // Determinar UsuarioID según si es admin o no
+            let UsuarioID;
+            if (@isAdmin.ToString().ToLower()) {
+                // Admin: usar select
+                UsuarioID = parseInt(selectUsuario.value);
+            } else {
+                // Usuario normal: usar hidden
+                const hiddenInput = document.getElementById('usuario');
+                UsuarioID = parseInt(hiddenInput?.value);
+            }
+
             const LibroID = parseInt(selectLibro.value);
 
             if (isNaN(UsuarioID) || isNaN(LibroID)) {
-                alert('Seleccioná un usuario y un libro.');
+                alert('No se pudo determinar el usuario logueado o libro no seleccionado.');
                 return;
             }
 

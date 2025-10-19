@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LibraPlus.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f984bf079eff63310abf42118dfe1978ea7e14c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+271fa36247a5e877fe460289c604167092cb8cd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("LibraPlus.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LibraPlus.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

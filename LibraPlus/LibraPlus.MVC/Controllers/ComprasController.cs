@@ -1,7 +1,8 @@
-﻿using System.Text;
-using System.Text.Json;
-using LibraPlus.MVC.Models;
+﻿using LibraPlus.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json;
 
 public class ComprasController : Controller
 {
@@ -35,21 +36,30 @@ public class ComprasController : Controller
     }
 
     [HttpPost]
-    [IgnoreAntiforgeryToken] // ⚠️ temporalmente para evitar que bloquee el body
+    [IgnoreAntiforgeryToken]
     public async Task<IActionResult> Create([FromBody] ComprasDTO compraDto)
     {
         Console.WriteLine("💾 Llegó al MVC → Create()");
 
         if (compraDto == null)
-        {
-            Console.WriteLine("⚠️ No llegó ningún JSON al MVC");
             return Json(new { success = false, mensaje = "No se recibieron datos." });
-        }
-
-        Console.WriteLine($"➡️ UsuarioID={compraDto.UsuarioID}, LibroID={compraDto.LibroID}");
 
         try
         {
+            // ✅ Obtener el rol y el ID del usuario logueado correctamente
+            var usuarioIdClaim = User.FindFirst("Id")?.Value;                   // <--- usar "Id" como definiste en LogInController
+            var rolClaim = User.FindFirst(ClaimTypes.Role)?.Value;             // <--- usar ClaimTypes.Role
+
+            if (string.IsNullOrEmpty(usuarioIdClaim))
+                return Json(new { success = false, mensaje = "No se pudo determinar el usuario logueado." });
+
+            // ⚙️ Si no es admin, forzamos su propio ID
+            if (rolClaim != "Admin")
+                compraDto.UsuarioID = int.Parse(usuarioIdClaim);
+
+            Console.WriteLine($"➡️ UsuarioID={compraDto.UsuarioID}, LibroID={compraDto.LibroID}");
+
+            // --- POST a la API ---
             var jsonContent = new StringContent(
                 JsonSerializer.Serialize(compraDto),
                 Encoding.UTF8,
@@ -58,9 +68,6 @@ public class ComprasController : Controller
 
             var response = await _httpClient.PostAsync("api/compras", jsonContent);
             var body = await response.Content.ReadAsStringAsync();
-
-            Console.WriteLine("📤 API responde:");
-            Console.WriteLine(body);
 
             if (!response.IsSuccessStatusCode)
                 return Json(new { success = false, mensaje = "Error al registrar compra.", detalle = body });
@@ -76,7 +83,6 @@ public class ComprasController : Controller
             return Json(new { success = false, mensaje = "Excepción: " + ex.Message });
         }
     }
-
 
 
     // ✅ Eliminar compra
