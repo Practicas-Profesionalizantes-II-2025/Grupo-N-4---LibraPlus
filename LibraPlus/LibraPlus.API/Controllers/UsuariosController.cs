@@ -20,7 +20,7 @@ namespace LibraPlus.API.Controllers
             _context = context;
         }
 
-        // ✅ 1. Obtener todos los usuarios
+        // 1. Obtener todos los usuarios
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -28,7 +28,7 @@ namespace LibraPlus.API.Controllers
             return Ok(usuarios);
         }
 
-        // ✅ 2. Obtener un usuario por ID
+        // 2. Obtener un usuario por ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -38,7 +38,7 @@ namespace LibraPlus.API.Controllers
             return Ok(usuario);
         }
 
-        // ✅ 3. Crear usuario normal
+        // 3. Crear usuario normal
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UsuariosDTO usuarioDto)
         {
@@ -51,7 +51,8 @@ namespace LibraPlus.API.Controllers
                 {
                     Nombre = usuarioDto.Nombre,
                     Email = usuarioDto.Email,
-                    Password = usuarioDto.Password, // 👈 agregado
+                    // 🔑 Hash de la contraseña
+                    Password = BCrypt.Net.BCrypt.HashPassword(usuarioDto.Password),
                     Reputacion = usuarioDto.Reputación
                 };
 
@@ -64,7 +65,7 @@ namespace LibraPlus.API.Controllers
             }
         }
 
-        // ✅ 4. Actualizar usuario
+        // 4. Actualizar usuario
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UsuariosDTO usuarioDto)
         {
@@ -79,8 +80,13 @@ namespace LibraPlus.API.Controllers
 
                 usuario.Nombre = usuarioDto.Nombre;
                 usuario.Email = usuarioDto.Email;
-                usuario.Password = usuarioDto.Password; 
                 usuario.Reputacion = usuarioDto.Reputación;
+
+                // 🔑 Solo hash si se cambia la contraseña
+                if (!string.IsNullOrEmpty(usuarioDto.Password))
+                {
+                    usuario.Password = BCrypt.Net.BCrypt.HashPassword(usuarioDto.Password);
+                }
 
                 await _usuariosService.UpdateAsync(usuario);
                 return Ok(usuario);
@@ -91,7 +97,7 @@ namespace LibraPlus.API.Controllers
             }
         }
 
-        // ✅ 5. Eliminar usuario
+        // 5. Eliminar usuario
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -110,7 +116,7 @@ namespace LibraPlus.API.Controllers
             }
         }
 
-        // ✅ 6. Crear usuario de prueba (Mateo Ferrero)
+        // 6. Crear usuario de prueba (Mateo Ferrero)
         [HttpPost("crear-temporal")]
         public async Task<IActionResult> CrearTemporal()
         {
@@ -118,7 +124,8 @@ namespace LibraPlus.API.Controllers
             {
                 Nombre = "Mateo Ferrero",
                 Email = "mateomferrero@gmail.com",
-                Password = "Mateo1234",
+                // 🔑 Hash de la contraseña
+                Password = BCrypt.Net.BCrypt.HashPassword("Mateo1234"),
                 Reputacion = 5
             };
 
@@ -128,15 +135,17 @@ namespace LibraPlus.API.Controllers
             return Ok(usuario);
         }
 
-        // ✅ 7. Endpoint de login
+        // 7. Endpoint de login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO login)
         {
-            var user = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Email == login.Email && u.Password == login.Password);
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == login.Email);
 
-            if (user == null)
+            // 🔑 Verificación con BCrypt
+            if (user == null || !BCrypt.Net.BCrypt.Verify(login.Password, user.Password))
+            {
                 return Unauthorized("Credenciales inválidas");
+            }
 
             return Ok(new
             {
@@ -146,7 +155,8 @@ namespace LibraPlus.API.Controllers
                 Reputacion = user.Reputacion
             });
         }
-        // ✅ 8. Registrar usuario (desde el formulario del login)
+
+        // 8. Registrar usuario (desde el formulario del login)
         [HttpPost("registrar")]
         public async Task<IActionResult> Registrar([FromBody] UsuariosDTO usuarioDto)
         {
@@ -161,7 +171,8 @@ namespace LibraPlus.API.Controllers
             {
                 Nombre = usuarioDto.Nombre,
                 Email = usuarioDto.Email,
-                Password = usuarioDto.Password,
+                // 🔑 Hash de la contraseña
+                Password = BCrypt.Net.BCrypt.HashPassword(usuarioDto.Password),
                 Reputacion = 0
             };
 
@@ -176,5 +187,21 @@ namespace LibraPlus.API.Controllers
             });
         }
 
+        // 🔑 Script opcional para hashear usuarios existentes en texto plano
+        [HttpPost("migrar-passwords")]
+        public async Task<IActionResult> MigrarPasswords()
+        {
+            var usuarios = await _context.Usuarios.ToListAsync();
+            foreach (var u in usuarios)
+            {
+                // Solo hash si no está hasheada
+                if (!u.Password.StartsWith("$2a$"))
+                {
+                    u.Password = BCrypt.Net.BCrypt.HashPassword(u.Password);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return Ok("Passwords migradas a hash correctamente.");
+        }
     }
 }

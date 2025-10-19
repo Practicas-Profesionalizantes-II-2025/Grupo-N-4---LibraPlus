@@ -518,6 +518,16 @@
   },
   {
     "ContainingType": "LibraPlus.API.Controllers.UsuariosController",
+    "Method": "MigrarPasswords",
+    "RelativePath": "api/Usuarios/migrar-passwords",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "LibraPlus.API.Controllers.UsuariosController",
     "Method": "Registrar",
     "RelativePath": "api/Usuarios/registrar",
     "HttpMethod": "POST",

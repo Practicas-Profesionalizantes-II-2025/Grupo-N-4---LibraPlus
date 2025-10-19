@@ -857,6 +857,18 @@
           }
         }
       }
+    },
+    "/api/Usuarios/migrar-passwords": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
