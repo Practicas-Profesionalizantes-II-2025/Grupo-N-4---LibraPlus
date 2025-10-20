@@ -1,7 +1,4 @@
-﻿@using LibraPlus.MVC.Models
-@model List<PrestamosDTO>
-
-@{
+﻿@{
     ViewData["Title"] = "Gestión de Préstamos";
     Layout = "_Layout";
 }
@@ -71,7 +68,9 @@
             modal.classList.remove("show");
         }
 
-        window.onclick = e => { if (e.target === modal) closeModal(); }
+        window.onclick = e => {
+            if (e.target === modal) closeModal();
+        }
 
         // === Renderizar tabla ===
         function renderTable() {
@@ -90,9 +89,7 @@
                     <td>${fechaFin}</td>
                     <td>${p.Devuelto ? "✔️" : "❌"}</td>
                     <td>
-                        ${!p.Devuelto
-                            ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>`
-                            : ""}
+                        ${!p.Devuelto ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>` : ""}
                     </td>
                 `;
                 tableBody.appendChild(row);
@@ -115,10 +112,10 @@
                 allUsuarios = await usuariosResp.json();
                 allPrestamos = await prestamosResp.json();
 
-                        // Llenar combo de libros (solo físicos)
+                // Llenar combo de libros (solo físicos)
                 selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
                 allLibros
-                    .filter(l => l.Tipo === "Físico" && l.Stock > 0) // solo físicos con stock
+                    .filter(l => l.Tipo === "Físico" && l.Stock > 0)
                     .forEach(l => {
                         const option = document.createElement('option');
                         option.value = l.LibroID;
@@ -156,6 +153,7 @@
                 showToast('📚 Préstamo registrado correctamente');
                 await loadAllData();
                 closeModal();
+
             } catch (err) {
                 console.error('❌ Error al crear préstamo:', err);
                 showToast('Error al crear préstamo: ' + err.message, true);
@@ -172,11 +170,12 @@
                 if (!response.ok) throw new Error('No se pudo marcar como devuelto.');
 
                 allPrestamos = allPrestamos.map(p =>
-                    p.prestamoID === id ? { ...p, devuelto: true } : p
+                    p.PrestamoID === id ? { ...p, Devuelto: true } : p
                 );
 
                 showToast('✅ Libro devuelto correctamente');
                 renderTable();
+
             } catch (err) {
                 console.error('❌ Error al devolver préstamo:', err);
                 showToast('Error al devolver préstamo: ' + err.message, true);

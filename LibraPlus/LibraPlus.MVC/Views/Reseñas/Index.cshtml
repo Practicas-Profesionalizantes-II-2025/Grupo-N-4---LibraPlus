@@ -57,10 +57,19 @@
         const tableBody = document.getElementById('reseñasTableBody');
         const selectUsuario = document.getElementById('usuario');
         const selectLibro = document.getElementById('libro');
+        const usuarioContainer = document.getElementById('usuario-container');
 
         let allReseñas = [];
         let allUsuarios = [];
         let allLibros = [];
+
+        // ===== Detectar rol y usuario logueado =====
+        const esAdmin = @User.IsInRole("Admin").ToString().ToLower();
+        const usuarioLogueadoId = @User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value ?? "0";
+
+        if (!esAdmin) {
+            usuarioContainer.style.display = "none"; // Oculta selector si no es admin
+        }
 
         // ====== MODAL ======
         function openModal() {
@@ -98,15 +107,17 @@
         // ====== CARGAR DATOS ======
         async function loadAllData() {
             try {
-                // 🔹 Usuarios
-                allUsuarios = await (await fetch('/Usuarios/GetUsuarios')).json();
-                selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
-                allUsuarios.forEach(u => {
-                    const option = document.createElement('option');
-                    option.value = u.usuarioId;
-                    option.textContent = u.nombre;
-                    selectUsuario.appendChild(option);
-                });
+                // 🔹 Usuarios (solo si es admin)
+                if (esAdmin) {
+                    allUsuarios = await (await fetch('/Usuarios/GetUsuarios')).json();
+                    selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
+                    allUsuarios.forEach(u => {
+                        const option = document.createElement('option');
+                        option.value = u.usuarioId;
+                        option.textContent = u.nombre;
+                        selectUsuario.appendChild(option);
+                    });
+                }
 
                 // 🔹 Libros
                 allLibros = await (await fetch('/Libros/GetLibros')).json();
@@ -134,7 +145,7 @@
             e.preventDefault();
 
             const reseñaData = {
-                UsuarioID: parseInt(selectUsuario.value),
+                UsuarioID: esAdmin ? parseInt(selectUsuario.value) : parseInt(usuarioLogueadoId),
                 LibroID: parseInt(selectLibro.value),
                 Comentario: document.getElementById('comentario').value,
                 Puntuacion: parseInt(document.getElementById('puntuacion').value)
@@ -167,8 +178,7 @@
         });
 
         // ====== ELIMINAR ======
-                async function deleteReseña(id) {
-            // 🟡 Muestra un pequeño cuadro de confirmación personalizado
+        async function deleteReseña(id) {
             const confirmBox = document.createElement("div");
             confirmBox.className = "modal-confirm";
             confirmBox.innerHTML = `
@@ -182,11 +192,8 @@
                 </div>
             `;
             document.body.appendChild(confirmBox);
-
-            // Animar entrada
             setTimeout(() => confirmBox.classList.add("show"), 100);
 
-            // Esperar respuesta del usuario
             return new Promise((resolve) => {
                 document.getElementById("confirmYes").onclick = async () => {
                     confirmBox.classList.remove("show");
@@ -217,23 +224,18 @@
             });
         }
 
-
         // ====== TOAST ======
         function showToast(message, type = "success") {
             const toast = document.createElement("div");
             toast.className = "toast " + (type === "error" ? "error" : "");
-
             const icon = document.createElement("span");
             icon.className = "icon";
             icon.textContent = type === "error" ? "❌" : "✅";
-
             const text = document.createElement("span");
             text.textContent = message;
-
             toast.appendChild(icon);
             toast.appendChild(text);
             document.body.appendChild(toast);
-
             setTimeout(() => toast.classList.add("show"), 100);
             setTimeout(() => {
                 toast.classList.remove("show");
@@ -245,3 +247,4 @@
         loadAllData();
     </script>
 }
+

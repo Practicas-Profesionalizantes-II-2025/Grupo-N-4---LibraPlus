@@ -42,9 +42,6 @@ namespace LibraPlus.MVC.Controllers
             return Json(reseñas);
         }
 
-
-
-
         // 🟩 Crear reseña
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -55,6 +52,18 @@ namespace LibraPlus.MVC.Controllers
 
             try
             {
+                // 🟢 Obtener ID del usuario logueado (desde las claims)
+                var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "Id");
+                if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    dto.UsuarioID = userId;
+                }
+                else
+                {
+                    return Unauthorized(new { mensaje = "⚠️ No se pudo identificar al usuario logueado." });
+                }
+
+                // Enviar a la API
                 var content = new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("api/reseñas", content);
 
