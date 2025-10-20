@@ -1,11 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Administración de Reseñas - LibraPlus";
     Layout = "_Layout";
+    var isAdmin = User.IsInRole("Admin");
+    var usuarioLogueadoId = User.FindFirst("Id")?.Value ?? "0";
 }
 
 <div class="container-beige">
     <h2 class="titulo">Reseñas</h2>
-    <button class="btn-agregar" onclick="openModal()">+ Agregar Reseña</button>
+
+    @* Solo usuarios normales pueden agregar reseñas *@
+    @if (!isAdmin)
+    {
+        <button class="btn-agregar" onclick="openModal()">+ Agregar Reseña</button>
+    }
 
     <div class="table-container">
         <table>
@@ -23,116 +30,55 @@
     </div>
 </div>
 
-<!-- -------- MODAL -------- -->
-<div class="modal" id="reseñaModal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">×</button>
-        <h3 id="modalTitle">Agregar Reseña</h3>
-        <form id="reseñaForm">
-            @Html.AntiForgeryToken()
+@* Modal solo para usuarios normales *@
+@if (!isAdmin)
+{
+    <div class="modal" id="reseñaModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <h3 id="modalTitle">Agregar Reseña</h3>
+            <form id="reseñaForm">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="usuario" value="@usuarioLogueadoId" />
 
-            <select id="usuario" name="usuario" required>
-                <option value="">Seleccione un Usuario</option>
-            </select>
+                <select id="libro" required>
+                    <option value="">Seleccione un Libro</option>
+                </select>
 
-            <select id="libro" name="libro" required>
-                <option value="">Seleccione un Libro</option>
-            </select>
+                <textarea id="comentario" placeholder="Comentario" rows="3"></textarea>
+                <input type="number" id="puntuacion" placeholder="Puntuación (1-5)" min="1" max="5" required />
 
-            <textarea id="comentario" name="comentario" placeholder="Comentario" rows="3"></textarea>
-            <input type="number" id="puntuacion" name="puntuacion" placeholder="Puntuación (1-5)" min="1" max="5" required />
-
-            <div class="modal-actions">
-                <button type="submit" class="save">Guardar</button>
-                <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
-            </div>
-        </form>
+                <div class="modal-actions">
+                    <button type="submit" class="save">Guardar</button>
+                    <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+}
 
 @section Scripts {
     <script>
-        const modal = document.getElementById('reseñaModal');
-        const reseñaForm = document.getElementById('reseñaForm');
         const tableBody = document.getElementById('reseñasTableBody');
-        const selectUsuario = document.getElementById('usuario');
-        const selectLibro = document.getElementById('libro');
-        const usuarioContainer = document.getElementById('usuario-container');
-
         let allReseñas = [];
-        let allUsuarios = [];
         let allLibros = [];
 
-        // ===== Detectar rol y usuario logueado =====
-        const esAdmin = @User.IsInRole("Admin").ToString().ToLower();
-        const usuarioLogueadoId = @User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value ?? "0";
+        const esAdmin = @isAdmin.ToString().ToLower() === "true";
+        const usuarioLogueadoId = parseInt("@usuarioLogueadoId");
 
-        if (!esAdmin) {
-            usuarioContainer.style.display = "none"; // Oculta selector si no es admin
-        }
-
-        // ====== MODAL ======
-        function openModal() {
-            modal.style.display = 'flex';
-            reseñaForm.reset();
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = e => { if (e.target === modal) closeModal(); }
-
-        // ====== TABLA ======
-        function renderTable() {
-            tableBody.innerHTML = '';
-            allReseñas.forEach(r => {
-                const usuario = allUsuarios.find(u => u.usuarioId === r.usuarioID)?.nombre ?? 'Desconocido';
-                const libro = allLibros.find(l => l.libroID === r.libroID)?.titulo ?? 'Desconocido';
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${usuario}</td>
-                    <td>${libro}</td>
-                    <td>${r.comentario ?? ''}</td>
-                    <td>${r.puntuacion} ⭐</td>
-                    <td>
-                        <button class="btn-return" onclick="deleteReseña(${r.reseñaID})">Eliminar</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // ====== CARGAR DATOS ======
+        // ====== CARGA DE DATOS ======
         async function loadAllData() {
             try {
-                // 🔹 Usuarios (solo si es admin)
-                if (esAdmin) {
-                    allUsuarios = await (await fetch('/Usuarios/GetUsuarios')).json();
-                    selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
-                    allUsuarios.forEach(u => {
-                        const option = document.createElement('option');
-                        option.value = u.usuarioId;
-                        option.textContent = u.nombre;
-                        selectUsuario.appendChild(option);
-                    });
-                }
+                // 🔹 Traer todos los libros (para combo y tabla)
+                const librosResp = await fetch('/Libros/GetLibros');
+                if (!librosResp.ok) throw new Error("No se pudieron cargar los libros");
+                allLibros = await librosResp.json();
 
-                // 🔹 Libros
-                allLibros = await (await fetch('/Libros/GetLibros')).json();
-                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
-                allLibros.forEach(l => {
-                    const option = document.createElement('option');
-                    option.value = l.libroID;
-                    option.textContent = l.titulo;
-                    selectLibro.appendChild(option);
-                });
-
-                // 🔹 Reseñas
+                // 🔹 Traer reseñas
                 const reseñasResp = await fetch('/Reseñas/Lista');
                 if (!reseñasResp.ok) throw new Error("No se pudieron cargar las reseñas");
                 allReseñas = await reseñasResp.json();
+
                 renderTable();
             } catch (err) {
                 console.error('❌ Error cargando datos:', err);
@@ -140,111 +86,110 @@
             }
         }
 
-        // ====== CREAR ======
-        reseñaForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
+        // ====== RENDER DE TABLA ======
+        function renderTable() {
+            tableBody.innerHTML = '';
+            allReseñas.forEach(r => {
+                const libro = allLibros.find(l => l.LibroID === r.LibroID)?.Titulo ?? 'Desconocido';
+                const usuario = r.UsuarioNombre ?? 'Desconocido'; // asumir que la API devuelve nombre del usuario si admin
 
-            const reseñaData = {
-                UsuarioID: esAdmin ? parseInt(selectUsuario.value) : parseInt(usuarioLogueadoId),
-                LibroID: parseInt(selectLibro.value),
-                Comentario: document.getElementById('comentario').value,
-                Puntuacion: parseInt(document.getElementById('puntuacion').value)
-            };
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${usuario}</td>
+                    <td>${libro}</td>
+                    <td>${r.Comentario ?? ''}</td>
+                    <td>${r.Puntuacion} ⭐</td>
+                    <td>
+                        ${!esAdmin ? `<button class="btn-return" onclick="deleteReseña(${r.ReseñaID})">Eliminar</button>` : ''}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
 
-            const token = document.getElementsByName('__RequestVerificationToken')[0].value;
+        // ====== MODAL Y CREACIÓN DE RESEÑA (solo usuarios normales) ======
+        if (!esAdmin) {
+            const modal = document.getElementById('reseñaModal');
+            const reseñaForm = document.getElementById('reseñaForm');
 
-            try {
-                const response = await fetch('/Reseñas/Create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': token
-                    },
-                    body: JSON.stringify(reseñaData)
+            function openModal() {
+                modal.classList.add("show");
+                reseñaForm.reset();
+
+                // 🔹 Llenar select de libros al abrir modal
+                const selectLibro = document.getElementById('libro');
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros.forEach(l => {
+                    const option = document.createElement('option');
+                    option.value = l.LibroID;
+                    option.textContent = l.Titulo;
+                    selectLibro.appendChild(option);
                 });
+            }
 
-                const text = await response.text();
-                const data = text ? JSON.parse(text) : null;
+            function closeModal() { modal.classList.remove("show"); }
+            window.onclick = e => { if (e.target === modal) closeModal(); }
 
-                if (!response.ok) throw new Error(data?.mensaje || "Error al crear la reseña");
+            reseñaForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
 
-                showToast(data?.mensaje || "✅ Reseña agregada correctamente", "success");
-                await loadAllData();
-                closeModal();
+                const selectLibro = document.getElementById('libro');
+                const reseñaData = {
+                    UsuarioID: usuarioLogueadoId,
+                    LibroID: parseInt(selectLibro.value),
+                    Comentario: document.getElementById('comentario').value,
+                    Puntuacion: parseInt(document.getElementById('puntuacion').value)
+                };
+
+                const token = document.getElementsByName('__RequestVerificationToken')[0].value;
+                try {
+                    const response = await fetch('/Reseñas/Create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        },
+                        body: JSON.stringify(reseñaData)
+                    });
+
+                    if (!response.ok) throw new Error(await response.text() || "Error al crear reseña");
+
+                    await loadAllData();
+                    closeModal();
+                    showToast("✅ Reseña agregada correctamente", "success");
+                } catch (err) {
+                    console.error('❌ Error al crear reseña:', err);
+                    showToast("❌ " + err.message, "error");
+                }
+            });
+        }
+
+        // ====== ELIMINAR RESEÑA ======
+        async function deleteReseña(id) {
+            if (!confirm("¿Eliminar reseña? Esta acción no se puede deshacer.")) return;
+            try {
+                const response = await fetch(`/Reseñas/Delete/${id}`, { method: "DELETE" });
+                if (!response.ok) throw new Error(await response.text() || "No se pudo eliminar la reseña.");
+                allReseñas = allReseñas.filter(r => r.ReseñaID !== id);
+                renderTable();
+                showToast("✅ Reseña eliminada correctamente", "success");
             } catch (err) {
-                console.error('❌ Error al crear reseña:', err);
+                console.error('❌ Error al eliminar reseña:', err);
                 showToast("❌ " + err.message, "error");
             }
-        });
-
-        // ====== ELIMINAR ======
-        async function deleteReseña(id) {
-            const confirmBox = document.createElement("div");
-            confirmBox.className = "modal-confirm";
-            confirmBox.innerHTML = `
-                <div class="modal-content-confirm">
-                    <h3>¿Eliminar reseña?</h3>
-                    <p>Esta acción no se puede deshacer.</p>
-                    <div class="buttons">
-                        <button id="confirmYes" class="btn-confirm">Sí, eliminar</button>
-                        <button id="confirmNo" class="btn-cancel">Cancelar</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmBox);
-            setTimeout(() => confirmBox.classList.add("show"), 100);
-
-            return new Promise((resolve) => {
-                document.getElementById("confirmYes").onclick = async () => {
-                    confirmBox.classList.remove("show");
-                    setTimeout(() => confirmBox.remove(), 300);
-                    try {
-                        const response = await fetch(`/Reseñas/Delete/${id}`, { method: "DELETE" });
-                        if (response.ok) {
-                            const text = await response.text();
-                            const data = text ? JSON.parse(text) : {};
-                            showToast(data.mensaje || "✅ Reseña eliminada correctamente", "success");
-                            allReseñas = allReseñas.filter(r => r.reseñaID !== id);
-                            renderTable();
-                        } else {
-                            const errorText = await response.text();
-                            showToast("❌ " + (errorText || "No se pudo eliminar la reseña."), "error");
-                        }
-                    } catch (err) {
-                        showToast("❌ Error al eliminar reseña: " + err.message, "error");
-                    }
-                    resolve(true);
-                };
-
-                document.getElementById("confirmNo").onclick = () => {
-                    confirmBox.classList.remove("show");
-                    setTimeout(() => confirmBox.remove(), 300);
-                    resolve(false);
-                };
-            });
         }
 
         // ====== TOAST ======
         function showToast(message, type = "success") {
             const toast = document.createElement("div");
             toast.className = "toast " + (type === "error" ? "error" : "");
-            const icon = document.createElement("span");
-            icon.className = "icon";
-            icon.textContent = type === "error" ? "❌" : "✅";
-            const text = document.createElement("span");
-            text.textContent = message;
-            toast.appendChild(icon);
-            toast.appendChild(text);
+            toast.textContent = (type === "error" ? "❌ " : "✅ ") + message;
             document.body.appendChild(toast);
             setTimeout(() => toast.classList.add("show"), 100);
-            setTimeout(() => {
-                toast.classList.remove("show");
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.classList.remove("show"); setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
         // ====== INICIALIZACIÓN ======
-        loadAllData();
+        document.addEventListener('DOMContentLoaded', loadAllData);
     </script>
 }
-

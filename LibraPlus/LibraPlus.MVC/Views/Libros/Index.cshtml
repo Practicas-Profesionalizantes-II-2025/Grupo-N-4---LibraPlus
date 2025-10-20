@@ -33,7 +33,11 @@
                     <th>Stock</th>
                     <th>Compras</th>
                     <th>Reseñas</th>
-                    <th>Acciones</th>
+                    @* Solo admin ve la columna de acciones *@
+                    @if (isAdmin)
+                    {
+                        <th>Acciones</th>
+                    }
                 </tr>
             </thead>
             <tbody id="bookTableBody">
@@ -56,20 +60,27 @@
                             <td>@libro.Stock</td>
                             <td>@libro.CantidadCompras</td>
                             <td>@libro.CantidadReseñas</td>
-                            <td class="action-buttons">
-                                <button class="btn btn-edit" data-action="edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-delete" data-action="delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
+
+                            @* Solo admin ve los botones *@
+                            @if (isAdmin)
+                            {
+                                <td class="action-buttons">
+                                    <button class="btn btn-edit" data-action="edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-delete" data-action="delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            }
                         </tr>
                     }
                 }
                 else
                 {
-                    <tr><td colspan="9" style="text-align:center;">No hay libros disponibles</td></tr>
+                    <tr>
+                        <td colspan="@(isAdmin ? "9" : "8")" style="text-align:center;">No hay libros disponibles</td>
+                    </tr>
                 }
             </tbody>
         </table>

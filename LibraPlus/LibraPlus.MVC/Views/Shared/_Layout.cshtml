@@ -4,6 +4,8 @@
 
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+    var isAdmin = User.IsInRole("Admin");
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -60,10 +62,14 @@
                 <i class="fas fa-shopping-cart"></i> Compras
             </a>
 
-            <a asp-controller="Usuarios" asp-action="Index"
-               class="@(ViewData["ActivePage"] as string == "Usuarios" ? "active" : "")">
-                <i class="fas fa-shopping-cart"></i> Usuario
-            </a>
+            @* Mostrar solo si es admin *@
+            @if (isAdmin)
+            {
+                <a asp-controller="Usuarios" asp-action="Index"
+                   class="@(ViewData["ActivePage"] as string == "Usuarios" ? "active" : "")">
+                    <i class="fas fa-user"></i> Usuarios
+                </a>
+            }
         </nav>
 
         <div class="lp-actions">
@@ -80,17 +86,14 @@
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="lp-main">
         @RenderBody()
     </main>
 
-    <!-- FOOTER -->
     <footer class="lp-footer">
         © 2025 LibraPlus. Todos los derechos reservados.
     </footer>
 
-    <!-- Scripts -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script>
@@ -98,7 +101,6 @@
             const toggle = document.getElementById("darkModeToggle");
             const body = document.body;
 
-            // Cargar preferencia guardada
             if (localStorage.getItem("darkMode") === "true") {
                 body.classList.add("dark");
                 toggle.textContent = "☀️ Modo Claro";

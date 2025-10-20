@@ -1,6 +1,8 @@
-﻿@{
+﻿@model List<PrestamosDTO>
+@{
     ViewData["Title"] = "Gestión de Préstamos";
     Layout = "_Layout";
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <div class="container-beige">
@@ -32,11 +34,22 @@
         <form id="prestamoForm">
             @Html.AntiForgeryToken()
 
-            <select id="libro" name="libro" required>
+            @if (isAdmin)
+            {
+                <select id="usuario" required>
+                    <option value="">Seleccione un Usuario</option>
+                </select>
+            }
+            else
+            {
+                <input type="hidden" id="usuario" value="@User.FindFirst("Id")?.Value" />
+            }
+
+            <select id="libro" required>
                 <option value="">Seleccione un Libro</option>
             </select>
 
-            <input type="date" id="fechaFin" name="fechaFin" required />
+            <input type="date" id="fechaFin" required />
 
             <div class="modal-actions">
                 <button type="submit" class="save">Guardar</button>
@@ -49,10 +62,12 @@
 @section Scripts {
     <script>
         const API_BASE = "https://localhost:7290/api";
+
         const modal = document.getElementById('prestamoModal');
         const prestamoForm = document.getElementById('prestamoForm');
         const tableBody = document.getElementById('prestamosTableBody');
         const selectLibro = document.getElementById('libro');
+        const selectUsuario = document.getElementById('usuario');
 
         let allPrestamos = [];
         let allLibros = [];
@@ -68,9 +83,7 @@
             modal.classList.remove("show");
         }
 
-        window.onclick = e => {
-            if (e.target === modal) closeModal();
-        }
+        window.onclick = e => { if (e.target === modal) closeModal(); }
 
         // === Renderizar tabla ===
         function renderTable() {
@@ -112,7 +125,7 @@
                 allUsuarios = await usuariosResp.json();
                 allPrestamos = await prestamosResp.json();
 
-                // Llenar combo de libros (solo físicos)
+                // Llenar combo de libros (solo físicos con stock)
                 selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
                 allLibros
                     .filter(l => l.Tipo === "Físico" && l.Stock > 0)
@@ -123,80 +136,91 @@
                         selectLibro.appendChild(option);
                     });
 
-                renderTable();
+                // Llenar combo de usuarios solo si es admin
+                if (@isAdmin.ToString().ToLower()) {
+                    selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
+                    allUsuarios.forEach(u => {
+                        const option = document.createElement('option');
+                        option.value = u.UsuarioID;
+                        option.textContent = u.Nombre;
+                        selectUsuario.appendChild(option);
+                    });
+                }
 
+                renderTable();
             } catch (err) {
                 console.error('❌ Error cargando datos:', err);
-                showToast('Error al cargar datos: ' + err.message, true);
+                alert('Error al cargar datos: ' + err.message);
             }
         }
 
         // === Crear nuevo préstamo ===
         prestamoForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-            const userId = localStorage.getItem("usuarioID") || 1;
 
-            const prestamoData = {
-                usuarioID: parseInt(userId),
-                libroID: parseInt(selectLibro.value),
-                fechaFin: document.getElementById('fechaFin').value
-            };
+            let UsuarioID;
+            if (@isAdmin.ToString().ToLower()) {
+                UsuarioID = parseInt(selectUsuario.value);
+            } else {
+                UsuarioID = parseInt(document.getElementById('usuario').value);
+            }
+
+            const LibroID = parseInt(selectLibro.value);
+            const FechaFin = document.getElementById('fechaFin').value;
+
+            if (isNaN(UsuarioID) || isNaN(LibroID) || !FechaFin) {
+                alert('Faltan datos para crear el préstamo.');
+                return;
+            }
+
+            const prestamoData = { UsuarioID, LibroID, FechaFin };
 
             try {
+                const token = document.getElementsByName('__RequestVerificationToken')[0]?.value;
                 const response = await fetch(`${API_BASE}/Prestamos`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': token
+                    },
                     body: JSON.stringify(prestamoData)
                 });
 
-                if (!response.ok) throw new Error(await response.text());
-                showToast('📚 Préstamo registrado correctamente');
-                await loadAllData();
-                closeModal();
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(errorText);
+                }
 
+                const nuevoPrestamo = await response.json();
+                allPrestamos.push(nuevoPrestamo);
+                renderTable();
+                closeModal();
+                alert('📚 Préstamo registrado correctamente');
             } catch (err) {
                 console.error('❌ Error al crear préstamo:', err);
-                showToast('Error al crear préstamo: ' + err.message, true);
+                alert('Error al crear préstamo: ' + err.message);
             }
         });
 
         // === Devolver préstamo ===
         async function devolverPrestamo(id) {
             try {
-                const response = await fetch(`${API_BASE}/Prestamos/${id}/devolver`, {
-                    method: 'PUT'
-                });
-
+                const response = await fetch(`${API_BASE}/Prestamos/${id}/devolver`, { method: 'PUT' });
                 if (!response.ok) throw new Error('No se pudo marcar como devuelto.');
 
                 allPrestamos = allPrestamos.map(p =>
                     p.PrestamoID === id ? { ...p, Devuelto: true } : p
                 );
 
-                showToast('✅ Libro devuelto correctamente');
                 renderTable();
-
+                alert('✅ Libro devuelto correctamente');
             } catch (err) {
                 console.error('❌ Error al devolver préstamo:', err);
-                showToast('Error al devolver préstamo: ' + err.message, true);
+                alert('Error al devolver préstamo: ' + err.message);
             }
         }
 
-        // === Toast visual ===
-        function showToast(message, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = `toast ${isError ? 'error' : 'success'}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
-        }
-
         // === Inicialización ===
-        loadAllData();
+        document.addEventListener('DOMContentLoaded', loadAllData);
     </script>
 }
