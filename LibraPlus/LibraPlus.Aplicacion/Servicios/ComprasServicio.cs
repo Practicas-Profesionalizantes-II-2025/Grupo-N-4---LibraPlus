@@ -24,33 +24,30 @@ namespace LibraPlus.Aplicacion.Servicios
         // ✅ Registrar una nueva compra
         public async Task<Compras> ComprarLibroAsync(int usuarioID, int libroID)
         {
-            // Validar usuario
+            // 🔹 Validar usuario
             var usuario = await _usuariosService.GetByIdAsync(usuarioID);
             if (usuario == null)
                 throw new Exception("Usuario no encontrado.");
 
-            // Validar libro
+            // 🔹 Validar libro
             var libro = await _librosService.GetByIdAsync(libroID);
             if (libro == null)
                 throw new Exception("Libro no encontrado.");
 
+            // Determinar si es digital
             var esDigital = libro.Tipo.Equals("digital", StringComparison.OrdinalIgnoreCase);
 
-            // 📦 Validar y descontar stock solo si es físico
-            if (!esDigital)
-            {
-                if (libro.Stock <= 0)
-                    throw new Exception($"El libro '{libro.Titulo}' no tiene stock disponible.");
+            // 📉 Descontar stock para cualquier tipo de libro
+            if (libro.Stock <= 0)
+                throw new Exception($"El libro '{libro.Titulo}' no tiene stock disponible.");
 
-                // Descontar 1 unidad del stock
-                var nuevoStock = libro.Stock - 1;
-                var actualizado = await _librosService.ActualizarStockAsync(libroID, nuevoStock);
+            var nuevoStock = libro.Stock - 1;
+            var actualizado = await _librosService.ActualizarStockAsync(libroID, nuevoStock);
 
-                if (!actualizado)
-                    throw new Exception("No se pudo actualizar el stock del libro.");
-            }
+            if (!actualizado)
+                throw new Exception("No se pudo actualizar el stock del libro.");
 
-            // Crear compra
+            // 🛒 Crear la compra
             var compra = new Compras
             {
                 UsuarioID = usuarioID,
@@ -63,9 +60,12 @@ namespace LibraPlus.Aplicacion.Servicios
                     : null
             };
 
+            // Guardar en base de datos
             await _comprasRepository.AddAsync(compra);
+
             return compra;
         }
+
 
         // ✅ Obtener todas las compras
         public async Task<List<Compras>> GetAllAsync()
