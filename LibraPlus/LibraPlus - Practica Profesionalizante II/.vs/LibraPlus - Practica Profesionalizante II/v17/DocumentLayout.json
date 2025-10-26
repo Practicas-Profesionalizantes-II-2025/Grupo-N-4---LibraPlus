@@ -3,6 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.aplicacion\\dtos\\librosdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.aplicacion\\servicios\\librosservicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA44F5F1-2483-48EA-B614-5796E86A3AE7}|..\\LibraPlus.Infraestructura\\LibraPlus.Infraestructura.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.infraestructura\\repositorys\\librosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.aplicacion\\servicios\\comprasservicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -16,21 +25,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ComprasServicio.cs",
-              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
-              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
-              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
-              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T20:27:35.741Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -45,13 +41,65 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LibrosDTO.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\LibrosDTO.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\DTOs\\LibrosDTO.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\LibrosDTO.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\DTOs\\LibrosDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:57:39.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "LibrosServicio.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\LibrosServicio.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Servicios\\LibrosServicio.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\LibrosServicio.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Servicios\\LibrosServicio.cs",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAqwIEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:45:35.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LibrosRepository.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "RelativeToolTip": "..\\LibraPlus.Infraestructura\\Repositorys\\LibrosRepository.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAmwGEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-26T21:20:54.123Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ComprasServicio.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\Servicios\\ComprasServicio.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAwwGEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T20:27:35.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ComprasController.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\Controllers\\ComprasController.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\ComprasController.cs",
               "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\Controllers\\ComprasController.cs",
               "RelativeToolTip": "..\\LibraPlus.API\\Controllers\\ComprasController.cs",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAAAIkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAcwIcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T20:21:45.974Z",
               "EditorCaption": ""

@@ -930,7 +930,7 @@
             "type": "string"
           },
           "Genero": {
-            "maxLength": 100,
+            "maxLength": 500,
             "minLength": 0,
             "type": "string"
           },

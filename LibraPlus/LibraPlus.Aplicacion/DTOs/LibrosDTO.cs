@@ -16,7 +16,7 @@ namespace LibraPlus.Aplicacion.DTOs
         public string Autor { get; set; }
 
         [Required(ErrorMessage = "El género es obligatorio.")]
-        [StringLength(100)]
+        [StringLength(500)]
         public string Genero { get; set; }
 
         [Required(ErrorMessage = "Debe especificar el tipo de libro.")]
