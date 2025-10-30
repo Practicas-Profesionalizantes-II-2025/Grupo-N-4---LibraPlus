@@ -197,3 +197,12 @@ C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraP
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\mateo\OneDrive\Documentos\GitHub\Grupo-N-4---LibraPlus\LibraPlus\LibraPlus.MVC\obj\Debug\net8.0\staticwebassets.build.json
