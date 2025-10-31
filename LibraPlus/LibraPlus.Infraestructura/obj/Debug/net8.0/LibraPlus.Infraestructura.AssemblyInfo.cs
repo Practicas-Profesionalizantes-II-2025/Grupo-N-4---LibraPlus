@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LibraPlus.Infraestructura")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b96b95dcb08470b224368ae78e6d90979d71622")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60de5fdd9dd4c73aac7f3468f225aac9002cbd6d")]
 [assembly: System.Reflection.AssemblyProductAttribute("LibraPlus.Infraestructura")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LibraPlus.Infraestructura")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

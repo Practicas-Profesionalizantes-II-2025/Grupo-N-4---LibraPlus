@@ -30,7 +30,9 @@ namespace LibraPlus.API.Controllers
                 {
                     ReseñaID = r.ReseñaID,
                     UsuarioID = r.UsuarioID,
+                    UsuarioNombre = r.Usuario != null ? r.Usuario.Nombre : "Desconocido",
                     LibroID = r.LibroID,
+                    LibroTitulo = r.Libro != null ? r.Libro.Titulo : "Sin título",
                     Comentario = r.Comentario,
                     Puntuacion = r.Puntuacion
                 });
@@ -42,6 +44,7 @@ namespace LibraPlus.API.Controllers
                 return StatusCode(500, new { mensaje = "❌ Error al obtener las reseñas.", detalle = ex.Message });
             }
         }
+
 
         // ✅ GET: api/reseñas/{id}
         [HttpGet("{id}")]

@@ -1038,9 +1038,17 @@
             "type": "integer",
             "format": "int32"
           },
+          "UsuarioNombre": {
+            "type": "string",
+            "nullable": true
+          },
           "LibroID": {
             "type": "integer",
             "format": "int32"
+          },
+          "LibroTitulo": {
+            "type": "string",
+            "nullable": true
           },
           "Comentario": {
             "type": "string",

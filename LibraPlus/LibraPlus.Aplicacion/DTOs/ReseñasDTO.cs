@@ -11,7 +11,9 @@ namespace LibraPlus.Aplicacion.DTOs
     {
         public int ReseñaID { get; set; }
         public int UsuarioID { get; set; }
+        public string? UsuarioNombre { get; set; }
         public int LibroID { get; set; }
+        public string? LibroTitulo { get; set; }
         public string? Comentario { get; set; }
         public int Puntuacion { get; set; }
     }

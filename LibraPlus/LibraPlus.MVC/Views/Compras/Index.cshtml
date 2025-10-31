@@ -1,11 +1,10 @@
 ﻿@model List<ComprasDTO>
 @{
     ViewData["Title"] = "Administración de Compras - LibraPlus";
-    Layout = "_Layout";
+    Layout = "_Layout"; 
     var isAdmin = User.IsInRole("Admin");
 }
 
-<!-- 🔐 Token antifalsificación -->
 <form id="tokenForm">
     @Html.AntiForgeryToken()
 </form>
@@ -35,12 +34,25 @@
         text-align: center;
         border-bottom: 1px solid #e6d8a2;
     }
+
+    .libro-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .filter-input, .filter-select {
+        padding: 6px 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
 </style>
 
 <div class="container-beige">
     <h2 class="titulo">🛒 Historial de Compras</h2>
 
-    <!-- FILTROS -->
     <div class="filters-bar">
         <div class="filter-left">
             <button class="btn-return" onclick="mostrarResumen()">📊 Ver Resumen</button>
@@ -56,7 +68,6 @@
         </div>
     </div>
 
-    <!-- TABLA -->
     <div class="table-container">
         <table class="lp-table">
             <thead>
@@ -74,7 +85,6 @@
     </div>
 </div>
 
-<!-- MODAL COMPRA -->
 <div class="modal" id="purchaseModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
@@ -88,9 +98,24 @@
             }
             else
             {
-                <!-- Campo oculto con el ID del usuario logueado -->
                 <input type="hidden" id="usuario" value="@User.FindFirst("Id")?.Value" />
             }
+
+            <div class="libro-filters">
+                <input type="text" id="filtroTitulo" placeholder="Buscar libro..." class="filter-input">
+                <select id="filtroGenero" class="filter-select">
+                    <option value="">Todos los géneros</option>
+                    <option value="Fantasia">Fantasía</option>
+                    <option value="Ciencia ficción">Ciencia ficción</option>
+                    <option value="Novela">Novela</option>
+                    <option value="Comic">Comic</option>
+                </select>
+                <select id="filtroTipo" class="filter-select">
+                    <option value="">Todos los tipos</option>
+                    <option value="Físico">Físico</option>
+                    <option value="Digital">Digital</option>
+                </select>
+            </div>
 
             <select id="libro" required>
                 <option value="">Seleccione un Libro</option>
@@ -140,6 +165,8 @@
         function openModal() {
             modal.style.display = 'flex';
             purchaseForm.reset();
+            // Asegurar que el select de libros se renderiza con todos los libros al abrir
+            filtrarLibros();
         }
         function closeModal() { modal.style.display = 'none'; }
         window.onclick = e => { if (e.target === modal) closeModal(); }
@@ -148,22 +175,26 @@
         async function loadUsuariosYLibros() {
             try {
                 // Usuarios
-                allUsuarios = await (await fetch('/Compras/GetUsuarios')).json();
-                selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
-                allUsuarios.forEach(u => {
-                    const opt = document.createElement('option');
-                    opt.value = u.usuarioId;
-                    opt.textContent = u.nombre;
-                    selectUsuario.appendChild(opt);
-                });
+                const isAdmin = @isAdmin.ToString().ToLower();
+                if (isAdmin) {
+                    allUsuarios = await (await fetch('/Compras/GetUsuarios')).json();
+                    selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
+                    allUsuarios.forEach(u => {
+                        const opt = document.createElement('option');
+                        opt.value = u.usuarioId;
+                        opt.textContent = u.nombre;
+                        selectUsuario.appendChild(opt);
+                    });
+                }
 
                 // Libros
                 allLibros = await (await fetch('/Compras/GetLibros')).json();
                 selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                // Inicialmente llenar el select sin filtros
                 allLibros.forEach(l => {
                     const opt = document.createElement('option');
                     opt.value = l.libroID;
-                    opt.textContent = `${l.titulo} - ${l.autor}`;
+                    opt.textContent = `${l.titulo} - ${l.autor} (${l.tipo})`;
                     selectLibro.appendChild(opt);
                 });
             } catch (err) {
@@ -185,6 +216,15 @@
         // 🔹 Renderizar tabla
         function renderTable() {
             tableBody.innerHTML = '';
+            // Se necesita la lista de usuarios para renderizar el nombre, si aún no está cargada (ej. si no es Admin), se intenta cargar o se usa el ID.
+            if (allUsuarios.length === 0 && @isAdmin.ToString().ToLower()) {
+                 // Si es Admin y no hay usuarios, se espera que loadUsuariosYLibros se haya llamado
+            } else if (allUsuarios.length === 0 && !@isAdmin.ToString().ToLower()) {
+                // Si no es Admin, el nombre de usuario de las compras propias debería ser el del usuario logueado.
+                // Para el propósito de esta función que itera *todas* las compras, asumiremos que si no es Admin, solo se muestran sus propias compras.
+                // Sin embargo, para que el resumen funcione con "Desconocido" si la lista global está vacía, no haremos nada.
+            }
+
             allCompras.forEach(c => {
                 const usuario = allUsuarios.find(u => u.usuarioId === c.usuarioID)?.nombre ?? 'Desconocido';
                 const libro = allLibros.find(l => l.libroID === c.libroID);
@@ -214,12 +254,39 @@
             applyFilters();
         }
 
+        // 🔹 Filtrar libros para el modal de registro
+        function filtrarLibros() {
+            const texto = document.getElementById('filtroTitulo').value.toLowerCase();
+            const genero = document.getElementById('filtroGenero').value.toLowerCase();
+            const tipo = document.getElementById('filtroTipo').value.toLowerCase();
 
-                // 🔹 Registrar compra (con URL aleatoria)
+            const selectLibro = document.getElementById('libro');
+            selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+
+            allLibros
+                .filter(l =>
+                    (!texto || l.titulo.toLowerCase().includes(texto) || l.autor.toLowerCase().includes(texto)) &&
+                    (!genero || (l.genero && l.genero.toLowerCase() === genero)) &&
+                    (!tipo || (l.tipo && l.tipo.toLowerCase() === tipo))
+                )
+                .forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.libroID;
+                    opt.textContent = `${l.titulo} - ${l.autor} (${l.tipo})`;
+                    selectLibro.appendChild(opt);
+                });
+        }
+
+        // Escuchar eventos de filtro del MODAL (filtroTitulo, filtroGenero, filtroTipo)
+        document.getElementById('filtroTitulo').addEventListener('input', filtrarLibros);
+        document.getElementById('filtroGenero').addEventListener('change', filtrarLibros);
+        document.getElementById('filtroTipo').addEventListener('change', filtrarLibros);
+
+        // 🔹 Registrar compra (con URL aleatoria)
         purchaseForm.addEventListener('submit', async e => {
             e.preventDefault();
 
-            // Determinar UsuarioID según si es admin o no
+            // Determinar UsuarioID
             let UsuarioID;
             if (@isAdmin.ToString().ToLower()) {
                 // Admin: usar select
@@ -231,15 +298,25 @@
             }
 
             const LibroID = parseInt(selectLibro.value);
+            const libroSeleccionado = allLibros.find(l => l.libroID === LibroID);
 
             if (isNaN(UsuarioID) || isNaN(LibroID)) {
-                alert('No se pudo determinar el usuario logueado o libro no seleccionado.');
+                alert('Debe seleccionar un usuario y un libro válidos.');
                 return;
             }
 
+            // Validar que el libro tenga un precio para enviarlo en el DTO (asumiendo que el DTO en el backend lo requiere)
+            if (!libroSeleccionado || libroSeleccionado.precio === undefined) {
+                 alert('Error: No se encontró la información de precio para el libro seleccionado.');
+                 return;
+            }
+
             // ✅ Generar URL aleatoria al crear la compra
-            const random = Math.random().toString(36).substring(2, 10);
-            const descargaURL = `https://descargas.libraplus.com/${random}`;
+            let descargaURL = null;
+            if (libroSeleccionado.tipo === "Digital") {
+                const random = Math.random().toString(36).substring(2, 10);
+                descargaURL = `https://descargas.libraplus.com/${random}`;
+            }
 
             try {
                 const token = document.getElementsByName('__RequestVerificationToken')[0]?.value;
@@ -249,7 +326,13 @@
                         'Content-Type': 'application/json',
                         'RequestVerificationToken': token
                     },
-                    body: JSON.stringify({ UsuarioID, LibroID, descargaURL })
+                    // Se agrega el precio (asumiendo que el DTO del backend lo requiere del objeto Libro)
+                    body: JSON.stringify({
+                        UsuarioID: UsuarioID,
+                        LibroID: LibroID,
+                        DescargaURL: descargaURL,
+                        Precio: libroSeleccionado.precio // Se añade el precio del libro
+                    })
                 });
 
                 const result = await response.json();
@@ -257,6 +340,10 @@
                     allCompras.push(result.compra);
                     renderTable();
                     closeModal();
+                    // Limpiar filtros del modal
+                    document.getElementById('filtroTitulo').value = '';
+                    document.getElementById('filtroGenero').value = '';
+                    document.getElementById('filtroTipo').value = '';
                 } else {
                     alert('Error al registrar la compra: ' + (result.mensaje || 'desconocido'));
                 }
@@ -277,6 +364,10 @@
                 button.textContent = "Ver URL";
             }
         }
+
+        // Hacer la función 'toggleUrl' globalmente accesible
+        window.toggleUrl = toggleUrl;
+
 
         // 🔹 Mostrar modal de resumen
         function mostrarResumen() {
@@ -304,6 +395,8 @@
 
             summaryModal.style.display = 'flex';
         }
+        // Hacer la función 'mostrarResumen' globalmente accesible
+        window.mostrarResumen = mostrarResumen;
 
 
         // 🔹 Cerrar modal de resumen
@@ -311,14 +404,20 @@
             const summaryModal = document.getElementById('summaryModal');
             summaryModal.style.display = 'none';
         }
+        // Hacer la función 'closeSummaryModal' globalmente accesible
+        window.closeSummaryModal = closeSummaryModal;
 
-        // 🔹 Filtros
+        // 🔹 Filtros de la tabla principal
         function applyFilters() {
             const nameFilter = filterNameInput.value.toLowerCase();
             const typeFilter = filterTypeSelect.value;
             document.querySelectorAll('#purchaseTableBody tr').forEach(row => {
+                // Libro está en la columna 2 (índice 1)
                 const bookName = row.children[1].textContent.toLowerCase();
+                // Tipo está en la columna 5 (índice 4)
                 const bookType = row.children[4].textContent;
+
+                // Muestra la fila si el nombre incluye el filtro Y el tipo coincide (o el filtro de tipo está vacío)
                 row.style.display = (bookName.includes(nameFilter) && (typeFilter === "" || bookType === typeFilter)) ? "" : "none";
             });
         }

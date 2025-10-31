@@ -3,7 +3,19 @@
   "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\compras\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\rese\u00F1as\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\controllers\\rese\u00F1ascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9D23EEEA-F605-49F0-BD7E-73C3236F42DC}|..\\LibraPlus.API\\LibraPlus.API.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.api\\controllers\\rese\u00F1ascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.aplicacion\\dtos\\rese\u00F1asdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,11 +43,63 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
+              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
+              "ViewState": "AgIAAI0BAAAAAAAAAAAQwLABAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-31T22:02:14.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Rese\u00F1asDTO.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "RelativeToolTip": "..\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T21:53:48.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Rese\u00F1asController.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeToolTip": "..\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAA9wC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T21:51:37.401Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Rese\u00F1asController.cs",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
+              "RelativeToolTip": "..\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAcwHMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T21:47:22.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
               "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
               "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
-              "ViewState": "AgIAAKgAAAAAAAAAAAAQwMgAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAwHMAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-30T21:52:33.461Z",
               "EditorCaption": ""
