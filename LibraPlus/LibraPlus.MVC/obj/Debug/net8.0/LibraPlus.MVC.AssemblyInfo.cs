@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LibraPlus.MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60de5fdd9dd4c73aac7f3468f225aac9002cbd6d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3fd4d8155ac361739a8b4b0b4ff95c8c23d77254")]
 [assembly: System.Reflection.AssemblyProductAttribute("LibraPlus.MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LibraPlus.MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

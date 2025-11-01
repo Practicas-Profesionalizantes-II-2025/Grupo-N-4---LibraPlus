@@ -1,7 +1,7 @@
 ﻿@model List<ComprasDTO>
 @{
     ViewData["Title"] = "Administración de Compras - LibraPlus";
-    Layout = "_Layout"; 
+    Layout = "_Layout";
     var isAdmin = User.IsInRole("Admin");
 }
 
@@ -54,9 +54,13 @@
     <h2 class="titulo">🛒 Historial de Compras</h2>
 
     <div class="filters-bar">
-        <div class="filter-left">
-            <button class="btn-return" onclick="mostrarResumen()">📊 Ver Resumen</button>
-        </div>
+        @if (isAdmin)
+        {
+            <div class="filter-left">
+                <button class="btn-return" onclick="mostrarResumen()">📊 Ver Resumen</button>
+            </div>
+        }
+
         <div class="filter-right">
             <input type="text" id="filterName" placeholder="🔍 Filtrar por libro...">
             <select id="filterType">
@@ -85,6 +89,7 @@
     </div>
 </div>
 
+<!-- ✅ MODAL DE REGISTRO DE COMPRA -->
 <div class="modal" id="purchaseModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
@@ -105,15 +110,9 @@
                 <input type="text" id="filtroTitulo" placeholder="Buscar libro..." class="filter-input">
                 <select id="filtroGenero" class="filter-select">
                     <option value="">Todos los géneros</option>
-                    <option value="Fantasia">Fantasía</option>
-                    <option value="Ciencia ficción">Ciencia ficción</option>
-                    <option value="Novela">Novela</option>
-                    <option value="Comic">Comic</option>
                 </select>
                 <select id="filtroTipo" class="filter-select">
                     <option value="">Todos los tipos</option>
-                    <option value="Físico">Físico</option>
-                    <option value="Digital">Digital</option>
                 </select>
             </div>
 
@@ -130,6 +129,7 @@
     </div>
 </div>
 
+<!-- ✅ MODAL DE RESUMEN -->
 <div class="modal" id="summaryModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeSummaryModal()">×</button>
@@ -148,7 +148,6 @@
 
 @section Scripts {
     <script>
-        // ✅ Elementos del DOM
         const modal = document.getElementById('purchaseModal');
         const purchaseForm = document.getElementById('purchaseForm');
         const tableBody = document.getElementById('purchaseTableBody');
@@ -161,21 +160,21 @@
         let allUsuarios = [];
         let allLibros = [];
 
-        // 🔹 Abrir y cerrar modal
+        // 🟢 Abrir modal
         function openModal() {
             modal.style.display = 'flex';
             purchaseForm.reset();
-            // Asegurar que el select de libros se renderiza con todos los libros al abrir
+            cargarFiltrosLibros();
             filtrarLibros();
         }
         function closeModal() { modal.style.display = 'none'; }
         window.onclick = e => { if (e.target === modal) closeModal(); }
 
-        // 🔹 Cargar usuarios y libros desde la API
+        // 🟢 Cargar usuarios y libros
         async function loadUsuariosYLibros() {
             try {
-                // Usuarios
                 const isAdmin = @isAdmin.ToString().ToLower();
+
                 if (isAdmin) {
                     allUsuarios = await (await fetch('/Compras/GetUsuarios')).json();
                     selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
@@ -187,80 +186,45 @@
                     });
                 }
 
-                // Libros
                 allLibros = await (await fetch('/Compras/GetLibros')).json();
-                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
-                // Inicialmente llenar el select sin filtros
-                allLibros.forEach(l => {
-                    const opt = document.createElement('option');
-                    opt.value = l.libroID;
-                    opt.textContent = `${l.titulo} - ${l.autor} (${l.tipo})`;
-                    selectLibro.appendChild(opt);
-                });
+                cargarFiltrosLibros();
+                filtrarLibros();
             } catch (err) {
-                console.error('Error cargando usuarios o libros:', err);
+                console.error('Error cargando datos:', err);
                 alert('Error al cargar usuarios o libros.');
             }
         }
 
-        // 🔹 Cargar compras
-        async function loadCompras() {
-            try {
-                allCompras = await (await fetch('/Compras/Lista')).json();
-                renderTable();
-            } catch (err) {
-                console.error('Error cargando compras:', err);
-            }
-        }
+        // 🟢 Cargar géneros y tipos dinámicos
+        function cargarFiltrosLibros() {
+            const filtroGenero = document.getElementById('filtroGenero');
+            const filtroTipo = document.getElementById('filtroTipo');
 
-        // 🔹 Renderizar tabla
-        function renderTable() {
-            tableBody.innerHTML = '';
-            // Se necesita la lista de usuarios para renderizar el nombre, si aún no está cargada (ej. si no es Admin), se intenta cargar o se usa el ID.
-            if (allUsuarios.length === 0 && @isAdmin.ToString().ToLower()) {
-                 // Si es Admin y no hay usuarios, se espera que loadUsuariosYLibros se haya llamado
-            } else if (allUsuarios.length === 0 && !@isAdmin.ToString().ToLower()) {
-                // Si no es Admin, el nombre de usuario de las compras propias debería ser el del usuario logueado.
-                // Para el propósito de esta función que itera *todas* las compras, asumiremos que si no es Admin, solo se muestran sus propias compras.
-                // Sin embargo, para que el resumen funcione con "Desconocido" si la lista global está vacía, no haremos nada.
-            }
-
-            allCompras.forEach(c => {
-                const usuario = allUsuarios.find(u => u.usuarioId === c.usuarioID)?.nombre ?? 'Desconocido';
-                const libro = allLibros.find(l => l.libroID === c.libroID);
-                const libroTitulo = libro?.titulo ?? 'Desconocido';
-                const tipo = libro?.tipo ?? 'Desconocido';
-                const fecha = new Date(c.fecha).toLocaleDateString();
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${usuario}</td>
-                    <td>${libroTitulo}</td>
-                    <td>${fecha}</td>
-                    <td>$${c.precio.toFixed(2)}</td>
-                    <td>${tipo}</td>
-                    <td>
-                        ${
-                            c.descargaURL
-                            ? `<button class="show-url" onclick="toggleUrl(this, '${c.descargaURL}')">Ver URL</button>
-                               <span class="hidden-url" style="display:none;">${c.descargaURL}</span>`
-                            : 'N/A'
-                        }
-                    </td>
-                `;
-                tableBody.appendChild(row);
+            const generosUnicos = [...new Set(allLibros.map(l => l.genero).filter(g => g))];
+            filtroGenero.innerHTML = '<option value="">Todos los géneros</option>';
+            generosUnicos.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                filtroGenero.appendChild(opt);
             });
 
-            applyFilters();
+            const tiposUnicos = [...new Set(allLibros.map(l => l.tipo).filter(t => t))];
+            filtroTipo.innerHTML = '<option value="">Todos los tipos</option>';
+            tiposUnicos.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t;
+                filtroTipo.appendChild(opt);
+            });
         }
 
-        // 🔹 Filtrar libros para el modal de registro
+        // 🟢 Filtrar libros dinámicamente
         function filtrarLibros() {
             const texto = document.getElementById('filtroTitulo').value.toLowerCase();
             const genero = document.getElementById('filtroGenero').value.toLowerCase();
             const tipo = document.getElementById('filtroTipo').value.toLowerCase();
 
-            const selectLibro = document.getElementById('libro');
             selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
 
             allLibros
@@ -277,41 +241,78 @@
                 });
         }
 
-        // Escuchar eventos de filtro del MODAL (filtroTitulo, filtroGenero, filtroTipo)
+        // 🟢 Escuchar cambios en los filtros
         document.getElementById('filtroTitulo').addEventListener('input', filtrarLibros);
         document.getElementById('filtroGenero').addEventListener('change', filtrarLibros);
         document.getElementById('filtroTipo').addEventListener('change', filtrarLibros);
 
-        // 🔹 Registrar compra (con URL aleatoria)
+        // 🟢 Cargar compras
+        async function loadCompras() {
+            try {
+                allCompras = await (await fetch('/Compras/Lista')).json();
+                renderTable();
+            } catch (err) { console.error('Error cargando compras:', err); }
+        }
+
+        // ✅ 🔥 Renderizar tabla con control de visibilidad SEGÚN ROL
+        function renderTable() {
+            tableBody.innerHTML = '';
+            const isAdmin = @isAdmin.ToString().ToLower();
+            const currentUserId = parseInt("@User.FindFirst("Id")?.Value");
+
+            allCompras.forEach(c => {
+                // 🔒 Si NO es admin, solo muestra sus compras
+                if (!isAdmin && c.usuarioID !== currentUserId) return;
+
+                const usuario = allUsuarios.find(u => u.usuarioId === c.usuarioID)?.nombre ?? 'Desconocido';
+                const libro = allLibros.find(l => l.libroID === c.libroID);
+                const titulo = libro?.titulo ?? 'Desconocido';
+                const tipo = libro?.tipo ?? 'Desconocido';
+                const fecha = new Date(c.fecha).toLocaleDateString();
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${usuario}</td>
+                    <td>${titulo}</td>
+                    <td>${fecha}</td>
+                    <td>$${c.precio.toFixed(2)}</td>
+                    <td>${tipo}</td>
+                    <td>${
+                        c.descargaURL
+                        ? `<button class="show-url" onclick="toggleUrl(this, '${c.descargaURL}')">Ver URL</button>
+                           <span class="hidden-url" style="display:none;">${c.descargaURL}</span>`
+                        : 'N/A'
+                    }</td>`;
+                tableBody.appendChild(row);
+            });
+
+            applyFilters();
+        }
+
+        // 🟢 Filtros de la tabla principal
+        function applyFilters() {
+            const nameFilter = filterNameInput.value.toLowerCase();
+            const typeFilter = filterTypeSelect.value;
+            document.querySelectorAll('#purchaseTableBody tr').forEach(row => {
+                const bookName = row.children[1].textContent.toLowerCase();
+                const bookType = row.children[4].textContent;
+                row.style.display = (bookName.includes(nameFilter) && (typeFilter === "" || bookType === typeFilter)) ? "" : "none";
+            });
+        }
+        filterNameInput.addEventListener('input', applyFilters);
+        filterTypeSelect.addEventListener('change', applyFilters);
+
+        // 🟢 Registrar compra
         purchaseForm.addEventListener('submit', async e => {
             e.preventDefault();
 
-            // Determinar UsuarioID
-            let UsuarioID;
-            if (@isAdmin.ToString().ToLower()) {
-                // Admin: usar select
-                UsuarioID = parseInt(selectUsuario.value);
-            } else {
-                // Usuario normal: usar hidden
-                const hiddenInput = document.getElementById('usuario');
-                UsuarioID = parseInt(hiddenInput?.value);
-            }
-
+            const isAdmin = @isAdmin.ToString().ToLower();
+            let UsuarioID = isAdmin ? parseInt(selectUsuario.value) : parseInt(document.getElementById('usuario').value);
             const LibroID = parseInt(selectLibro.value);
             const libroSeleccionado = allLibros.find(l => l.libroID === LibroID);
 
-            if (isNaN(UsuarioID) || isNaN(LibroID)) {
-                alert('Debe seleccionar un usuario y un libro válidos.');
-                return;
-            }
+            if (!UsuarioID || !LibroID) return alert('Debe seleccionar un usuario y un libro.');
 
-            // Validar que el libro tenga un precio para enviarlo en el DTO (asumiendo que el DTO en el backend lo requiere)
-            if (!libroSeleccionado || libroSeleccionado.precio === undefined) {
-                 alert('Error: No se encontró la información de precio para el libro seleccionado.');
-                 return;
-            }
-
-            // ✅ Generar URL aleatoria al crear la compra
             let descargaURL = null;
             if (libroSeleccionado.tipo === "Digital") {
                 const random = Math.random().toString(36).substring(2, 10);
@@ -320,111 +321,65 @@
 
             try {
                 const token = document.getElementsByName('__RequestVerificationToken')[0]?.value;
-                const response = await fetch('/Compras/Create', {
+                const res = await fetch('/Compras/Create', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': token
-                    },
-                    // Se agrega el precio (asumiendo que el DTO del backend lo requiere del objeto Libro)
+                    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': token },
                     body: JSON.stringify({
-                        UsuarioID: UsuarioID,
-                        LibroID: LibroID,
-                        DescargaURL: descargaURL,
-                        Precio: libroSeleccionado.precio // Se añade el precio del libro
+                        UsuarioID, LibroID, DescargaURL: descargaURL, Precio: libroSeleccionado.precio
                     })
                 });
-
-                const result = await response.json();
+                const result = await res.json();
                 if (result.success) {
                     allCompras.push(result.compra);
                     renderTable();
                     closeModal();
-                    // Limpiar filtros del modal
-                    document.getElementById('filtroTitulo').value = '';
-                    document.getElementById('filtroGenero').value = '';
-                    document.getElementById('filtroTipo').value = '';
                 } else {
-                    alert('Error al registrar la compra: ' + (result.mensaje || 'desconocido'));
+                    alert(result.mensaje || 'Error al registrar compra');
                 }
             } catch (err) {
-                console.error('Error al registrar compra:', err);
-                alert('Error al registrar la compra: ' + err.message);
+                alert('Error al registrar compra: ' + err.message);
             }
         });
 
-        // 🔹 Mostrar u ocultar URL de descarga
-        function toggleUrl(button, url) {
+        // 🟢 Mostrar/Ocultar URL descarga
+        function toggleUrl(button) {
             const span = button.nextElementSibling;
-            if (span.style.display === "none") {
-                span.style.display = "inline";
-                button.textContent = "Ocultar URL";
-            } else {
-                span.style.display = "none";
-                button.textContent = "Ver URL";
-            }
+            span.style.display = span.style.display === "none" ? "inline" : "none";
+            button.textContent = span.style.display === "none" ? "Ver URL" : "Ocultar URL";
         }
 
-        // Hacer la función 'toggleUrl' globalmente accesible
-        window.toggleUrl = toggleUrl;
-
-
-        // 🔹 Mostrar modal de resumen
+        // ✅ 🔒 Resumen SOLO visible para Admin
         function mostrarResumen() {
-            const summaryModal = document.getElementById('summaryModal');
-            const summaryTableBody = document.getElementById('summaryTableBody');
-            summaryTableBody.innerHTML = '';
+            const isAdmin = @isAdmin.ToString().ToLower();
+            if (!isAdmin) return; // evita que lo abran desde consola
 
-            if (allCompras.length === 0) {
-                summaryTableBody.innerHTML = `<tr><td colspan="2" style="text-align:center;">No hay compras registradas</td></tr>`;
-                summaryModal.style.display = 'flex';
+            const modal = document.getElementById('summaryModal');
+            const body = document.getElementById('summaryTableBody');
+            body.innerHTML = '';
+
+            if (!allCompras.length) {
+                body.innerHTML = `<tr><td colspan="2">No hay compras registradas</td></tr>`;
+                modal.style.display = 'flex';
                 return;
             }
 
             const resumen = {};
-            allCompras.forEach(c => {
-                resumen[c.usuarioID] = (resumen[c.usuarioID] || 0) + 1;
-            });
+            allCompras.forEach(c => resumen[c.usuarioID] = (resumen[c.usuarioID] || 0) + 1);
 
-            Object.entries(resumen).forEach(([usuarioID, cantidad]) => {
-                const usuario = allUsuarios.find(u => u.usuarioId === parseInt(usuarioID))?.nombre ?? 'Desconocido';
+            Object.entries(resumen).forEach(([id, cantidad]) => {
+                const usuario = allUsuarios.find(u => u.usuarioId === parseInt(id))?.nombre ?? 'Desconocido';
                 const row = document.createElement('tr');
-                row.innerHTML = `<td>${usuario}</td><td style="text-align:center;">${cantidad}</td>`;
-                summaryTableBody.appendChild(row);
+                row.innerHTML = `<td>${usuario}</td><td>${cantidad}</td>`;
+                body.appendChild(row);
             });
 
-            summaryModal.style.display = 'flex';
+            modal.style.display = 'flex';
         }
-        // Hacer la función 'mostrarResumen' globalmente accesible
-        window.mostrarResumen = mostrarResumen;
-
-
-        // 🔹 Cerrar modal de resumen
         function closeSummaryModal() {
-            const summaryModal = document.getElementById('summaryModal');
-            summaryModal.style.display = 'none';
+            document.getElementById('summaryModal').style.display = 'none';
         }
-        // Hacer la función 'closeSummaryModal' globalmente accesible
-        window.closeSummaryModal = closeSummaryModal;
 
-        // 🔹 Filtros de la tabla principal
-        function applyFilters() {
-            const nameFilter = filterNameInput.value.toLowerCase();
-            const typeFilter = filterTypeSelect.value;
-            document.querySelectorAll('#purchaseTableBody tr').forEach(row => {
-                // Libro está en la columna 2 (índice 1)
-                const bookName = row.children[1].textContent.toLowerCase();
-                // Tipo está en la columna 5 (índice 4)
-                const bookType = row.children[4].textContent;
-
-                // Muestra la fila si el nombre incluye el filtro Y el tipo coincide (o el filtro de tipo está vacío)
-                row.style.display = (bookName.includes(nameFilter) && (typeFilter === "" || bookType === typeFilter)) ? "" : "none";
-            });
-        }
-        filterNameInput.addEventListener('input', applyFilters);
-        filterTypeSelect.addEventListener('change', applyFilters);
-
-        // 🔹 Inicializar todo
+        // 🟢 Inicialización
         document.addEventListener('DOMContentLoaded', async () => {
             await loadUsuariosYLibros();
             await loadCompras();

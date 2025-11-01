@@ -3,11 +3,80 @@
     ViewData["Title"] = "Gestión de Préstamos";
     Layout = "_Layout";
     var isAdmin = User.IsInRole("Admin");
+    var currentUserId = User.FindFirst("Id")?.Value;
 }
+
+<style>
+    /* ----- MODAL GENERAL ----- */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+        /* Cuando se muestra el modal */
+        .modal.show {
+            display: flex;
+        }
+
+    /* Contenido interno del modal */
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        max-width: 95%;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    }
+
+    /* Botón cerrar */
+    .close-btn {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .modal-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .save, .cancel {
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+</style>
 
 <div class="container-beige">
     <h2 class="titulo">📚 Préstamos</h2>
     <button class="btn-agregar" onclick="openModal()">+ Registrar Préstamo</button>
+    
+    @if (isAdmin)
+    {
+        <div class="filtros-admin" style="margin: 10px 0;">
+            <label for="filtroDevuelto">Filtrar por estado:</label>
+            <select id="filtroDevuelto" class="filter-select">
+                <option value="">Todos</option>
+                <option value="true">Devueltos</option>
+                <option value="false">No devueltos</option>
+            </select>
+        </div>
+    }
 
     <div class="table-container">
         <table>
@@ -42,8 +111,15 @@
             }
             else
             {
-                <input type="hidden" id="usuario" value="@User.FindFirst("Id")?.Value" />
+                <input type="hidden" id="usuario" value="@currentUserId" />
             }
+
+            <div class="libro-filters" style="margin-bottom:10px;">
+                <input type="text" id="filtroTitulo" placeholder="Buscar libro..." class="filter-input">
+                <select id="filtroGenero" class="filter-select">
+                    <option value="">Todos los géneros</option>
+                </select>
+            </div>
 
             <select id="libro" required>
                 <option value="">Seleccione un Libro</option>
@@ -63,12 +139,18 @@
     <script>
         const API_BASE = "https://localhost:7290/api";
 
+        // Inyección directa desde Razor (sin comparaciones con strings)
+        const isAdmin = @(isAdmin.ToString().ToLower());
+        const currentUserId = parseInt("@(currentUserId ?? "0")") || 0;
+
+        // Elementos del DOM
         const modal = document.getElementById('prestamoModal');
         const prestamoForm = document.getElementById('prestamoForm');
         const tableBody = document.getElementById('prestamosTableBody');
         const selectLibro = document.getElementById('libro');
         const selectUsuario = document.getElementById('usuario');
 
+        // Arrays globales
         let allPrestamos = [];
         let allLibros = [];
         let allUsuarios = [];
@@ -77,18 +159,30 @@
         function openModal() {
             modal.classList.add("show");
             prestamoForm.reset();
+            cargarFiltrosGenero();
+            filtrarLibros();
         }
 
-        function closeModal() {
-            modal.classList.remove("show");
-        }
+        function closeModal() { modal.classList.remove("show"); }
 
-        window.onclick = e => { if (e.target === modal) closeModal(); }
+        window.onclick = e => { if (e.target === modal) closeModal(); };
 
         // === Renderizar tabla ===
         function renderTable() {
             tableBody.innerHTML = '';
+
+            const filtroDevuelto = document.getElementById('filtroDevuelto')?.value || '';
+
             allPrestamos.forEach(p => {
+                // Usuarios comunes: solo sus préstamos
+                if (!isAdmin && p.UsuarioID !== currentUserId) return;
+
+                // Filtro de admin por devueltos/no devueltos
+                if (isAdmin && filtroDevuelto) {
+                    const esDevuelto = p.Devuelto ? "true" : "false";
+                    if (esDevuelto !== filtroDevuelto) return;
+                }
+
                 const libro = allLibros.find(l => l.LibroID === p.LibroID)?.Titulo ?? 'Desconocido';
                 const usuario = allUsuarios.find(u => u.UsuarioID === p.UsuarioID)?.Nombre ?? `ID ${p.UsuarioID}`;
                 const fechaInicio = new Date(p.FechaInicio).toLocaleDateString();
@@ -102,15 +196,16 @@
                     <td>${fechaFin}</td>
                     <td>${p.Devuelto ? "✔️" : "❌"}</td>
                     <td>
-                        ${!p.Devuelto ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>` : ""}
-                    </td>
-                `;
+                        ${(isAdmin && !p.Devuelto)
+                            ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>`
+                            : ""}
+                    </td>`;
                 tableBody.appendChild(row);
             });
         }
 
         // === Cargar datos de API ===
-        async function loadAllData() {
+                async function loadAllData() {
             try {
                 const [librosResp, usuariosResp, prestamosResp] = await Promise.all([
                     fetch(`${API_BASE}/Libros`),
@@ -125,46 +220,73 @@
                 allUsuarios = await usuariosResp.json();
                 allPrestamos = await prestamosResp.json();
 
-                // Llenar combo de libros (solo físicos con stock)
-                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
-                allLibros
-                    .filter(l => l.Tipo === "Físico" && l.Stock > 0)
-                    .forEach(l => {
-                        const option = document.createElement('option');
-                        option.value = l.LibroID;
-                        option.textContent = l.Titulo;
-                        selectLibro.appendChild(option);
-                    });
-
-                // Llenar combo de usuarios solo si es admin
-                if (@isAdmin.ToString().ToLower()) {
+                // === Llenar select de usuarios solo si es admin ===
+                if (isAdmin && selectUsuario) {
                     selectUsuario.innerHTML = '<option value="">Seleccione un Usuario</option>';
                     allUsuarios.forEach(u => {
-                        const option = document.createElement('option');
-                        option.value = u.UsuarioID;
-                        option.textContent = u.Nombre;
-                        selectUsuario.appendChild(option);
+                        const opt = document.createElement('option');
+                        opt.value = u.UsuarioID ?? u.id ?? 0; // por si la propiedad varía
+                        opt.textContent = u.Nombre ?? u.nombre ?? `ID ${u.UsuarioID}`;
+                        selectUsuario.appendChild(opt);
                     });
                 }
 
-                renderTable();
+                cargarFiltrosGenero();
+                filtrarLibros();
+                renderTable(); // renderizamos tabla al final, con todos los datos cargados
             } catch (err) {
                 console.error('❌ Error cargando datos:', err);
                 alert('Error al cargar datos: ' + err.message);
             }
         }
 
+
+        // === Cargar géneros únicos para filtro ===
+        function cargarFiltrosGenero() {
+            const filtroGenero = document.getElementById('filtroGenero');
+            if (!filtroGenero) return;
+
+            const generosUnicos = [...new Set(allLibros.map(l => l.Genero).filter(g => g))];
+            filtroGenero.innerHTML = '<option value="">Todos los géneros</option>';
+            generosUnicos.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = g;
+                filtroGenero.appendChild(opt);
+            });
+        }
+
+        // === Filtrar libros físicos por título y género ===
+        function filtrarLibros() {
+            const texto = document.getElementById('filtroTitulo')?.value.toLowerCase() || '';
+            const genero = document.getElementById('filtroGenero')?.value.toLowerCase() || '';
+
+            selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+
+            allLibros
+                .filter(l =>
+                    l.Tipo === "Físico" && l.Stock > 0 &&
+                    (!texto || l.Titulo.toLowerCase().includes(texto)) &&
+                    (!genero || (l.Genero && l.Genero.toLowerCase() === genero))
+                )
+                .forEach(l => {
+                    const opt = document.createElement('option');
+                    opt.value = l.LibroID;
+                    opt.textContent = `${l.Titulo} - ${l.Autor}`;
+                    selectLibro.appendChild(opt);
+                });
+        }
+
+        // === Escuchar cambios en filtros ===
+        document.getElementById('filtroTitulo')?.addEventListener('input', filtrarLibros);
+        document.getElementById('filtroGenero')?.addEventListener('change', filtrarLibros);
+        document.getElementById('filtroDevuelto')?.addEventListener('change', renderTable);
+
         // === Crear nuevo préstamo ===
         prestamoForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            let UsuarioID;
-            if (@isAdmin.ToString().ToLower()) {
-                UsuarioID = parseInt(selectUsuario.value);
-            } else {
-                UsuarioID = parseInt(document.getElementById('usuario').value);
-            }
-
+            let UsuarioID = isAdmin ? parseInt(selectUsuario.value) : currentUserId;
             const LibroID = parseInt(selectLibro.value);
             const FechaFin = document.getElementById('fechaFin').value;
 
