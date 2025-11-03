@@ -14,9 +14,8 @@ namespace LibraPlus.Aplicacion.DTOs
         [EmailAddress(ErrorMessage = "Formato de email inválido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es obligatoria")]
-        [StringLength(100, ErrorMessage = "La contraseña no puede tener más de 100 caracteres")]
-        public string Password { get; set; }
+        // ✅ Ya NO requerido, opcional en edición
+        public string? Password { get; set; }
 
         [Range(0, 5, ErrorMessage = "La reputación debe estar entre 0 y 5")]
         public int Reputación { get; set; }

@@ -1064,8 +1064,7 @@
       "UsuariosDTO": {
         "required": [
           "Email",
-          "Nombre",
-          "Password"
+          "Nombre"
         ],
         "type": "object",
         "properties": {
@@ -1084,9 +1083,8 @@
             "format": "email"
           },
           "Password": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "Reputación": {
             "maximum": 5,

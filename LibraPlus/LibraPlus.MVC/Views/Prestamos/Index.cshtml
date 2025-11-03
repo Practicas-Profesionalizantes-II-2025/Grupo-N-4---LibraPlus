@@ -87,7 +87,10 @@
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
                     <th>Devuelto</th>
-                    <th>Acciones</th>
+                    @if (isAdmin)
+                    {
+                        <th>Acciones</th>
+                    }
                 </tr>
             </thead>
             <tbody id="prestamosTableBody"></tbody>
@@ -168,16 +171,13 @@
         window.onclick = e => { if (e.target === modal) closeModal(); };
 
         // === Renderizar tabla ===
-        function renderTable() {
+            function renderTable() {
             tableBody.innerHTML = '';
 
             const filtroDevuelto = document.getElementById('filtroDevuelto')?.value || '';
 
             allPrestamos.forEach(p => {
-                // Usuarios comunes: solo sus préstamos
                 if (!isAdmin && p.UsuarioID !== currentUserId) return;
-
-                // Filtro de admin por devueltos/no devueltos
                 if (isAdmin && filtroDevuelto) {
                     const esDevuelto = p.Devuelto ? "true" : "false";
                     if (esDevuelto !== filtroDevuelto) return;
@@ -195,14 +195,16 @@
                     <td>${fechaInicio}</td>
                     <td>${fechaFin}</td>
                     <td>${p.Devuelto ? "✔️" : "❌"}</td>
-                    <td>
-                        ${(isAdmin && !p.Devuelto)
-                            ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>`
-                            : ""}
-                    </td>`;
+                    ${isAdmin ? `
+                        <td>
+                            ${!p.Devuelto ? `<button class="btn-return" onclick="devolverPrestamo(${p.PrestamoID})">Devolver</button>` : ""}
+                        </td>` : ""}
+                `;
+
                 tableBody.appendChild(row);
             });
         }
+
 
         // === Cargar datos de API ===
                 async function loadAllData() {

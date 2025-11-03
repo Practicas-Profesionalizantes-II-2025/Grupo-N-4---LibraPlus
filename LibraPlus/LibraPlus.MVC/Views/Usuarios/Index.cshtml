@@ -8,14 +8,12 @@
 
 <div class="container">
     <h2>Usuarios Registrados</h2>
-    @* <button class="add-user" onclick="openModal('add')">+ Agregar Usuario</button> *@
 
     <table>
         <thead>
             <tr>
                 <th>Nombre</th>
                 <th>Email</th>
-                <th>Reputación</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -24,11 +22,9 @@
             {
                 <tr data-id="@usuario.UsuarioId"
                     data-nombre="@usuario.Nombre"
-                    data-email="@usuario.Email"
-                    data-reputacion="@usuario.Reputacion">
+                    data-email="@usuario.Email">
                     <td>@usuario.Nombre</td>
                     <td>@usuario.Email</td>
-                    <td>@usuario.Reputacion</td>
                     <td>
                         <button class="btn btn-edit" onclick="openModal('edit', this)">Editar</button>
                         <button class="btn btn-delete" onclick="deleteUser(@usuario.UsuarioId, this)">Eliminar</button>
@@ -39,17 +35,19 @@
     </table>
 </div>
 
-<!-- Modal para agregar/editar -->
+<!-- Modal Agregar/Editar -->
 <div class="modal" id="userModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeModal()">×</button>
         <h3 id="modalTitle">Agregar Usuario</h3>
+
         <form id="userForm">
+            @Html.AntiForgeryToken()
+
             <input type="hidden" id="usuarioId" />
             <input type="text" id="usuarioNombre" placeholder="Nombre" required />
             <input type="email" id="usuarioEmail" placeholder="Correo electrónico" required />
-            <input type="number" id="usuarioReputacion" placeholder="Reputación" required min="0" max="5" />
-            @Html.AntiForgeryToken()
+
             <div class="modal-actions">
                 <button type="submit" class="save">Guardar</button>
                 <button type="button" class="cancel" onclick="closeModal()">Cancelar</button>
@@ -66,7 +64,6 @@
         const inputId = document.getElementById('usuarioId');
         const inputNombre = document.getElementById('usuarioNombre');
         const inputEmail = document.getElementById('usuarioEmail');
-        const inputReputacion = document.getElementById('usuarioReputacion');
         const tableBody = document.getElementById('userTableBody');
 
         function openModal(mode, button) {
@@ -76,32 +73,37 @@
                 inputId.value = '';
                 inputNombre.value = '';
                 inputEmail.value = '';
-                inputReputacion.value = '';
-            } else if (mode === 'edit') {
+            } else {
                 modalTitle.textContent = 'Editar Usuario';
                 form.dataset.mode = 'edit';
                 const row = button.closest('tr');
-                inputId.value = row.dataset.id;
-                inputNombre.value = row.dataset.nombre;
-                inputEmail.value = row.dataset.email;
-                inputReputacion.value = row.dataset.reputacion;
+
+                inputId.value = row.getAttribute("data-id");
+                inputNombre.value = row.getAttribute("data-nombre");
+                inputEmail.value = row.getAttribute("data-email");
             }
             modal.style.display = 'flex';
         }
 
-        function closeModal() { modal.style.display = 'none'; }
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
         window.onclick = e => { if (e.target === modal) closeModal(); }
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
+
             const usuario = {
-                UsuarioID: parseInt(inputId.value || '0'),
-                Nombre: inputNombre.value.trim(),
-                Email: inputEmail.value.trim(),
-                Reputacion: parseInt(inputReputacion.value || '0')
+                usuarioId: parseInt(inputId.value || '0'),
+                nombre: inputNombre.value.trim(),
+                email: inputEmail.value.trim()
             };
 
-            let url = form.dataset.mode === 'add' ? '/Usuarios/Create' : `/Usuarios/Edit/${usuario.UsuarioID}`;
+            const url = form.dataset.mode === 'add'
+                ? '/Usuarios/Create'
+                : `/Usuarios/Edit/${usuario.usuarioId}`;
+
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
             try {
@@ -115,30 +117,37 @@
                 });
 
                 if (!response.ok) throw new Error(await response.text());
+
                 const returned = await response.json().catch(() => usuario);
 
                 if (form.dataset.mode === 'add') {
+
                     const tr = document.createElement('tr');
-                    tr.dataset.id = returned.UsuarioID;
-                    tr.dataset.nombre = returned.Nombre;
-                    tr.dataset.email = returned.Email;
-                    tr.dataset.reputacion = returned.Reputacion;
+                    tr.setAttribute("data-id", returned.usuarioId);
+                    tr.setAttribute("data-nombre", returned.nombre);
+                    tr.setAttribute("data-email", returned.email);
+
                     tr.innerHTML = `
-                        <td>${returned.Nombre}</td>
-                        <td>${returned.Email}</td>
-                        <td>${returned.Reputacion}</td>
+                        <td>${returned.nombre}</td>
+                        <td>${returned.email}</td>
                         <td>
                             <button class="btn btn-edit" onclick="openModal('edit', this)">Editar</button>
-                            <button class="btn btn-delete" onclick="deleteUser(${returned.UsuarioID}, this)">Eliminar</button>
+                            <button class="btn btn-delete" onclick="deleteUser(${returned.usuarioId}, this)">Eliminar</button>
                         </td>`;
+
                     tableBody.appendChild(tr);
+
                 } else {
-                    const row = document.querySelector(`tr[data-id="${usuario.UsuarioID}"]`);
-                    row.cells[0].textContent = usuario.Nombre;
-                    row.cells[1].textContent = usuario.Email;
-                    row.cells[2].textContent = usuario.Reputacion;
+                    const row = document.querySelector(`tr[data-id="${usuario.usuarioId}"]`);
+                    row.setAttribute("data-nombre", usuario.nombre);
+                    row.setAttribute("data-email", usuario.email);
+
+                    row.cells[0].textContent = usuario.nombre;
+                    row.cells[1].textContent = usuario.email;
                 }
+
                 closeModal();
+
             } catch (err) {
                 alert('Error al guardar: ' + err.message);
             }
@@ -146,14 +155,19 @@
 
         async function deleteUser(id, button) {
             if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
+
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
             try {
                 const response = await fetch(`/Usuarios/Delete/${id}`, {
                     method: 'POST',
                     headers: { 'RequestVerificationToken': token }
                 });
+
                 if (!response.ok) throw new Error(await response.text());
+
                 button.closest('tr').remove();
+
             } catch (err) {
                 alert('Error eliminando: ' + err.message);
             }
