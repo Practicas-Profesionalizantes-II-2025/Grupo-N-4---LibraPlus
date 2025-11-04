@@ -14,6 +14,21 @@
         <button class="btn-agregar" onclick="openModal()">+ Agregar Reseña</button>
     }
 
+    <!-- ✅ FILTROS -->
+    <div class="filtros">
+        <input type="text" id="filtroUsuario" placeholder="Buscar por Usuario...">
+        <input type="text" id="filtroLibro" placeholder="Buscar por Libro...">
+        <select id="filtroPuntuacion">
+            <option value="">Puntuación</option>
+            <option value="1">1 ⭐</option>
+            <option value="2">2 ⭐⭐</option>
+            <option value="3">3 ⭐⭐⭐</option>
+            <option value="4">4 ⭐⭐⭐⭐</option>
+            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+        </select>
+        <button class="btn-return" onclick="limpiarFiltros()">Limpiar</button>
+    </div>
+
     <div class="table-container">
         <table>
             <thead>
@@ -22,7 +37,10 @@
                     <th>Libro</th>
                     <th>Comentario</th>
                     <th>Puntuación</th>
-                    <th>Acciones</th>
+                    @if (isAdmin)
+                    {
+                        <th>Acciones</th>
+                    }
                 </tr>
             </thead>
             <tbody id="reseñasTableBody"></tbody>
@@ -65,7 +83,6 @@
 
         const esAdmin = @((isAdmin ? "true" : "false"));
         const usuarioLogueadoId = parseInt("@usuarioLogueadoId");
-        console.log("Rol Admin:", esAdmin);
 
         // ====== CARGA DE DATOS ======
         async function loadAllData() {
@@ -74,28 +91,40 @@
                     fetch('/Libros/GetLibros'),
                     fetch('/Reseñas/Lista')
                 ]);
-                if (!librosResp.ok || !reseñasResp.ok) throw new Error("No se pudieron cargar los datos");
 
                 allLibros = await librosResp.json();
                 allReseñas = await reseñasResp.json();
 
                 renderTable();
             } catch (err) {
-                console.error('❌ Error cargando datos:', err);
                 showToast("❌ Error al cargar datos: " + err.message, "error");
             }
         }
 
-        // ====== RENDER DE TABLA ======
+        // ====== RENDER TABLA con FILTROS ======
         function renderTable() {
             tableBody.innerHTML = '';
 
-            if (!allReseñas || allReseñas.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#888;">No hay reseñas disponibles.</td></tr>`;
+            // Obtenemos filtro actual
+            const fUsuario = document.getElementById('filtroUsuario').value.toLowerCase();
+            const fLibro = document.getElementById('filtroLibro').value.toLowerCase();
+            const fPuntuacion = document.getElementById('filtroPuntuacion').value;
+
+            let filtradas = allReseñas.filter(r => {
+                const usuario = (r.usuarioNombre ?? "").toLowerCase();
+                const libro = (allLibros.find(l => l.libroID === r.libroID)?.titulo ?? "").toLowerCase();
+
+                return (!fUsuario || usuario.includes(fUsuario))
+                    && (!fLibro || libro.includes(fLibro))
+                    && (!fPuntuacion || r.puntuacion == fPuntuacion);
+            });
+
+            if (filtradas.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="${esAdmin ? 5 : 4}" style="text-align:center;">No hay resultados.</td></tr>`;
                 return;
             }
 
-            allReseñas.forEach(r => {
+            filtradas.forEach(r => {
                 const libro = allLibros.find(l => l.libroID === r.libroID)?.titulo ?? 'Desconocido';
                 const usuario = r.usuarioNombre ?? 'Desconocido';
 
@@ -105,85 +134,89 @@
                     <td>${libro}</td>
                     <td>${r.comentario ?? ''}</td>
                     <td>${r.puntuacion} ⭐</td>
-                    <td>
-                        ${esAdmin ? `<button class="btn-return" onclick="deleteReseña(${r.reseñaID})">Eliminar</button>` : ''}
-                    </td>
+                    ${esAdmin ? `<td><button class="btn-return" onclick="deleteReseña(${r.reseñaID})">Eliminar</button></td>` : ''}
                 `;
                 tableBody.appendChild(row);
             });
         }
 
-        // ====== MODAL Y CREACIÓN DE RESEÑA ======
+        // ✅ Filtros activos en tiempo real
+        document.getElementById('filtroUsuario').addEventListener('input', renderTable);
+        document.getElementById('filtroLibro').addEventListener('input', renderTable);
+        document.getElementById('filtroPuntuacion').addEventListener('change', renderTable);
+
+        function limpiarFiltros() {
+            document.getElementById('filtroUsuario').value = "";
+            document.getElementById('filtroLibro').value = "";
+            document.getElementById('filtroPuntuacion').value = "";
+            renderTable();
+        }
+
+        // ====== MODAL Y CREACIÓN ======
         if (!esAdmin) {
             const modal = document.getElementById('reseñaModal');
             const reseñaForm = document.getElementById('reseñaForm');
 
-            // ✅ Verificamos que ambos elementos existan antes de usar addEventListener
-            if (modal && reseñaForm) {
-                function openModal() {
-                    modal.classList.add("show");
-                    reseñaForm.reset();
+            function openModal() {
+                modal.classList.add("show");
+                reseñaForm.reset();
 
-                    const selectLibro = document.getElementById('libro');
-                    selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
-                    allLibros.forEach(l => {
-                        const option = document.createElement('option');
-                        option.value = l.libroID;
-                        option.textContent = l.titulo;
-                        selectLibro.appendChild(option);
-                    });
-                }
-
-                function closeModal() { modal.classList.remove("show"); }
-                window.onclick = e => { if (e.target === modal) closeModal(); }
-
-                reseñaForm.addEventListener('submit', async e => {
-                    e.preventDefault();
-
-                    const reseñaData = {
-                        usuarioID: usuarioLogueadoId,
-                        libroID: parseInt(document.getElementById('libro').value),
-                        comentario: document.getElementById('comentario').value,
-                        puntuacion: parseInt(document.getElementById('puntuacion').value)
-                    };
-
-                    const token = document.getElementsByName('__RequestVerificationToken')[0].value;
-
-                    try {
-                        const response = await fetch('/Reseñas/Create', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'RequestVerificationToken': token
-                            },
-                            body: JSON.stringify(reseñaData)
-                        });
-
-                        if (!response.ok) throw new Error(await response.text());
-                        await loadAllData();
-                        closeModal();
-                        showToast("✅ Reseña agregada correctamente");
-                    } catch (err) {
-                        console.error('❌ Error al crear reseña:', err);
-                        showToast("❌ " + err.message, "error");
-                    }
+                const selectLibro = document.getElementById('libro');
+                selectLibro.innerHTML = '<option value="">Seleccione un Libro</option>';
+                allLibros.forEach(l => {
+                    const option = document.createElement('option');
+                    option.value = l.libroID;
+                    option.textContent = l.titulo;
+                    selectLibro.appendChild(option);
                 });
             }
+
+            function closeModal() { modal.classList.remove("show"); }
+            window.onclick = e => { if (e.target === modal) closeModal(); }
+
+            reseñaForm.addEventListener('submit', async e => {
+                e.preventDefault();
+
+                const reseñaData = {
+                    usuarioID: usuarioLogueadoId,
+                    libroID: parseInt(document.getElementById('libro').value),
+                    comentario: document.getElementById('comentario').value,
+                    puntuacion: parseInt(document.getElementById('puntuacion').value)
+                };
+
+                const token = document.getElementsByName('__RequestVerificationToken')[0].value;
+
+                try {
+                    const response = await fetch('/Reseñas/Create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        },
+                        body: JSON.stringify(reseñaData)
+                    });
+
+                    if (!response.ok) throw new Error(await response.text());
+                    await loadAllData();
+                    closeModal();
+                    showToast("✅ Reseña agregada correctamente");
+                } catch (err) {
+                    showToast("❌ " + err.message, "error");
+                }
+            });
         }
 
-
-        // ====== ELIMINAR RESEÑA ======
+        // ====== ELIMINAR ======
         async function deleteReseña(id) {
             if (!confirm("¿Eliminar reseña? Esta acción no se puede deshacer.")) return;
 
             try {
                 const response = await fetch(`/Reseñas/Delete/${id}`, { method: "DELETE" });
-                if (!response.ok) throw new Error(await response.text() || "No se pudo eliminar la reseña.");
+                if (!response.ok) throw new Error("No se pudo eliminar.");
                 allReseñas = allReseñas.filter(r => r.reseñaID !== id);
                 renderTable();
-                showToast("✅ Reseña eliminada correctamente");
+                showToast("✅ Reseña eliminada");
             } catch (err) {
-                console.error('❌ Error al eliminar reseña:', err);
                 showToast("❌ " + err.message, "error");
             }
         }
@@ -192,7 +225,7 @@
         function showToast(message, type = "success") {
             const toast = document.createElement("div");
             toast.className = "toast " + (type === "error" ? "error" : "");
-            toast.textContent = (type === "error" ? "❌ " : "✅ ") + message;
+            toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.classList.add("show"), 100);
             setTimeout(() => {
