@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus - Practica Profesionalizante II\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\libros\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\compras\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A8FD35D0-9040-40B0-8072-399C96D466E8}|..\\LibraPlus.Aplicacion\\LibraPlus.Aplicacion.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.aplicacion\\dtos\\usuariosdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -13,9 +19,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\prestamos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\compras\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CB404B52-EFCB-476B-BFEF-F72D31BC3BFB}|..\\LibraPlus.MVC\\LibraPlus.MVC.csproj|c:\\users\\mateo\\onedrive\\documentos\\github\\grupo-n-4---libraplus\\libraplus\\libraplus.mvc\\views\\rese\u00F1as\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
@@ -54,6 +57,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Libros\\Index.cshtml",
+              "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Libros\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Libros\\Index.cshtml",
+              "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Libros\\Index.cshtml",
+              "ViewState": "AgIAAB0BAAAAAAAAAAAAADEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-04T19:39:26.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UsuariosDTO.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\UsuariosDTO.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\DTOs\\UsuariosDTO.cs",
@@ -61,12 +77,11 @@
               "RelativeToolTip": "..\\LibraPlus.Aplicacion\\DTOs\\UsuariosDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T23:07:26.039Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-03T23:07:26.039Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "UsuariosDTO.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
@@ -74,12 +89,11 @@
               "RelativeToolTip": "..\\LibraPlus.MVC\\Models\\UsuariosDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-03T22:51:47.293Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-03T22:51:47.293Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
@@ -87,12 +101,11 @@
               "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Usuarios\\Index.cshtml",
               "ViewState": "AgIAAJEAAAAAAAAAAAAmwLAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-03T22:45:25.342Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-03T22:45:25.342Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
@@ -100,25 +113,23 @@
               "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Prestamos\\Index.cshtml",
               "ViewState": "AgIAAJ8AAAAAAAAAAAAAwK0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-11-01T18:40:39.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-01T18:40:39.797Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
               "ToolTip": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
               "RelativeToolTip": "..\\LibraPlus.MVC\\Views\\Compras\\Index.cshtml",
-              "ViewState": "AgIAABkBAAAAAAAAAADwvxcBAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAGYBAAAAAAAAAAAQwIYBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-31T22:02:14.634Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-31T22:02:14.634Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Rese\u00F1asDTO.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.Aplicacion\\DTOs\\Rese\u00F1asDTO.cs",
@@ -130,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Rese\u00F1asController.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.API\\Controllers\\Rese\u00F1asController.cs",
@@ -142,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Rese\u00F1asController.cs",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Controllers\\Rese\u00F1asController.cs",
@@ -154,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\mateo\\OneDrive\\Documentos\\GitHub\\Grupo-N-4---LibraPlus\\LibraPlus\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
               "RelativeDocumentMoniker": "..\\LibraPlus.MVC\\Views\\Rese\u00F1as\\Index.cshtml",
